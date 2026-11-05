@@ -1,0 +1,133 @@
+{
+  "hero": {
+    "eyebrow": "AI-assisted, expert-reviewed learning pathways",
+    "title": "Find your next best learning pathway",
+    "text": "Tell us where you are and where you want to go. Our AI drafts a personalised sequence of C2B programmes, and C2B experts review every recommendation before you see it.",
+    "ctaStudent": "I'm a student",
+    "ctaOrg": "Register my organization",
+    "dashboard": "Go to my dashboard",
+    "point1": "Reviewed by C2B experts",
+    "point2": "English and Spanish",
+    "point3": "Free to create a profile",
+    "imageAlt": "A group of young professionals learning together around a laptop",
+    "cardTitle": "Sample pathway",
+    "step1": "Data Literacy Fundamentals",
+    "step2": "Data Analytics with Power BI",
+    "step3": "Applied Machine Learning",
+    "cardReviewed": "Approved by a C2B expert"
+  },
+  "about": {
+    "eyebrow": "About C2B",
+    "title": "Campus2Business: from campus to business",
+    "text": "C2B is an expert training centre that connects learning with real work. We help students start their careers with confidence, and help organizations through digital and cultural transformation by upskilling and reskilling their people.",
+    "imageAlt": "A C2B expert in a one-to-one mentoring conversation",
+    "pillars": {
+      "experts": {
+        "title": "Expert-led programmes",
+        "text": "Practical courses designed and taught by professionals from industry."
+      },
+      "ai": {
+        "title": "AI with a human in the loop",
+        "text": "AI drafts each pathway; a C2B expert edits and approves it."
+      },
+      "history": {
+        "title": "Built on real learning history",
+        "text": "Recommendations learn from what similar learners completed next."
+      },
+      "bilingual": {
+        "title": "Bilingual by design",
+        "text": "Every pathway and programme is available in English and Spanish."
+      }
+    },
+    "areas": "Our training areas"
+  },
+  "how": {
+    "eyebrow": "How it works",
+    "title": "Three steps to your learning pathway",
+    "text": "The same simple journey for students and for employees invited by their organization.",
+    "steps": {
+      "profile": {
+        "title": "Build your profile",
+        "text": "Share your education, experience, skills, goals and learning preferences, and upload your CV."
+      },
+      "design": {
+        "title": "AI and C2B experts design your pathway",
+        "text": "Our AI proposes the best sequence of programmes and explains why. A C2B expert reviews it before it's published."
+      },
+      "grow": {
+        "title": "Learn and grow",
+        "text": "Enroll in your next programme, track your progress and get an updated pathway as you complete courses."
+      }
+    }
+  },
+  "students": {
+    "eyebrow": "For students",
+    "title": "Start your career with a clear plan",
+    "text": "Not sure which course to take first? Get a step-by-step pathway built around your studies and your career goals.",
+    "items": {
+      "match": {
+        "title": "Programmes that match your goals",
+        "text": "From your first internship to your dream role."
+      },
+      "order": {
+        "title": "A clear order",
+        "text": "From foundation to advanced, with prerequisites taken care of."
+      },
+      "why": {
+        "title": "Know why",
+        "text": "Every recommendation explains how it helps you."
+      },
+      "track": {
+        "title": "Track your progress",
+        "text": "Follow your courses and rate them when you finish."
+      }
+    },
+    "cta": "Create a student account",
+    "imageAlt": "University students studying together on campus"
+  },
+  "orgs": {
+    "eyebrow": "For organizations",
+    "title": "Upskill and reskill your teams",
+    "text": "Register your company, invite your employees and let C2B design the right training for each person, aligned with your goals and skill gaps.",
+    "items": {
+      "invite": {
+        "title": "Invite employees in one click",
+        "text": "Share a secure invite link per department, with optional seat limits and expiry dates."
+      },
+      "remarks": {
+        "title": "Your priorities, in every pathway",
+        "text": "Add remarks on employees; C2B and the AI take them into account."
+      },
+      "enroll": {
+        "title": "Enroll and pay by invoice",
+        "text": "Enroll employees yourself and pay with an employer invoice."
+      },
+      "reports": {
+        "title": "See progress and skill gaps",
+        "text": "Follow completion and skill gaps by department."
+      }
+    },
+    "cta": "Register my organization",
+    "note": "C2B reviews every organization before it can invite employees.",
+    "imageAlt": "A corporate training session in a meeting room"
+  },
+  "programmes": {
+    "eyebrow": "Programmes",
+    "title": "Featured programmes",
+    "text": "Explore the C2B catalogue across digital transformation, data, cloud, leadership and more.",
+    "all": "Browse all programmes"
+  },
+  "stats": {
+    "label": "C2B in numbers",
+    "programmes": "Programmes",
+    "learners": "Learners",
+    "organizations": "Partner organizations",
+    "completions": "Programmes completed"
+  },
+  "cta": {
+    "title": "Ready to find your next step?",
+    "text": "Create your profile in minutes and receive a learning pathway reviewed by C2B experts.",
+    "student": "I'm a student",
+    "org": "Register my organization"
+  }
+}

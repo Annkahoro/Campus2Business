@@ -1,0 +1,143 @@
+# 05 — API Endpoints
+
+Base URL: `/api`. All responses use `{ success, data?, message?, code? }`.
+Legend: 🌐 public · 🔐 any logged-in user · 🅰️ c2b_admin · 🏢 org_admin · 🎓 student · 👷 employee
+
+## Health
+| Method | Path | Access | Notes |
+|---|---|---|---|
+| GET | `/health` | 🌐 | `{ status: 'ok', time }`; used to wake Render |
+
+## Auth `/auth`
+| Method | Path | Access | Body / notes |
+|---|---|---|---|
+| POST | `/auth/register` | 🌐 | `{ name, email, password }` → student |
+| POST | `/auth/register-org-admin` | 🌐 | `{ name, email, password }` → org_admin (no org yet) |
+| POST | `/auth/register-employee` | 🌐 | `{ name, email, password, inviteToken }` |
+| POST | `/auth/login` | 🌐 | `{ email, password }` |
+| POST | `/auth/google` | 🌐 | `{ credential, intent, inviteToken? }` |
+| GET | `/auth/me` | 🔐 | current user + org status |
+| PATCH | `/auth/me` | 🔐 | `{ name, preferredLanguage }` |
+| PATCH | `/auth/me/password` | 🔐 | `{ currentPassword, newPassword }` |
+| POST | `/auth/me/avatar` | 🔐 | multipart `file` (image ≤ 2 MB) |
+
+## Learner profile `/profile` (🎓 👷)
+| Method | Path | Notes |
+|---|---|---|
+| GET | `/profile/me` | profile + `orgRemarks` (read-only) + completion |
+| PATCH | `/profile/me/:step` | `step` ∈ `personal, education, employment, skills, goals`; partial save |
+| POST | `/profile/me/cv` | multipart `file` (PDF ≤ 5 MB) → Cloudinary (`resource_type: 'raw'`) + extract text |
+| DELETE | `/profile/me/cv` | |
+| POST | `/profile/me/submit` | 🎓 only. Needs `completionPercent ≥ 80` → status `submitted` |
+| GET | `/profile/me/recommendation` | latest **published** recommendation (final view only) |
+| POST | `/profile/me/recommendation/feedback` | `{ rating, comment }` |
+
+## Organizations
+| Method | Path | Access | Notes |
+|---|---|---|---|
+| POST | `/organizations` | 🏢 | create own org (one per org_admin) → `pending` |
+| GET | `/organizations/mine` | 🏢 | |
+| PATCH | `/organizations/mine` | 🏢 | if `rejected`, resets to `pending` (resubmit) |
+| POST | `/organizations/mine/logo` | 🏢 | multipart image |
+| GET | `/admin/organizations` | 🅰️ | `?status=&search=&page=` |
+| GET | `/admin/organizations/:id` | 🅰️ | org + stats + employees |
+| PATCH | `/admin/organizations/:id/approve` | 🅰️ | |
+| PATCH | `/admin/organizations/:id/reject` | 🅰️ | `{ reason }` |
+| PATCH | `/admin/organizations/:id/suspend` | 🅰️ | |
+
+## Invites
+| Method | Path | Access | Notes |
+|---|---|---|---|
+| GET | `/invites/:token/validate` | 🌐 | org name, logo, department |
+| GET | `/org/invites` | 🏢 | |
+| POST | `/org/invites` | 🏢 | `{ label, department?, expiresAt?, maxUses? }` |
+| PATCH | `/org/invites/:id` | 🏢 | update fields / `isActive` |
+| POST | `/org/invites/:id/regenerate` | 🏢 | new token |
+| DELETE | `/org/invites/:id` | 🏢 | |
+
+## Org employees `/org/employees` (🏢 + `orgScope`)
+| Method | Path | Notes |
+|---|---|---|
+| GET | `/org/employees` | `?department=&status=&search=` with completion % |
+| GET | `/org/employees/:employeeId` | full profile (no CV text) + remarks + published pathway + enrollments |
+| POST | `/org/employees/:employeeId/remarks` | `{ text, category }` |
+| PATCH | `/org/employees/:employeeId/remarks/:remarkId` | |
+| DELETE | `/org/employees/:employeeId/remarks/:remarkId` | |
+| POST | `/org/employees/:employeeId/submit` | profile must be ≥ 80% → `submitted` |
+| POST | `/org/employees/submit-bulk` | `{ employeeIds: [] }` → returns per-id result |
+| PATCH | `/org/employees/:employeeId/deactivate` | removes access |
+
+## Programmes
+| Method | Path | Access | Notes |
+|---|---|---|---|
+| GET | `/programmes` | 🔐 | published only; `?category=&level=&mode=&lang=&search=&page=` |
+| GET | `/programmes/:id` | 🔐 | custom fields with `showToLearners` only |
+| GET | `/programmes/meta/categories` | 🔐 | distinct categories |
+| GET | `/admin/programmes` | 🅰️ | all statuses |
+| POST | `/admin/programmes` | 🅰️ | validates `customFields` against definitions |
+| PATCH | `/admin/programmes/:id` | 🅰️ | |
+| PATCH | `/admin/programmes/:id/status` | 🅰️ | `{ status }` |
+| POST | `/admin/programmes/:id/cover` | 🅰️ | multipart image |
+| DELETE | `/admin/programmes/:id` | 🅰️ | soft delete → `archived` if it has enrollments |
+
+## Programme custom fields `/admin/programme-fields` (🅰️)
+| Method | Path | Notes |
+|---|---|---|
+| GET | `/admin/programme-fields` | also exposed read-only as `GET /programme-fields` (🔐) for rendering |
+| POST | `/admin/programme-fields` | `{ key, label, type, options?, required, helpText, showToLearners, useInAI, order }` |
+| PATCH | `/admin/programme-fields/:id` | `key` and `type` are immutable after creation |
+| PATCH | `/admin/programme-fields/reorder` | `{ ids: [] }` |
+| DELETE | `/admin/programme-fields/:id` | sets `isActive:false` (values stay on programmes) |
+
+## Learners (admin view) `/admin/learners` (🅰️)
+| Method | Path | Notes |
+|---|---|---|
+| GET | `/admin/learners` | `?type=student|employee&org=&status=&search=&page=` |
+| GET | `/admin/learners/:userId` | full profile incl. CV link, remarks, history, all recommendation versions |
+
+## Recommendations
+| Method | Path | Access | Notes |
+|---|---|---|---|
+| GET | `/admin/recommendations` | 🅰️ | review queue `?status=pending_review` |
+| POST | `/admin/recommendations/generate/:userId` | 🅰️ | returns `202 { recommendationId }` and runs async; socket event on finish |
+| POST | `/admin/recommendations/generate-bulk` | 🅰️ | `{ userIds }`, processed sequentially (concurrency 2) |
+| GET | `/admin/recommendations/:id` | 🅰️ | aiDraft + final + internalNotes + context snapshot |
+| PATCH | `/admin/recommendations/:id` | 🅰️ | edit `final` and `internalNotes` |
+| POST | `/admin/recommendations/:id/approve` | 🅰️ | → `approved` |
+| POST | `/admin/recommendations/:id/publish` | 🅰️ | → `published`; profile → `pathway_published`; notify learner (+ org_admin) |
+| POST | `/admin/recommendations/:id/reject` | 🅰️ | `{ reason }` |
+| POST | `/admin/recommendations/:id/translate` | 🅰️ | fills missing `en`/`es` text in `final` via Claude |
+| GET | `/org/employees/:employeeId/recommendation` | 🏢 | published final only |
+
+## Enrollments
+| Method | Path | Access | Notes |
+|---|---|---|---|
+| POST | `/enrollments` | 🎓 👷 🏢 | `{ programmeId, intakeStartDate?, recommendationId?, learnerId? (org_admin only) }` |
+| GET | `/enrollments/mine` | 🎓 👷 | |
+| POST | `/enrollments/:id/pay` | 🎓 👷 🏢 | **simulated**: `{ method }` → `payment.status=paid`, reference `SIM-xxxxxx` |
+| POST | `/enrollments/:id/rate` | 🎓 👷 | `{ rating, review }`, completed only |
+| GET | `/admin/enrollments` | 🅰️ | filters |
+| PATCH | `/admin/enrollments/:id/status` | 🅰️ | `{ status }` (see 07) |
+| PATCH | `/admin/enrollments/:id/progress` | 🅰️ | `{ progressPercent, score? }` |
+| GET | `/org/enrollments` | 🏢 | own org |
+
+## Notifications `/notifications` (🔐)
+| Method | Path | Notes |
+|---|---|---|
+| GET | `/notifications` | `?unread=true&page=` |
+| PATCH | `/notifications/:id/read` | |
+| PATCH | `/notifications/read-all` | |
+
+## Reports
+| Method | Path | Access | Notes |
+|---|---|---|---|
+| GET | `/admin/reports/overview` | 🅰️ | totals, pending counts, enrollments by month, top programmes, AI usage tokens |
+| GET | `/org/reports/overview` | 🏢 | employees by department, profile completion, submission/pathway status, enrollments + completion rate |
+| GET | `/org/reports/skill-gaps` | 🏢 | aggregated `aiDraft.skillGaps` of own employees by department |
+| POST | `/org/reports/ai-summary` | 🏢 | ⭐ stretch: Claude summary of org training needs (cached 24 h) |
+
+## Error codes (translate on frontend)
+`VALIDATION_ERROR, UNAUTHORIZED, FORBIDDEN, NOT_FOUND, EMAIL_IN_USE, INVALID_CREDENTIALS, GOOGLE_TOKEN_INVALID,
+ORG_NOT_APPROVED, ORG_ALREADY_EXISTS, INVITE_NOT_FOUND, INVITE_EXPIRED, INVITE_LIMIT_REACHED, INVITE_DISABLED,
+PROFILE_INCOMPLETE, PROFILE_ALREADY_SUBMITTED, AI_FAILED, AI_RATE_LIMITED, AI_BUSY, ENROLLMENT_EXISTS,
+INVALID_STATUS_TRANSITION, FILE_TOO_LARGE, INVALID_FILE_TYPE, SERVER_ERROR`

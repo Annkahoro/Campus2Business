@@ -1,0 +1,39 @@
+{
+  "title": "Settings",
+  "subtitle": "Your account, language and password.",
+  "saved": "Your details have been saved.",
+  "avatarSaved": "Profile photo updated.",
+  "account": {
+    "title": "Account",
+    "text": "How you appear in C2B.",
+    "avatarAlt": "Profile photo of {{name}}",
+    "name": "Full name",
+    "email": "Email",
+    "emailHint": "Contact C2B to change the email you sign in with.",
+    "language": "Preferred language",
+    "languageHint": "Used for the interface and your notifications."
+  },
+  "password": {
+    "title": "Password",
+    "text": "Use at least 8 characters with a letter and a number.",
+    "googleText": "You sign in with Google. You can also set a password to sign in with your email.",
+    "current": "Current password",
+    "currentGoogleHint": "Leave empty if you have never set a password.",
+    "new": "New password",
+    "confirm": "Confirm new password",
+    "submit": "Change password",
+    "saved": "Password changed."
+  },
+  "admins": {
+    "title": "C2B administrators",
+    "text": "People who can approve organizations, review pathways and manage the catalogue.",
+    "add": "Add admin",
+    "newTitle": "New C2B administrator",
+    "newText": "Share the temporary password securely; they can change it in Settings.",
+    "tempPassword": "Temporary password",
+    "create": "Create admin",
+    "created": "Administrator created.",
+    "you": "You",
+    "since": "Since {{date}}"
+  }
+}

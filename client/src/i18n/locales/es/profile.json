@@ -1,0 +1,247 @@
+{
+  "title": "Mi perfil",
+  "completion": "Perfil completado",
+  "stepsLabel": "Pasos del perfil",
+  "saveAndContinue": "Guardar y continuar",
+  "loadError": "No hemos podido cargar tu perfil.",
+  "steps": {
+    "personal": {
+      "short": "Personal",
+      "title": "Información personal",
+      "description": "Cuéntanos un poco sobre ti."
+    },
+    "education": {
+      "short": "Formación",
+      "title": "Formación e historial académico",
+      "description": "Tus estudios, el curso actual y tus certificaciones."
+    },
+    "employment": {
+      "short": "Empleo",
+      "title": "Empleo",
+      "descriptionEmployee": "Tu puesto actual ayuda a C2B a encajar programas con tu trabajo.",
+      "descriptionStudent": "Prácticas, trabajos a tiempo parcial o cualquier experiencia laboral."
+    },
+    "skills": {
+      "short": "Competencias",
+      "title": "Competencias",
+      "description": "Añade al menos 3 competencias y valora tu nivel con sinceridad."
+    },
+    "goals": {
+      "short": "Objetivos",
+      "title": "Intereses y objetivos",
+      "description": "Hacia dónde quieres ir y cómo prefieres aprender."
+    },
+    "cv": {
+      "short": "CV",
+      "title": "Subida del CV",
+      "description": "Sube tu CV en PDF para que nuestros expertos y la IA tengan la imagen completa."
+    },
+    "review": {
+      "short": "Revisión",
+      "title": "Revisa tu perfil",
+      "description": "Comprueba todo antes de enviarlo."
+    }
+  },
+  "save": {
+    "pending": "Cambios sin guardar…",
+    "saving": "Guardando…",
+    "saved": "Todos los cambios guardados",
+    "invalid": "Corrige los campos marcados para guardar",
+    "error": "No se pudo guardar. Revisa tu conexión."
+  },
+  "locked": {
+    "title": "Tu perfil está en revisión",
+    "text": "C2B está preparando tu itinerario de aprendizaje, así que la edición está en pausa por ahora.",
+    "publishedText": "Tu itinerario está listo. Si editas tu perfil, podrás enviarlo de nuevo para obtener un itinerario actualizado."
+  },
+  "personal": {
+    "country": "País",
+    "city": "Ciudad",
+    "phone": "Teléfono",
+    "dateOfBirth": "Fecha de nacimiento",
+    "gender": "Género",
+    "location": "Ubicación",
+    "genders": {
+      "female": "Mujer",
+      "male": "Hombre",
+      "other": "Otro",
+      "prefer_not_to_say": "Prefiero no decirlo"
+    },
+    "privacyNote": "Tu teléfono y tu fecha de nacimiento nunca se comparten con la IA.",
+    "bio": "Sobre ti",
+    "bioPlaceholder": "Tu trayectoria, lo que te gusta y lo que te motiva.",
+    "bioHint": "{{count}}/1000 caracteres. Unas frases (20+) mejoran tus recomendaciones.",
+    "languages": "Idiomas",
+    "languageN": "Idioma {{n}}",
+    "languageName": "Idioma",
+    "languageLevel": "Nivel",
+    "levels": {
+      "basic": "Básico",
+      "intermediate": "Intermedio",
+      "fluent": "Fluido",
+      "native": "Nativo"
+    },
+    "addLanguage": "Añadir idioma",
+    "avatarUpdated": "Foto de perfil actualizada.",
+    "changePhoto": "Cambiar foto",
+    "photoHint": "JPG, PNG o WebP, hasta 2 MB."
+  },
+  "education": {
+    "studies": "Estudios",
+    "noStudies": "Todavía no has añadido estudios.",
+    "studyN": "Estudio {{n}}",
+    "institution": "Institución",
+    "qualification": "Titulación",
+    "qualificationPlaceholder": "p. ej. Grado, Diploma, Máster",
+    "fieldOfStudy": "Área de estudio",
+    "grade": "Nota (opcional)",
+    "startYear": "Año de inicio",
+    "endYear": "Año de fin",
+    "endYearHint": "Déjalo vacío si está en curso.",
+    "currentYear": "Curso actual",
+    "keyCourses": "Asignaturas clave",
+    "addStudy": "Añadir estudio",
+    "certifications": "Certificaciones",
+    "certN": "Certificación {{n}}",
+    "certName": "Nombre de la certificación",
+    "issuer": "Entidad emisora",
+    "year": "Año",
+    "credentialUrl": "Enlace de la credencial",
+    "addCert": "Añadir certificación"
+  },
+  "employment": {
+    "optionalForStudents": "Este paso es opcional para estudiantes, pero cualquier experiencia nos ayuda a recomendar mejor.",
+    "currentRole": "Puesto actual",
+    "currentRoleStudent": "Trabajo actual o más reciente",
+    "department": "Departamento",
+    "departmentHint": "Usa el nombre de departamento de tu organización (p. ej. ICT, Finanzas).",
+    "jobTitle": "Puesto",
+    "yearsInRole": "Años en este puesto",
+    "totalYears": "Años totales de experiencia",
+    "responsibilities": "Responsabilidades principales",
+    "responsibilitiesPlaceholder": "Qué haces en el día a día y qué herramientas usas.",
+    "managesPeople": "Dirijo a personas",
+    "pastExperience": "Experiencia anterior",
+    "experienceN": "Experiencia {{n}}",
+    "company": "Empresa",
+    "summary": "Resumen",
+    "addExperience": "Añadir experiencia",
+    "departmentSelectHint": "Elige tu departamento en tu organización."
+  },
+  "skills": {
+    "scale": "Escala de nivel: 1 = inicial, 3 = con soltura, 5 = experto.",
+    "levels": {
+      "1": "Inicial",
+      "2": "Básico",
+      "3": "Con soltura",
+      "4": "Avanzado",
+      "5": "Experto"
+    },
+    "skillN": "Competencia {{n}}",
+    "name": "Competencia",
+    "namePlaceholder": "p. ej. Excel, Python, Hablar en público",
+    "category": "Categoría",
+    "categories": {
+      "technical": "Técnica",
+      "digital": "Digital",
+      "business": "Negocio",
+      "soft": "Transversal",
+      "language": "Idioma",
+      "other": "Otra"
+    },
+    "level": "Nivel",
+    "minHint": "Añade al menos 3 competencias para completar este paso.",
+    "add": "Añadir competencia"
+  },
+  "goals": {
+    "careerGoals": "Objetivos profesionales",
+    "shortTerm": "Próximos 12 meses",
+    "shortTermPlaceholder": "p. ej. Conseguir mis primeras prácticas como analista de datos.",
+    "longTerm": "En 3–5 años",
+    "longTermPlaceholder": "p. ej. Liderar un equipo de datos en un banco.",
+    "targetRoles": "Puestos objetivo",
+    "targetRolesPlaceholder": "p. ej. Analista de datos",
+    "interestsTitle": "Intereses",
+    "interests": "Temas que quieres aprender",
+    "interestsHint": "Pulsa Intro después de cada tema.",
+    "interestsPlaceholder": "p. ej. Machine learning",
+    "hobbies": "Aficiones",
+    "hobbiesPlaceholder": "p. ej. Ajedrez",
+    "preferences": "Preferencias de aprendizaje",
+    "mode": "Modalidad preferida",
+    "modes": {
+      "any": "Sin preferencia",
+      "online": "En línea",
+      "in_person": "Presencial",
+      "hybrid": "Híbrida"
+    },
+    "hoursPerWeek": "Horas disponibles por semana",
+    "preferredLanguage": "Idioma preferido",
+    "languages": {
+      "any": "Sin preferencia",
+      "en": "Inglés",
+      "es": "Español"
+    },
+    "budget": "Presupuesto",
+    "budgets": {
+      "free": "Solo gratuito",
+      "low": "Bajo",
+      "medium": "Medio",
+      "high": "Alto",
+      "employer_paid": "Lo paga mi empresa"
+    },
+    "preferredStart": "Fecha de inicio preferida"
+  },
+  "cv": {
+    "dropTitle": "Arrastra y suelta tu CV aquí",
+    "replaceTitle": "Suelta un nuevo PDF para sustituir tu CV",
+    "hint": "Solo PDF, hasta {{mb}} MB.",
+    "choose": "Elegir PDF",
+    "replace": "Sustituir CV",
+    "uploading": "Subiendo…",
+    "uploaded": "CV subido.",
+    "uploadedOn": "Subido el {{date}}",
+    "remove": "Eliminar CV",
+    "removeTitle": "¿Eliminar tu CV?",
+    "removeText": "Tu CV se eliminará. Puedes subir uno nuevo en cualquier momento.",
+    "removed": "CV eliminado.",
+    "noTextWarning": "No hemos podido leer el texto de este PDF (puede ser una imagen escaneada). Se ha guardado, pero un PDF con texto da mejores recomendaciones.",
+    "privacy": "Tu CV es visible para los expertos de C2B y lo procesa un proveedor de IA para recomendar programas."
+  },
+  "remarks": {
+    "title": "Observaciones de tu organización (solo lectura)",
+    "categories": {
+      "performance": "Desempeño",
+      "potential": "Potencial",
+      "priority_skill": "Competencia prioritaria",
+      "manager_note": "Nota del responsable",
+      "other": "Otra"
+    }
+  },
+  "summary": {
+    "present": "actualidad",
+    "yearOfStudy": "{{n}}.º curso",
+    "noBio": "Todavía no hay descripción.",
+    "noEmployment": "Sin datos de empleo.",
+    "noSkills": "No hay competencias.",
+    "noGoals": "Todavía no hay objetivos.",
+    "noCv": "No se ha subido ningún CV."
+  },
+  "review": {
+    "completion": "Perfil completado",
+    "improve": "Para reforzar tu perfil, completa:",
+    "submitted": "¡Perfil enviado! C2B preparará tu itinerario de aprendizaje.",
+    "submittedTitle": "Perfil enviado",
+    "submittedText": "Los expertos de C2B y nuestra IA están preparando tu itinerario. Te avisaremos cuando esté listo.",
+    "readyTitle": "Tu perfil está listo",
+    "readyText": "Envíalo a C2B para recibir tu itinerario de aprendizaje personalizado.",
+    "notReadyTitle": "Llega al {{threshold}} % para enviarlo",
+    "notReadyText": "Completa las secciones de arriba para poder enviarlo.",
+    "submit": "Enviar a C2B",
+    "employeeTitle": "Tu organización envía tu perfil",
+    "employeeText": "Completa al menos el {{threshold}} % de tu perfil. Después, tu organización lo revisará y lo enviará a C2B.",
+    "employeeReady": "Tu perfil está completo. Tu organización ya puede enviarlo a C2B.",
+    "confirmTitle": "¿Enviar tu perfil?",
+    "confirmText": "La edición se pausa mientras C2B prepara tu itinerario. Podrás editar de nuevo cuando se publique."
+  }
+}

@@ -1,0 +1,83 @@
+{
+  "bell": {
+    "label": "Notifications",
+    "labelUnread_one": "Notifications, {{count}} unread",
+    "labelUnread_other": "Notifications, {{count}} unread",
+    "title": "Notifications",
+    "markAll": "Mark all as read",
+    "empty": "You're all caught up.",
+    "unread": "unread"
+  },
+  "orgRegistered": {
+    "title": "New organization registered",
+    "body": "{{name}} is waiting for approval."
+  },
+  "orgResubmitted": {
+    "title": "Organization resubmitted",
+    "body": "{{name}} updated its details after rejection and is waiting for review."
+  },
+  "orgApproved": {
+    "title": "Your organization is approved",
+    "body": "{{name}} is now active on C2B. Share your invite link with your employees."
+  },
+  "orgRejected": {
+    "title": "Your organization was not approved",
+    "body": "Reason: {{reason}}. Edit your details to resubmit."
+  },
+  "orgSuspended": {
+    "title": "Your organization is suspended",
+    "body": "{{name}} has been suspended by C2B. Contact C2B for more information."
+  },
+  "employeeJoined": {
+    "title": "New employee joined",
+    "body": "{{name}} joined through your invite link."
+  },
+  "employeeProfileComplete": {
+    "title": "Profile ready to submit",
+    "body": "{{name}} has completed their profile. Add remarks and submit it to C2B."
+  },
+  "profileSubmitted": {
+    "title": "New profile submitted",
+    "body": "{{name}}'s profile is ready for a learning pathway."
+  },
+  "remarkAdded": {
+    "title": "New remark from your organization",
+    "body": "Your organization added or updated a remark on your profile."
+  },
+  "recommendationReady": {
+    "title": "AI draft ready for review",
+    "body": "The pathway draft for {{name}} is ready to review."
+  },
+  "recommendationFailed": {
+    "title": "Pathway generation failed",
+    "body": "The AI could not generate a pathway for {{name}}. Open it to try again."
+  },
+  "pathwayPublished": {
+    "title": "Your learning pathway is ready",
+    "body": "C2B has published {{count}} recommended programmes for you."
+  },
+  "employeePathwayPublished": {
+    "title": "Employee pathway published",
+    "body": "C2B published a learning pathway for {{name}}."
+  },
+  "enrollmentRequested": {
+    "title": "New enrollment request",
+    "body": "{{name}} requested {{programme}}."
+  },
+  "enrollmentStatusChanged": {
+    "title": "Enrollment updated",
+    "body": "{{programme}}: $t(common:status.{{status}})."
+  },
+  "enrollmentProgressUpdated": {
+    "title": "Progress updated",
+    "body": "Your progress in {{programme}} is now {{progress}}%."
+  },
+  "enrollmentRequestedOnBehalf": {
+    "title": "Your organization enrolled you",
+    "body": "You have been put forward for {{programme}}. C2B will review the request."
+  },
+  "employeeEnrollmentStatusChanged": {
+    "title": "Employee enrollment updated",
+    "body": "{{name}} · {{programme}}: $t(common:status.{{status}})."
+  }
+}

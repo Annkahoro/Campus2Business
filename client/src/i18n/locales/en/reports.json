@@ -1,0 +1,136 @@
+{
+  "loadError": "We couldn't load the report.",
+  "noData": "No data yet.",
+  "viewAll": "View all",
+  "allReports": "All reports",
+  "completedShort_one": "· {{count}} completed",
+  "completedShort_other": "· {{count}} completed",
+  "view": {
+    "label": "Display",
+    "chart": "Chart",
+    "table": "Table"
+  },
+  "admin": {
+    "eyebrow": "C2B admin",
+    "greeting": "Welcome back, {{name}}",
+    "needsAttention": "Needs attention",
+    "reportsTitle": "Reports",
+    "reportsSubtitle": "Platform totals, enrollments, completion and AI usage."
+  },
+  "cards": {
+    "pendingOrgs": "Organizations awaiting approval",
+    "pendingReviews": "Pathways to review",
+    "activeLearners": "Active learners",
+    "activeEnrollments": "Active enrollments",
+    "employees": "Employees on C2B",
+    "pathways": "Pathways published",
+    "completedProgrammes": "Programmes completed"
+  },
+  "attention": {
+    "pendingOrgs": "Organizations to approve",
+    "submittedProfiles": "Profiles ready for a pathway ({{count}})",
+    "drafts": "AI drafts to review",
+    "none": "Nothing waiting.",
+    "confidence": "{{value}}% confidence",
+    "enrollmentRequests_one": "{{count}} enrollment request is waiting for approval.",
+    "enrollmentRequests_other": "{{count}} enrollment requests are waiting for approval.",
+    "review": "Review requests"
+  },
+  "learnerType": {
+    "student": "Student",
+    "employee": "Employee"
+  },
+  "charts": {
+    "enrollmentsByMonth": "Enrollments by month",
+    "enrollmentsByMonthText": "New requests and completions over the last 12 months.",
+    "enrollmentsByStatus": "Enrollments by status",
+    "topProgrammes": "Most popular programmes",
+    "topProgrammesText": "By number of enrollments (rejected requests excluded).",
+    "aiUsage": "AI usage",
+    "aiUsageText": "Claude tokens per month for pathway generation and translations.",
+    "funnel": "Completion funnel",
+    "funnelText": "How many employees reached each step.",
+    "byDepartment": "Employees by department",
+    "byDepartmentText": "Employees on C2B and pathways published per department.",
+    "skillGaps": "Skill gaps by department"
+  },
+  "series": {
+    "requested": "Requested",
+    "completed": "Completed",
+    "inputTokens": "Input tokens",
+    "outputTokens": "Output tokens",
+    "employees": "Employees",
+    "pathways": "Pathways published"
+  },
+  "columns": {
+    "month": "Month",
+    "status": "Status",
+    "count": "Count",
+    "programme": "Programme",
+    "enrollments": "Enrollments",
+    "completed": "Completed",
+    "avgScore": "Avg. score",
+    "avgRating": "Avg. rating",
+    "generations": "Generations",
+    "avgLatency": "Avg. time",
+    "stage": "Stage",
+    "employees": "Employees",
+    "ofJoined": "% of joined",
+    "department": "Department",
+    "headcount": "Headcount",
+    "submitted": "Submitted",
+    "skill": "Skill",
+    "highPriority": "High priority"
+  },
+  "totals": {
+    "learners": "Learners",
+    "learnersHint": "{{students}} students · {{employees}} employees",
+    "organizations": "Approved organizations",
+    "orgsPending_one": "{{count}} pending",
+    "orgsPending_other": "{{count}} pending",
+    "programmes": "Published programmes",
+    "pathways": "Pathways published",
+    "completed": "Programmes completed",
+    "completionRate": "Completion rate",
+    "completionRateHint": "Completed ÷ started (active, completed, dropped)",
+    "generations": "AI generations",
+    "failed_one": "{{count}} failed",
+    "failed_other": "{{count}} failed",
+    "tokens": "AI tokens used",
+    "tokensHint": "{{input}} in · {{output}} out"
+  },
+  "funnel": {
+    "joined": "Joined",
+    "complete": "Profile complete",
+    "submitted": "Submitted to C2B",
+    "published": "Pathway published",
+    "enrolled": "Enrolled",
+    "completed": "Completed a programme"
+  },
+  "skillGaps": {
+    "empty": "Skill gaps appear here once C2B has generated pathways for your employees.",
+    "text_one": "From the AI analysis of {{count}} employee. No names are shown.",
+    "text_other": "From the AI analysis of {{count}} employees. No names are shown.",
+    "analysed_one": "{{count}} employee analysed",
+    "analysed_other": "{{count}} employees analysed",
+    "high_one": "({{count}} high priority)",
+    "high_other": "({{count}} high priority)"
+  },
+  "org": {
+    "title": "Reports",
+    "subtitle": "Your organization's progress, completion and skill gaps."
+  },
+  "ai": {
+    "title": "AI summary of your training needs",
+    "text": "Claude reads anonymised statistics (no names) and suggests three group programmes. Updated at most once a day.",
+    "generate": "Generate summary",
+    "refresh": "Refresh",
+    "generating": "Analysing your organization… this takes about 20 seconds.",
+    "none": "No summary yet. Generate one to get suggestions for group training.",
+    "notApproved": "Available once your organization is approved.",
+    "suggested": "Suggested group programmes",
+    "generatedAt": "Generated on {{date}}",
+    "ready": "Summary ready.",
+    "cached": "Showing today's summary."
+  }
+}

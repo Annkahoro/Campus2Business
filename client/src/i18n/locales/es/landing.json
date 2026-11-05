@@ -1,0 +1,133 @@
+{
+  "hero": {
+    "eyebrow": "Itinerarios de aprendizaje con IA, revisados por expertos",
+    "title": "Encuentra tu próximo itinerario de aprendizaje",
+    "text": "Cuéntanos dónde estás y adónde quieres llegar. Nuestra IA propone una secuencia personalizada de programas de C2B y el equipo experto de C2B revisa cada recomendación antes de que la veas.",
+    "ctaStudent": "Soy estudiante",
+    "ctaOrg": "Registrar mi organización",
+    "dashboard": "Ir a mi panel",
+    "point1": "Revisado por expertos de C2B",
+    "point2": "En inglés y español",
+    "point3": "Crear tu perfil es gratis",
+    "imageAlt": "Un grupo de jóvenes profesionales aprendiendo juntos frente a un portátil",
+    "cardTitle": "Itinerario de ejemplo",
+    "step1": "Fundamentos de alfabetización de datos",
+    "step2": "Analítica de datos con Power BI",
+    "step3": "Aprendizaje automático aplicado",
+    "cardReviewed": "Aprobado por un experto de C2B"
+  },
+  "about": {
+    "eyebrow": "Sobre C2B",
+    "title": "Campus2Business: del campus a la empresa",
+    "text": "C2B es un centro de formación experto que conecta el aprendizaje con el trabajo real. Ayudamos a estudiantes a iniciar su carrera con confianza y a organizaciones en su transformación digital y cultural mediante la mejora de competencias y la recualificación de su personal.",
+    "imageAlt": "Una experta de C2B en una sesión de mentoría individual",
+    "pillars": {
+      "experts": {
+        "title": "Programas impartidos por expertos",
+        "text": "Cursos prácticos diseñados e impartidos por profesionales del sector."
+      },
+      "ai": {
+        "title": "IA con supervisión humana",
+        "text": "La IA propone cada itinerario y un experto de C2B lo edita y aprueba."
+      },
+      "history": {
+        "title": "Basado en historiales reales",
+        "text": "Las recomendaciones aprenden de lo que completaron después personas con perfiles similares."
+      },
+      "bilingual": {
+        "title": "Bilingüe desde el diseño",
+        "text": "Cada itinerario y programa está disponible en inglés y español."
+      }
+    },
+    "areas": "Nuestras áreas de formación"
+  },
+  "how": {
+    "eyebrow": "Cómo funciona",
+    "title": "Tres pasos hacia tu itinerario",
+    "text": "El mismo recorrido sencillo para estudiantes y para personal invitado por su organización.",
+    "steps": {
+      "profile": {
+        "title": "Crea tu perfil",
+        "text": "Comparte tu formación, experiencia, competencias, objetivos y preferencias, y sube tu CV."
+      },
+      "design": {
+        "title": "La IA y C2B diseñan tu itinerario",
+        "text": "Nuestra IA propone la mejor secuencia de programas y explica por qué. Un experto de C2B la revisa antes de publicarla."
+      },
+      "grow": {
+        "title": "Aprende y crece",
+        "text": "Inscríbete en tu próximo programa, sigue tu progreso y recibe un itinerario actualizado al completar cursos."
+      }
+    }
+  },
+  "students": {
+    "eyebrow": "Para estudiantes",
+    "title": "Empieza tu carrera con un plan claro",
+    "text": "¿No sabes por qué curso empezar? Recibe un itinerario paso a paso basado en tus estudios y tus objetivos profesionales.",
+    "items": {
+      "match": {
+        "title": "Programas acordes a tus objetivos",
+        "text": "Desde tus primeras prácticas hasta el puesto que sueñas."
+      },
+      "order": {
+        "title": "Un orden claro",
+        "text": "De lo básico a lo avanzado, con los requisitos previos resueltos."
+      },
+      "why": {
+        "title": "Sabrás el porqué",
+        "text": "Cada recomendación explica cómo te ayuda."
+      },
+      "track": {
+        "title": "Sigue tu progreso",
+        "text": "Sigue tus cursos y valóralos al terminarlos."
+      }
+    },
+    "cta": "Crear cuenta de estudiante",
+    "imageAlt": "Estudiantes universitarios estudiando juntos en el campus"
+  },
+  "orgs": {
+    "eyebrow": "Para organizaciones",
+    "title": "Mejora y recualifica a tus equipos",
+    "text": "Registra tu empresa, invita a tu personal y deja que C2B diseñe la formación adecuada para cada persona, alineada con tus objetivos y brechas de competencias.",
+    "items": {
+      "invite": {
+        "title": "Invita a tu personal con un clic",
+        "text": "Comparte un enlace de invitación seguro por departamento, con límite de plazas y caducidad opcionales."
+      },
+      "remarks": {
+        "title": "Tus prioridades, en cada itinerario",
+        "text": "Añade observaciones sobre tu personal; C2B y la IA las tienen en cuenta."
+      },
+      "enroll": {
+        "title": "Inscribe y paga con factura",
+        "text": "Inscribe tú mismo a tu personal y paga con factura a la empresa."
+      },
+      "reports": {
+        "title": "Progreso y brechas de competencias",
+        "text": "Sigue la finalización y las brechas por departamento."
+      }
+    },
+    "cta": "Registrar mi organización",
+    "note": "C2B revisa cada organización antes de que pueda invitar a su personal.",
+    "imageAlt": "Una sesión de formación corporativa en una sala de reuniones"
+  },
+  "programmes": {
+    "eyebrow": "Programas",
+    "title": "Programas destacados",
+    "text": "Explora el catálogo de C2B en transformación digital, datos, nube, liderazgo y más.",
+    "all": "Ver todos los programas"
+  },
+  "stats": {
+    "label": "C2B en cifras",
+    "programmes": "Programas",
+    "learners": "Personas en formación",
+    "organizations": "Organizaciones aliadas",
+    "completions": "Programas completados"
+  },
+  "cta": {
+    "title": "¿Listo para dar tu siguiente paso?",
+    "text": "Crea tu perfil en minutos y recibe un itinerario de aprendizaje revisado por expertos de C2B.",
+    "student": "Soy estudiante",
+    "org": "Registrar mi organización"
+  }
+}

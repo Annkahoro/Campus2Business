@@ -1,0 +1,15 @@
+# Dependencies and builds
+node_modules
+dist
+
+# Secrets — never commit (CLAUDE.md security rules)
+.env
+.env.*
+!.env.example
+
+# Local / temporary
+.DS_Store
+*.log
+.tmp-*
+.vscode/*
+!.vscode/extensions.json

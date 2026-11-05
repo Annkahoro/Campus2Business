@@ -1,0 +1,61 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap');
+@import "tailwindcss";
+
+/* Design tokens — docs/08-FRONTEND-DESIGN-SYSTEM.md. NO GRADIENTS anywhere. */
+@theme {
+  /* Remove Tailwind's built-in emerald scale so only the brand tokens below exist. */
+  --color-emerald-*: initial;
+
+  --color-emerald: #055F46;
+  --color-emerald-dark: #044A37;
+  --color-emerald-darker: #03382A;
+  --color-mint: #A7F3D0;
+  --color-mint-soft: #D9FBEA;
+  --color-cream: #FFF8E7;
+  --color-cream-dark: #F5EBD0;
+  --color-surface: #FFFFFF;
+  --color-ink: #1C2B26;
+  --color-ink-muted: #5B6B65;
+  --color-line: #E6DFCC;
+  --color-success: #15803D;
+  --color-warning: #B45309;
+  --color-danger: #B91C1C;
+  --color-info: #1D4E89;
+
+  --font-display: "Plus Jakarta Sans", system-ui, sans-serif;
+  --font-sans: "Inter", system-ui, sans-serif;
+
+  --radius-card: 1rem;
+  --shadow-card: 0 1px 2px rgb(28 43 38 / 0.06), 0 4px 16px rgb(28 43 38 / 0.06);
+}
+
+html, body { background-color: var(--color-cream); color: var(--color-ink); font-family: var(--font-sans); }
+h1, h2, h3, h4 { font-family: var(--font-display); }
+
+body { min-height: 100vh; -webkit-font-smoothing: antialiased; }
+
+/*
+ * Accessibility baseline (docs/08 §9): every interactive element shows a visible keyboard focus indicator.
+ * Components that define their own focus ring (focus-visible:ring-*) override this via higher specificity.
+ */
+@layer base {
+  a:focus-visible,
+  button:focus-visible,
+  summary:focus-visible,
+  [tabindex]:not([tabindex="-1"]):focus-visible {
+    outline: 2px solid var(--color-emerald);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

@@ -1,0 +1,136 @@
+{
+  "loadError": "No hemos podido cargar el informe.",
+  "noData": "Aún no hay datos.",
+  "viewAll": "Ver todo",
+  "allReports": "Todos los informes",
+  "completedShort_one": "· {{count}} completada",
+  "completedShort_other": "· {{count}} completadas",
+  "view": {
+    "label": "Visualización",
+    "chart": "Gráfico",
+    "table": "Tabla"
+  },
+  "admin": {
+    "eyebrow": "Administración de C2B",
+    "greeting": "Hola de nuevo, {{name}}",
+    "needsAttention": "Requiere atención",
+    "reportsTitle": "Informes",
+    "reportsSubtitle": "Totales de la plataforma, inscripciones, finalización y uso de la IA."
+  },
+  "cards": {
+    "pendingOrgs": "Organizaciones pendientes de aprobación",
+    "pendingReviews": "Itinerarios por revisar",
+    "activeLearners": "Personas activas",
+    "activeEnrollments": "Inscripciones activas",
+    "employees": "Personal en C2B",
+    "pathways": "Itinerarios publicados",
+    "completedProgrammes": "Programas completados"
+  },
+  "attention": {
+    "pendingOrgs": "Organizaciones por aprobar",
+    "submittedProfiles": "Perfiles listos para un itinerario ({{count}})",
+    "drafts": "Borradores de la IA por revisar",
+    "none": "No hay nada pendiente.",
+    "confidence": "{{value}} % de confianza",
+    "enrollmentRequests_one": "{{count}} solicitud de inscripción espera aprobación.",
+    "enrollmentRequests_other": "{{count}} solicitudes de inscripción esperan aprobación.",
+    "review": "Revisar solicitudes"
+  },
+  "learnerType": {
+    "student": "Estudiante",
+    "employee": "Empleado/a"
+  },
+  "charts": {
+    "enrollmentsByMonth": "Inscripciones por mes",
+    "enrollmentsByMonthText": "Nuevas solicitudes y finalizaciones en los últimos 12 meses.",
+    "enrollmentsByStatus": "Inscripciones por estado",
+    "topProgrammes": "Programas más populares",
+    "topProgrammesText": "Por número de inscripciones (sin contar las rechazadas).",
+    "aiUsage": "Uso de la IA",
+    "aiUsageText": "Tokens de Claude por mes para generar itinerarios y traducciones.",
+    "funnel": "Embudo de finalización",
+    "funnelText": "Cuántas personas alcanzaron cada paso.",
+    "byDepartment": "Personal por departamento",
+    "byDepartmentText": "Personal en C2B e itinerarios publicados por departamento.",
+    "skillGaps": "Brechas de competencias por departamento"
+  },
+  "series": {
+    "requested": "Solicitadas",
+    "completed": "Completadas",
+    "inputTokens": "Tokens de entrada",
+    "outputTokens": "Tokens de salida",
+    "employees": "Personal",
+    "pathways": "Itinerarios publicados"
+  },
+  "columns": {
+    "month": "Mes",
+    "status": "Estado",
+    "count": "Cantidad",
+    "programme": "Programa",
+    "enrollments": "Inscripciones",
+    "completed": "Completadas",
+    "avgScore": "Puntuación media",
+    "avgRating": "Valoración media",
+    "generations": "Generaciones",
+    "avgLatency": "Tiempo medio",
+    "stage": "Etapa",
+    "employees": "Personas",
+    "ofJoined": "% de las incorporadas",
+    "department": "Departamento",
+    "headcount": "Plantilla",
+    "submitted": "Enviados",
+    "skill": "Competencia",
+    "highPriority": "Prioridad alta"
+  },
+  "totals": {
+    "learners": "Personas en formación",
+    "learnersHint": "{{students}} estudiantes · {{employees}} empleados/as",
+    "organizations": "Organizaciones aprobadas",
+    "orgsPending_one": "{{count}} pendiente",
+    "orgsPending_other": "{{count}} pendientes",
+    "programmes": "Programas publicados",
+    "pathways": "Itinerarios publicados",
+    "completed": "Programas completados",
+    "completionRate": "Tasa de finalización",
+    "completionRateHint": "Completadas ÷ iniciadas (activas, completadas, de baja)",
+    "generations": "Generaciones de IA",
+    "failed_one": "{{count}} fallida",
+    "failed_other": "{{count}} fallidas",
+    "tokens": "Tokens de IA usados",
+    "tokensHint": "{{input}} de entrada · {{output}} de salida"
+  },
+  "funnel": {
+    "joined": "Incorporadas",
+    "complete": "Perfil completo",
+    "submitted": "Enviado a C2B",
+    "published": "Itinerario publicado",
+    "enrolled": "Inscritas",
+    "completed": "Completaron un programa"
+  },
+  "skillGaps": {
+    "empty": "Las brechas de competencias aparecerán cuando C2B haya generado itinerarios para tu personal.",
+    "text_one": "Según el análisis de IA de {{count}} persona. No se muestran nombres.",
+    "text_other": "Según el análisis de IA de {{count}} personas. No se muestran nombres.",
+    "analysed_one": "{{count}} persona analizada",
+    "analysed_other": "{{count}} personas analizadas",
+    "high_one": "({{count}} prioridad alta)",
+    "high_other": "({{count}} prioridad alta)"
+  },
+  "org": {
+    "title": "Informes",
+    "subtitle": "Progreso, finalización y brechas de competencias de tu organización."
+  },
+  "ai": {
+    "title": "Resumen de IA de tus necesidades de formación",
+    "text": "Claude analiza estadísticas anonimizadas (sin nombres) y sugiere tres programas para grupos. Se actualiza como máximo una vez al día.",
+    "generate": "Generar resumen",
+    "refresh": "Actualizar",
+    "generating": "Analizando tu organización… tarda unos 20 segundos.",
+    "none": "Aún no hay resumen. Genera uno para recibir sugerencias de formación en grupo.",
+    "notApproved": "Disponible cuando tu organización esté aprobada.",
+    "suggested": "Programas sugeridos para grupos",
+    "generatedAt": "Generado el {{date}}",
+    "ready": "Resumen listo.",
+    "cached": "Mostrando el resumen de hoy."
+  }
+}

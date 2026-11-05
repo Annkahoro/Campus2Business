@@ -1,0 +1,131 @@
+{
+  "title": "My learning",
+  "subtitle": "Your enrollments, payments and progress.",
+  "loadError": "We couldn't load the enrollments.",
+  "emptyTitle": "No enrollments yet",
+  "emptyText": "Request an enrollment from your pathway or from the programme catalogue.",
+  "goToPathway": "Go to my pathway",
+  "browse": "Browse programmes",
+  "groups": {
+    "action": "Needs your action",
+    "active": "In progress",
+    "requested": "Waiting for C2B approval",
+    "completed": "Completed",
+    "closed": "Closed"
+  },
+  "request": {
+    "button": "Request enrollment",
+    "enrollOnBehalf": "Enroll on behalf",
+    "title": "Request enrollment",
+    "titleOnBehalf": "Enroll this employee",
+    "intake": "Preferred intake",
+    "anyIntake": "Next available intake",
+    "noIntakes": "No intake dates are listed yet. C2B will confirm the start date with you.",
+    "priceNote": "Programme fee: {{price}}. You'll pay after C2B approves the request.",
+    "explain": "C2B reviews every request. You'll be notified when it is approved.",
+    "confirm": "Send request",
+    "sent": "Enrollment requested. We'll notify you when C2B approves it.",
+    "sentOnBehalf": "Enrollment requested for this employee.",
+    "viewInLearning": "View in My learning"
+  },
+  "payment": {
+    "title": "Complete payment",
+    "demoTitle": "Demo payment — no real money",
+    "demoText": "This is a simulation. Nothing is charged and no payment details are sent.",
+    "amount": "Amount",
+    "method": "Payment method",
+    "methods": {
+      "card": "Card",
+      "mpesa": "M-Pesa",
+      "bank": "Bank transfer",
+      "employer_invoice": "Employer invoice"
+    },
+    "methodHints": {
+      "card": "Visa or Mastercard (simulated)",
+      "mpesa": "Mobile money (simulated)",
+      "bank": "Direct transfer (simulated)",
+      "employer_invoice": "Your organization is invoiced (simulated)"
+    },
+    "phone": "M-Pesa phone number",
+    "cardName": "Name on card",
+    "notSent": "Demo only: this field is not sent anywhere.",
+    "pay": "Pay {{amount}}",
+    "processing": "Processing…",
+    "success": "Payment confirmed (reference {{reference}}). Your programme is now active."
+  },
+  "card": {
+    "intake": "Intake {{date}}",
+    "progress": "Progress",
+    "price": "Fee",
+    "payment": "Payment",
+    "paymentStatus": {
+      "unpaid": "Unpaid",
+      "paid": "Paid",
+      "waived": "No fee"
+    },
+    "requested": "Requested",
+    "started": "Started",
+    "completed": "Completed",
+    "score": "Score",
+    "scoreShort": "Score {{score}}",
+    "waitingApproval": "C2B is reviewing your request.",
+    "payPending": "Approved! Complete the payment to start.",
+    "payPendingEmployee": "Approved! Your organization or you can complete the payment.",
+    "payNow": "Pay now",
+    "rated": "Rated {{rating}}/5"
+  },
+  "rate": {
+    "title": "Rate this programme",
+    "yourRating": "Your rating",
+    "review": "Review (optional)",
+    "submit": "Send rating",
+    "update": "Update rating",
+    "saved": "Thanks for rating this programme!",
+    "stars_one": "{{count}} star",
+    "stars_other": "{{count}} stars"
+  },
+  "org": {
+    "title": "Enrollments",
+    "subtitle": "Your employees' enrollments, payments and progress.",
+    "all": "All",
+    "search": "Search",
+    "searchPlaceholder": "Employee name or email",
+    "emptyTitle": "No enrollments",
+    "emptyText": "Enroll employees from their profile page or let them request programmes from their pathway."
+  },
+  "admin": {
+    "title": "Enrollments",
+    "subtitle": "Approve requests, track progress and mark programmes completed.",
+    "emptyTitle": "No {{status}} enrollments",
+    "student": "Student",
+    "fromPathway": "from pathway",
+    "columns": {
+      "learner": "Learner",
+      "programme": "Programme",
+      "payment": "Payment",
+      "progress": "Progress",
+      "status": "Status",
+      "actions": "Actions"
+    },
+    "approve": "Approve",
+    "reject": "Reject",
+    "progress": "Progress",
+    "markCompleted": "Mark completed",
+    "drop": "Drop",
+    "progressTitle": "Update progress",
+    "completeTitle": "Mark as completed",
+    "score": "Score (optional)",
+    "scoreHint": "0–100. Used in the learner's history and by the AI.",
+    "rejectTitle": "Reject this request?",
+    "dropTitle": "Drop this enrollment?",
+    "confirmText": "{{name}} · {{programme}}. The learner will be notified.",
+    "progressToast": "Progress updated.",
+    "completedToast": "Marked as completed. It now counts in the learner's history.",
+    "toast": {
+      "approved": "Request approved.",
+      "rejected": "Request rejected.",
+      "dropped": "Enrollment dropped.",
+      "completed": "Marked as completed."
+    }
+  }
+}

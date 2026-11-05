@@ -1,0 +1,38 @@
+{
+  "title": "My learning",
+  "dashboard": {
+    "greeting": "Hello, {{name}}",
+    "journey": "Your journey",
+    "completion": "Profile completion",
+    "exploreTitle": "Explore the catalogue",
+    "exploreText": "Browse C2B programmes while your pathway is being prepared.",
+    "exploreCta": "Browse programmes",
+    "organization": "Organization",
+    "activeCourses": "Your active programmes",
+    "viewAll": "View all",
+    "paymentPending": "Approved — complete the payment to start."
+  },
+  "tracker": {
+    "profile": "Profile",
+    "submitted": "Submitted",
+    "under_review": "Under review",
+    "pathway_published": "Pathway ready"
+  },
+  "next": {
+    "completeTitle": "Complete your profile",
+    "completeText": "The more we know about you, the better your learning pathway.",
+    "complete": "Continue profile",
+    "submitTitle": "Ready to submit",
+    "submitText": "Your profile is complete. Submit it to C2B to get your pathway.",
+    "submit": "Review and submit",
+    "orgTitle": "Waiting for your organization",
+    "orgText": "Your profile is complete. Your organization will review it and submit it to C2B.",
+    "review": "Review profile",
+    "reviewTitle": "Your pathway is being prepared",
+    "reviewText": "C2B experts are reviewing your profile. We'll notify you when your pathway is ready.",
+    "browse": "Browse programmes",
+    "pathwayTitle": "Your pathway is ready",
+    "pathwayText": "See the programmes C2B recommends for you.",
+    "viewPathway": "View my pathway"
+  }
+}

@@ -1,0 +1,406 @@
+[
+  {
+    "code": "C2B-DA-101",
+    "title": { "en": "Data Literacy Fundamentals", "es": "Fundamentos de Alfabetización de Datos" },
+    "shortDescription": {
+      "en": "Read, question and communicate with data: the foundation for every data-driven role.",
+      "es": "Lee, cuestiona y comunica con datos: la base de cualquier puesto orientado a datos."
+    },
+    "description": {
+      "en": "A practical introduction to working with data in business. Participants learn core statistical concepts, how to clean and explore spreadsheets, how to choose the right chart, and how to spot misleading numbers. The programme ends with a mini project where each learner turns a real dataset into a short, evidence-based recommendation.",
+      "es": "Una introducción práctica al trabajo con datos en la empresa. Los participantes aprenden conceptos estadísticos básicos, a limpiar y explorar hojas de cálculo, a elegir el gráfico adecuado y a detectar cifras engañosas. El programa termina con un miniproyecto en el que cada participante convierte un conjunto de datos real en una recomendación breve y basada en evidencias."
+    },
+    "category": "data_ai",
+    "level": "beginner",
+    "durationValue": 4,
+    "durationUnit": "weeks",
+    "deliveryMode": "online",
+    "language": ["en", "es"],
+    "prerequisites": [],
+    "skillsGained": ["Data literacy", "Excel", "Descriptive statistics", "Data visualisation", "Critical thinking with data"],
+    "targetAudience": ["student", "employee"],
+    "targetDepartments": [],
+    "price": { "amount": 290, "currency": "EUR" },
+    "intakes": [
+      { "startDate": "2027-01-18", "endDate": "2027-02-12", "seats": 40, "location": "Online" },
+      { "startDate": "2027-04-12", "endDate": "2027-05-07", "seats": 40, "location": "Online" }
+    ],
+    "tags": ["data", "analytics", "excel", "statistics", "beginner-friendly"]
+  },
+  {
+    "code": "C2B-DA-201",
+    "title": { "en": "Data Analytics with Python and Power BI", "es": "Análisis de Datos con Python y Power BI" },
+    "shortDescription": {
+      "en": "Go from spreadsheets to reproducible analysis and interactive business dashboards.",
+      "es": "Pasa de las hojas de cálculo a análisis reproducibles y cuadros de mando interactivos."
+    },
+    "description": {
+      "en": "Learners build a complete analytics workflow: SQL queries to extract data, Python (pandas) to clean and analyse it, and Power BI to publish interactive dashboards for decision makers. Each week combines guided labs with a business case from banking, retail or logistics. The capstone is a dashboard presented to a panel of C2B experts.",
+      "es": "Los participantes construyen un flujo de análisis completo: consultas SQL para extraer datos, Python (pandas) para limpiarlos y analizarlos, y Power BI para publicar cuadros de mando interactivos para la dirección. Cada semana combina laboratorios guiados con un caso de negocio de banca, comercio o logística. El proyecto final es un cuadro de mando presentado ante un panel de expertos de C2B."
+    },
+    "category": "data_ai",
+    "level": "intermediate",
+    "durationValue": 8,
+    "durationUnit": "weeks",
+    "deliveryMode": "hybrid",
+    "language": ["en", "es"],
+    "prerequisites": ["C2B-DA-101"],
+    "prerequisiteText": { "en": "Comfortable with spreadsheets and basic statistics.", "es": "Manejo de hojas de cálculo y estadística básica." },
+    "skillsGained": ["Python", "pandas", "SQL", "Power BI", "Dashboard design", "Data storytelling"],
+    "targetAudience": ["student", "employee"],
+    "targetDepartments": ["ICT", "Finance", "Marketing", "Operations"],
+    "price": { "amount": 790, "currency": "EUR" },
+    "intakes": [
+      { "startDate": "2027-02-15", "endDate": "2027-04-09", "seats": 30, "location": "Madrid + Online" },
+      { "startDate": "2027-05-17", "endDate": "2027-07-09", "seats": 30, "location": "Online" }
+    ],
+    "tags": ["data", "python", "power bi", "sql", "dashboards", "analytics"]
+  },
+  {
+    "code": "C2B-DA-301",
+    "title": { "en": "Applied Machine Learning and Generative AI", "es": "Machine Learning Aplicado e IA Generativa" },
+    "shortDescription": {
+      "en": "Build, evaluate and responsibly deploy ML models and GenAI assistants for real business problems.",
+      "es": "Crea, evalúa e implanta de forma responsable modelos de ML y asistentes de IA generativa para problemas reales."
+    },
+    "description": {
+      "en": "An advanced, project-based programme covering supervised learning, model evaluation, feature engineering and an introduction to MLOps, followed by generative AI: prompt engineering, retrieval-augmented generation and evaluating LLM outputs. Ethics, bias and AI regulation run through every module. Teams deliver a working prototype for a partner organisation.",
+      "es": "Un programa avanzado basado en proyectos que cubre aprendizaje supervisado, evaluación de modelos, ingeniería de variables y una introducción a MLOps, seguido de IA generativa: ingeniería de prompts, generación aumentada por recuperación y evaluación de respuestas de LLM. La ética, los sesgos y la regulación de la IA están presentes en todos los módulos. Los equipos entregan un prototipo funcional para una organización colaboradora."
+    },
+    "category": "data_ai",
+    "level": "advanced",
+    "durationValue": 12,
+    "durationUnit": "weeks",
+    "deliveryMode": "hybrid",
+    "language": ["en"],
+    "prerequisites": ["C2B-DA-201"],
+    "prerequisiteText": { "en": "Python and SQL at intermediate level.", "es": "Python y SQL a nivel intermedio." },
+    "skillsGained": ["Machine learning", "scikit-learn", "Generative AI", "Prompt engineering", "RAG", "Responsible AI", "MLOps basics"],
+    "targetAudience": ["student", "employee"],
+    "targetDepartments": ["ICT", "Data", "Innovation"],
+    "price": { "amount": 1490, "currency": "EUR" },
+    "intakes": [{ "startDate": "2027-03-01", "endDate": "2027-05-21", "seats": 24, "location": "Madrid + Online" }],
+    "tags": ["ai", "machine learning", "genai", "llm", "python", "data science"]
+  },
+  {
+    "code": "C2B-CL-101",
+    "title": { "en": "Cloud Computing Fundamentals", "es": "Fundamentos de Computación en la Nube" },
+    "shortDescription": {
+      "en": "Understand cloud models, core services and costs, and prepare for an entry-level cloud certification.",
+      "es": "Comprende los modelos de nube, los servicios principales y los costes, y prepárate para una certificación inicial."
+    },
+    "description": {
+      "en": "This programme explains how the cloud works and why organisations adopt it. Topics include IaaS, PaaS and SaaS, compute, storage, networking and identity basics, the shared responsibility model, and cloud cost management. Hands-on labs on AWS and Azure free tiers prepare learners for the AWS Cloud Practitioner or AZ-900 exams.",
+      "es": "Este programa explica cómo funciona la nube y por qué las organizaciones la adoptan. Incluye IaaS, PaaS y SaaS, fundamentos de computación, almacenamiento, redes e identidad, el modelo de responsabilidad compartida y la gestión de costes. Los laboratorios prácticos en AWS y Azure preparan para los exámenes AWS Cloud Practitioner o AZ-900."
+    },
+    "category": "cloud",
+    "level": "beginner",
+    "durationValue": 5,
+    "durationUnit": "weeks",
+    "deliveryMode": "online",
+    "language": ["en", "es"],
+    "prerequisites": [],
+    "skillsGained": ["Cloud concepts", "AWS", "Azure", "Cloud cost management", "Identity and access basics"],
+    "targetAudience": ["student", "employee"],
+    "targetDepartments": [],
+    "price": { "amount": 390, "currency": "EUR" },
+    "intakes": [
+      { "startDate": "2027-01-25", "endDate": "2027-02-26", "seats": 40, "location": "Online" },
+      { "startDate": "2027-04-19", "endDate": "2027-05-21", "seats": 40, "location": "Online" }
+    ],
+    "tags": ["cloud", "aws", "azure", "certification", "infrastructure"]
+  },
+  {
+    "code": "C2B-CL-201",
+    "title": { "en": "Cloud Solutions Architecture", "es": "Arquitectura de Soluciones Cloud" },
+    "shortDescription": {
+      "en": "Design secure, resilient and cost-efficient cloud architectures and lead migrations.",
+      "es": "Diseña arquitecturas cloud seguras, resilientes y eficientes en costes, y lidera migraciones."
+    },
+    "description": {
+      "en": "Aimed at technical professionals moving towards architect roles. Learners design multi-tier and serverless architectures, apply the Well-Architected Framework, plan migrations, and automate infrastructure with Terraform. Case studies cover high availability, disaster recovery and FinOps. The final project is an architecture review defended before C2B cloud experts.",
+      "es": "Dirigido a profesionales técnicos que avanzan hacia puestos de arquitectura. Se diseñan arquitecturas multicapa y serverless, se aplica el Well-Architected Framework, se planifican migraciones y se automatiza la infraestructura con Terraform. Los casos prácticos tratan alta disponibilidad, recuperación ante desastres y FinOps. El proyecto final es una revisión de arquitectura defendida ante expertos cloud de C2B."
+    },
+    "category": "cloud",
+    "level": "advanced",
+    "durationValue": 10,
+    "durationUnit": "weeks",
+    "deliveryMode": "hybrid",
+    "language": ["en", "es"],
+    "prerequisites": ["C2B-CL-101"],
+    "prerequisiteText": { "en": "At least one year of IT or development experience.", "es": "Al menos un año de experiencia en TI o desarrollo." },
+    "skillsGained": ["Cloud architecture", "Terraform", "Serverless", "High availability", "Cloud migration", "FinOps"],
+    "targetAudience": ["employee"],
+    "targetDepartments": ["ICT"],
+    "price": { "amount": 1290, "currency": "EUR" },
+    "intakes": [{ "startDate": "2027-03-08", "endDate": "2027-05-14", "seats": 20, "location": "Madrid + Online" }],
+    "tags": ["cloud", "architecture", "terraform", "devops", "aws", "azure"]
+  },
+  {
+    "code": "C2B-CY-101",
+    "title": { "en": "Cybersecurity Essentials for Organisations", "es": "Ciberseguridad Esencial para Organizaciones" },
+    "shortDescription": {
+      "en": "Recognise threats, protect data and build a security-first culture in your team.",
+      "es": "Reconoce amenazas, protege los datos y crea una cultura de seguridad en tu equipo."
+    },
+    "description": {
+      "en": "Covers the threat landscape (phishing, ransomware, social engineering), security controls, identity and password hygiene, data protection and GDPR, and incident response basics. Combines short expert sessions with realistic simulations. Suitable for both technical staff and business users who handle sensitive information.",
+      "es": "Aborda el panorama de amenazas (phishing, ransomware, ingeniería social), los controles de seguridad, la gestión de identidades y contraseñas, la protección de datos y el RGPD, y los fundamentos de respuesta a incidentes. Combina sesiones breves con expertos y simulaciones realistas. Adecuado tanto para perfiles técnicos como para usuarios de negocio que gestionan información sensible."
+    },
+    "category": "cybersecurity",
+    "level": "beginner",
+    "durationValue": 3,
+    "durationUnit": "weeks",
+    "deliveryMode": "online",
+    "language": ["en", "es"],
+    "prerequisites": [],
+    "skillsGained": ["Threat awareness", "Phishing detection", "GDPR basics", "Incident response basics", "Security controls"],
+    "targetAudience": ["student", "employee"],
+    "targetDepartments": [],
+    "price": { "amount": 250, "currency": "EUR" },
+    "intakes": [
+      { "startDate": "2027-01-11", "endDate": "2027-01-29", "seats": 60, "location": "Online" },
+      { "startDate": "2027-03-15", "endDate": "2027-04-02", "seats": 60, "location": "Online" }
+    ],
+    "tags": ["security", "cybersecurity", "gdpr", "risk", "compliance"]
+  },
+  {
+    "code": "C2B-DT-101",
+    "title": { "en": "Digital Transformation Foundations", "es": "Fundamentos de Transformación Digital" },
+    "shortDescription": {
+      "en": "Understand the technologies, business models and mindset behind successful digital transformation.",
+      "es": "Comprende las tecnologías, los modelos de negocio y la mentalidad de una transformación digital exitosa."
+    },
+    "description": {
+      "en": "A broad programme on how digital technologies reshape organisations. Learners explore platform business models, customer journey redesign, process automation, data-driven decision making and digital culture. Each module includes a case from a European company and a reflection on the learner's own organisation or sector.",
+      "es": "Un programa amplio sobre cómo las tecnologías digitales transforman las organizaciones. Se exploran los modelos de negocio de plataforma, el rediseño del recorrido del cliente, la automatización de procesos, la toma de decisiones basada en datos y la cultura digital. Cada módulo incluye un caso de una empresa europea y una reflexión sobre la propia organización o sector."
+    },
+    "category": "digital_transformation",
+    "level": "beginner",
+    "durationValue": 4,
+    "durationUnit": "weeks",
+    "deliveryMode": "online",
+    "language": ["en", "es"],
+    "prerequisites": [],
+    "skillsGained": ["Digital strategy basics", "Business model innovation", "Process automation awareness", "Customer journey mapping"],
+    "targetAudience": ["student", "employee"],
+    "targetDepartments": [],
+    "price": { "amount": 320, "currency": "EUR" },
+    "intakes": [
+      { "startDate": "2027-02-01", "endDate": "2027-02-26", "seats": 50, "location": "Online" },
+      { "startDate": "2027-05-03", "endDate": "2027-05-28", "seats": 50, "location": "Online" }
+    ],
+    "tags": ["digital transformation", "innovation", "strategy", "automation"]
+  },
+  {
+    "code": "C2B-DT-201",
+    "title": { "en": "Leading Digital Transformation Strategy", "es": "Liderar la Estrategia de Transformación Digital" },
+    "shortDescription": {
+      "en": "Build and execute a digital transformation roadmap that delivers measurable value.",
+      "es": "Diseña y ejecuta una hoja de ruta de transformación digital que genere valor medible."
+    },
+    "description": {
+      "en": "For managers and team leads responsible for change. Participants assess digital maturity, prioritise initiatives with value-based frameworks, build business cases, govern portfolios of digital projects and measure outcomes with OKRs. Includes peer coaching and a final roadmap for the participant's own unit, reviewed by C2B experts.",
+      "es": "Para responsables y mandos que lideran el cambio. Los participantes evalúan la madurez digital, priorizan iniciativas con marcos basados en valor, elaboran casos de negocio, gobiernan carteras de proyectos digitales y miden resultados con OKR. Incluye coaching entre pares y una hoja de ruta final para la propia unidad, revisada por expertos de C2B."
+    },
+    "category": "digital_transformation",
+    "level": "advanced",
+    "durationValue": 8,
+    "durationUnit": "weeks",
+    "deliveryMode": "hybrid",
+    "language": ["en", "es"],
+    "prerequisites": ["C2B-DT-101"],
+    "prerequisiteText": { "en": "Recommended: experience leading a team or project.", "es": "Recomendado: experiencia liderando un equipo o proyecto." },
+    "skillsGained": ["Digital roadmap design", "Digital maturity assessment", "Business case development", "OKRs", "Portfolio governance"],
+    "targetAudience": ["employee"],
+    "targetDepartments": [],
+    "price": { "amount": 1190, "currency": "EUR" },
+    "intakes": [{ "startDate": "2027-03-15", "endDate": "2027-05-07", "seats": 25, "location": "Madrid + Online" }],
+    "tags": ["digital transformation", "leadership", "strategy", "okr", "management"]
+  },
+  {
+    "code": "C2B-AG-101",
+    "title": { "en": "Agile and Scrum Fundamentals", "es": "Fundamentos de Agile y Scrum" },
+    "shortDescription": {
+      "en": "Deliver work in short, focused iterations with Scrum and Kanban.",
+      "es": "Trabaja en iteraciones cortas y enfocadas con Scrum y Kanban."
+    },
+    "description": {
+      "en": "Learners experience agile ways of working by running real sprints in teams. The programme covers the Agile Manifesto, Scrum roles, events and artefacts, Kanban flow metrics, user stories and estimation. It prepares participants for the PSM I or PSPO I certification and for applying agile beyond software teams.",
+      "es": "Los participantes viven el trabajo ágil ejecutando sprints reales en equipo. El programa cubre el Manifiesto Ágil, los roles, eventos y artefactos de Scrum, las métricas de flujo Kanban, las historias de usuario y la estimación. Prepara para las certificaciones PSM I o PSPO I y para aplicar la agilidad más allá de los equipos de software."
+    },
+    "category": "agile_pm",
+    "level": "beginner",
+    "durationValue": 3,
+    "durationUnit": "weeks",
+    "deliveryMode": "hybrid",
+    "language": ["en", "es"],
+    "prerequisites": [],
+    "skillsGained": ["Scrum", "Kanban", "User stories", "Sprint planning", "Agile mindset"],
+    "targetAudience": ["student", "employee"],
+    "targetDepartments": [],
+    "price": { "amount": 350, "currency": "EUR" },
+    "intakes": [
+      { "startDate": "2027-01-25", "endDate": "2027-02-12", "seats": 30, "location": "Madrid + Online" },
+      { "startDate": "2027-04-05", "endDate": "2027-04-23", "seats": 30, "location": "Online" }
+    ],
+    "tags": ["agile", "scrum", "kanban", "project management", "certification"]
+  },
+  {
+    "code": "C2B-FN-101",
+    "title": { "en": "Digital Finance and Fintech Fundamentals", "es": "Fundamentos de Finanzas Digitales y Fintech" },
+    "shortDescription": {
+      "en": "Understand digital payments, open banking, fintech business models and their impact on finance teams.",
+      "es": "Comprende los pagos digitales, la banca abierta, los modelos fintech y su impacto en los equipos financieros."
+    },
+    "description": {
+      "en": "An overview of how technology is changing financial services and corporate finance. Topics include digital and mobile payments, open banking and PSD2, digital lending, blockchain and digital assets, regtech and the automation of finance processes. Learners analyse fintech cases and map opportunities for their own finance function.",
+      "es": "Una visión general de cómo la tecnología transforma los servicios financieros y las finanzas corporativas. Incluye pagos digitales y móviles, banca abierta y PSD2, préstamos digitales, blockchain y activos digitales, regtech y la automatización de procesos financieros. Los participantes analizan casos fintech e identifican oportunidades para su propio departamento financiero."
+    },
+    "category": "finance",
+    "level": "beginner",
+    "durationValue": 4,
+    "durationUnit": "weeks",
+    "deliveryMode": "online",
+    "language": ["en", "es"],
+    "prerequisites": [],
+    "skillsGained": ["Digital payments", "Open banking", "Fintech business models", "Regtech awareness", "Finance process automation"],
+    "targetAudience": ["student", "employee"],
+    "targetDepartments": ["Finance"],
+    "price": { "amount": 340, "currency": "EUR" },
+    "intakes": [{ "startDate": "2027-02-08", "endDate": "2027-03-05", "seats": 40, "location": "Online" }],
+    "tags": ["finance", "fintech", "payments", "open banking", "banking"]
+  },
+  {
+    "code": "C2B-FN-201",
+    "title": { "en": "Financial Data Analytics and Forecasting", "es": "Analítica Financiera y Previsión" },
+    "shortDescription": {
+      "en": "Use data, automation and forecasting models to modernise financial planning and reporting.",
+      "es": "Utiliza datos, automatización y modelos de previsión para modernizar la planificación y el reporting financiero."
+    },
+    "description": {
+      "en": "Designed for finance professionals moving into digital finance or FP&A leadership. Learners automate reporting with Power Query, build driver-based forecasts, apply scenario and sensitivity analysis, and create financial dashboards. The final assignment is a rolling forecast model and dashboard for a realistic company case.",
+      "es": "Diseñado para profesionales financieros que avanzan hacia las finanzas digitales o el liderazgo en FP&A. Se automatiza el reporting con Power Query, se construyen previsiones basadas en drivers, se aplican análisis de escenarios y sensibilidad y se crean cuadros de mando financieros. El trabajo final es un modelo de previsión continua y un cuadro de mando para un caso empresarial realista."
+    },
+    "category": "finance",
+    "level": "intermediate",
+    "durationValue": 6,
+    "durationUnit": "weeks",
+    "deliveryMode": "hybrid",
+    "language": ["en", "es"],
+    "prerequisites": ["C2B-FN-101", "C2B-DA-101"],
+    "prerequisiteText": { "en": "Basic accounting knowledge.", "es": "Conocimientos básicos de contabilidad." },
+    "skillsGained": ["Financial forecasting", "Power Query", "Scenario analysis", "Financial dashboards", "FP&A automation"],
+    "targetAudience": ["employee"],
+    "targetDepartments": ["Finance"],
+    "price": { "amount": 890, "currency": "EUR" },
+    "intakes": [{ "startDate": "2027-04-05", "endDate": "2027-05-14", "seats": 25, "location": "Madrid + Online" }],
+    "tags": ["finance", "analytics", "forecasting", "fp&a", "dashboards"]
+  },
+  {
+    "code": "C2B-LC-201",
+    "title": { "en": "Leadership and Change Management", "es": "Liderazgo y Gestión del Cambio" },
+    "shortDescription": {
+      "en": "Lead people through change with clarity, empathy and proven change frameworks.",
+      "es": "Lidera a las personas en el cambio con claridad, empatía y modelos de gestión del cambio probados."
+    },
+    "description": {
+      "en": "A programme for new and experienced leaders. It covers leadership styles, psychological safety, coaching conversations, feedback, and structured change approaches such as Kotter and ADKAR. Learners work on a live change challenge from their organisation, supported by a C2B mentor across the programme.",
+      "es": "Un programa para líderes nuevos y experimentados. Aborda estilos de liderazgo, seguridad psicológica, conversaciones de coaching, feedback y enfoques estructurados de cambio como Kotter y ADKAR. Los participantes trabajan en un reto de cambio real de su organización con el apoyo de un mentor de C2B durante todo el programa."
+    },
+    "category": "leadership_change",
+    "level": "intermediate",
+    "durationValue": 6,
+    "durationUnit": "weeks",
+    "deliveryMode": "in_person",
+    "language": ["en", "es"],
+    "prerequisites": [],
+    "skillsGained": ["Change management", "Coaching", "Feedback", "Team leadership", "Stakeholder management"],
+    "targetAudience": ["employee"],
+    "targetDepartments": [],
+    "price": { "amount": 950, "currency": "EUR" },
+    "intakes": [{ "startDate": "2027-02-22", "endDate": "2027-04-02", "seats": 20, "location": "Madrid" }],
+    "tags": ["leadership", "change management", "coaching", "management"]
+  },
+  {
+    "code": "C2B-HR-101",
+    "title": { "en": "People Analytics for HR", "es": "People Analytics para RR. HH." },
+    "shortDescription": {
+      "en": "Use workforce data to improve hiring, engagement, retention and learning decisions.",
+      "es": "Utiliza los datos de plantilla para mejorar la selección, el compromiso, la retención y la formación."
+    },
+    "description": {
+      "en": "HR professionals learn to frame people questions as data questions, work with HRIS data, measure engagement and attrition, build HR dashboards and run simple predictive analyses ethically. Includes skills mapping and how to identify skill gaps to plan upskilling and reskilling programmes.",
+      "es": "Los profesionales de RR. HH. aprenden a plantear preguntas sobre personas como preguntas de datos, a trabajar con datos del HRIS, a medir el compromiso y la rotación, a crear cuadros de mando de RR. HH. y a realizar análisis predictivos sencillos de forma ética. Incluye el mapeo de competencias y cómo identificar brechas para planificar programas de mejora de competencias y recualificación."
+    },
+    "category": "hr_people",
+    "level": "intermediate",
+    "durationValue": 5,
+    "durationUnit": "weeks",
+    "deliveryMode": "online",
+    "language": ["en", "es"],
+    "prerequisites": [],
+    "skillsGained": ["People analytics", "HR metrics", "Skills mapping", "HR dashboards", "Ethical use of employee data"],
+    "targetAudience": ["employee"],
+    "targetDepartments": ["HR"],
+    "price": { "amount": 590, "currency": "EUR" },
+    "intakes": [{ "startDate": "2027-03-01", "endDate": "2027-04-02", "seats": 30, "location": "Online" }],
+    "tags": ["hr", "people analytics", "talent", "skills", "workforce planning"]
+  },
+  {
+    "code": "C2B-MK-101",
+    "title": { "en": "Digital Marketing and E-commerce", "es": "Marketing Digital y Comercio Electrónico" },
+    "shortDescription": {
+      "en": "Plan, launch and measure digital campaigns and grow online sales.",
+      "es": "Planifica, lanza y mide campañas digitales y haz crecer las ventas online."
+    },
+    "description": {
+      "en": "Covers digital marketing strategy, SEO and content, paid search and social advertising, email automation, marketplace and e-commerce operations, and web analytics with GA4. Learners build and present a full-funnel digital plan with a budget and KPIs for a real or simulated brand.",
+      "es": "Abarca la estrategia de marketing digital, SEO y contenidos, publicidad en buscadores y redes sociales, automatización del email, operaciones de marketplace y comercio electrónico, y analítica web con GA4. Los participantes elaboran y presentan un plan digital de embudo completo con presupuesto y KPI para una marca real o simulada."
+    },
+    "category": "marketing_ecommerce",
+    "level": "beginner",
+    "durationValue": 6,
+    "durationUnit": "weeks",
+    "deliveryMode": "online",
+    "language": ["en", "es"],
+    "prerequisites": [],
+    "skillsGained": ["Digital marketing strategy", "SEO", "Paid social", "Google Analytics 4", "E-commerce operations"],
+    "targetAudience": ["student", "employee"],
+    "targetDepartments": ["Marketing", "Sales"],
+    "price": { "amount": 450, "currency": "EUR" },
+    "intakes": [
+      { "startDate": "2027-02-01", "endDate": "2027-03-12", "seats": 40, "location": "Online" },
+      { "startDate": "2027-05-03", "endDate": "2027-06-11", "seats": 40, "location": "Online" }
+    ],
+    "tags": ["marketing", "ecommerce", "seo", "social media", "analytics"]
+  },
+  {
+    "code": "C2B-SS-101",
+    "title": { "en": "Communication, Collaboration and Critical Thinking", "es": "Comunicación, Colaboración y Pensamiento Crítico" },
+    "shortDescription": {
+      "en": "Strengthen the human skills employers value most in hybrid, fast-changing workplaces.",
+      "es": "Refuerza las competencias humanas más valoradas en entornos híbridos y cambiantes."
+    },
+    "description": {
+      "en": "An interactive programme on clear written and spoken communication, presenting with confidence, running effective meetings, collaborating in hybrid teams, giving and receiving feedback, and structured problem solving. Ideal for students preparing for their first job and for professionals moving into client-facing or team roles.",
+      "es": "Un programa interactivo sobre comunicación escrita y oral clara, presentaciones con seguridad, reuniones eficaces, colaboración en equipos híbridos, dar y recibir feedback y resolución estructurada de problemas. Ideal para estudiantes que preparan su primer empleo y para profesionales que asumen funciones de cara al cliente o de equipo."
+    },
+    "category": "soft_skills",
+    "level": "beginner",
+    "durationValue": 3,
+    "durationUnit": "weeks",
+    "deliveryMode": "in_person",
+    "language": ["en", "es"],
+    "prerequisites": [],
+    "skillsGained": ["Communication", "Presentation skills", "Teamwork", "Critical thinking", "Problem solving"],
+    "targetAudience": ["student", "employee"],
+    "targetDepartments": [],
+    "price": { "amount": 220, "currency": "EUR" },
+    "intakes": [
+      { "startDate": "2027-01-18", "endDate": "2027-02-05", "seats": 25, "location": "Madrid" },
+      { "startDate": "2027-03-22", "endDate": "2027-04-09", "seats": 25, "location": "Madrid" }
+    ],
+    "tags": ["soft skills", "communication", "teamwork", "employability"]
+  }
+]

@@ -1,0 +1,247 @@
+{
+  "title": "My profile",
+  "completion": "Profile completion",
+  "stepsLabel": "Profile steps",
+  "saveAndContinue": "Save and continue",
+  "loadError": "We couldn't load your profile.",
+  "steps": {
+    "personal": {
+      "short": "Personal",
+      "title": "Personal information",
+      "description": "Tell us a little about yourself."
+    },
+    "education": {
+      "short": "Education",
+      "title": "Education and study history",
+      "description": "Your studies, current year and certifications."
+    },
+    "employment": {
+      "short": "Employment",
+      "title": "Employment",
+      "descriptionEmployee": "Your current role helps C2B match programmes to your job.",
+      "descriptionStudent": "Internships, part-time jobs or any work experience."
+    },
+    "skills": {
+      "short": "Skills",
+      "title": "Skills",
+      "description": "Add at least 3 skills and rate your level honestly."
+    },
+    "goals": {
+      "short": "Goals",
+      "title": "Interests and goals",
+      "description": "Where you want to go and how you like to learn."
+    },
+    "cv": {
+      "short": "CV",
+      "title": "CV upload",
+      "description": "Upload your CV as a PDF so our experts and AI get the full picture."
+    },
+    "review": {
+      "short": "Review",
+      "title": "Review your profile",
+      "description": "Check everything before you submit."
+    }
+  },
+  "save": {
+    "pending": "Unsaved changes…",
+    "saving": "Saving…",
+    "saved": "All changes saved",
+    "invalid": "Fix the highlighted fields to save",
+    "error": "Couldn't save. Check your connection."
+  },
+  "locked": {
+    "title": "Your profile is under review",
+    "text": "C2B is preparing your learning pathway, so editing is paused for now.",
+    "publishedText": "Your pathway is ready. If you edit your profile, you can submit it again for an updated pathway."
+  },
+  "personal": {
+    "country": "Country",
+    "city": "City",
+    "phone": "Phone",
+    "dateOfBirth": "Date of birth",
+    "gender": "Gender",
+    "location": "Location",
+    "genders": {
+      "female": "Female",
+      "male": "Male",
+      "other": "Other",
+      "prefer_not_to_say": "Prefer not to say"
+    },
+    "privacyNote": "Your phone number and date of birth are never shared with the AI.",
+    "bio": "About you",
+    "bioPlaceholder": "Your background, what you enjoy and what motivates you.",
+    "bioHint": "{{count}}/1000 characters. A few sentences (20+) help your recommendations.",
+    "languages": "Languages",
+    "languageN": "Language {{n}}",
+    "languageName": "Language",
+    "languageLevel": "Level",
+    "levels": {
+      "basic": "Basic",
+      "intermediate": "Intermediate",
+      "fluent": "Fluent",
+      "native": "Native"
+    },
+    "addLanguage": "Add language",
+    "avatarUpdated": "Profile photo updated.",
+    "changePhoto": "Change photo",
+    "photoHint": "JPG, PNG or WebP, up to 2 MB."
+  },
+  "education": {
+    "studies": "Studies",
+    "noStudies": "No studies added yet.",
+    "studyN": "Study {{n}}",
+    "institution": "Institution",
+    "qualification": "Qualification",
+    "qualificationPlaceholder": "e.g. BSc, Diploma, MSc",
+    "fieldOfStudy": "Field of study",
+    "grade": "Grade (optional)",
+    "startYear": "Start year",
+    "endYear": "End year",
+    "endYearHint": "Leave empty if ongoing.",
+    "currentYear": "Current year of study",
+    "keyCourses": "Key courses",
+    "addStudy": "Add study",
+    "certifications": "Certifications",
+    "certN": "Certification {{n}}",
+    "certName": "Certification name",
+    "issuer": "Issuer",
+    "year": "Year",
+    "credentialUrl": "Credential link",
+    "addCert": "Add certification"
+  },
+  "employment": {
+    "optionalForStudents": "This step is optional for students, but any experience helps us recommend better.",
+    "currentRole": "Current role",
+    "currentRoleStudent": "Current or most recent job",
+    "department": "Department",
+    "departmentHint": "Use the department name your organization uses (e.g. ICT, Finance).",
+    "jobTitle": "Job title",
+    "yearsInRole": "Years in this role",
+    "totalYears": "Total years of experience",
+    "responsibilities": "Main responsibilities",
+    "responsibilitiesPlaceholder": "What you do day to day and which tools you use.",
+    "managesPeople": "I manage people",
+    "pastExperience": "Previous experience",
+    "experienceN": "Experience {{n}}",
+    "company": "Company",
+    "summary": "Summary",
+    "addExperience": "Add experience",
+    "departmentSelectHint": "Pick your department in your organization."
+  },
+  "skills": {
+    "scale": "Level scale: 1 = beginner, 3 = confident, 5 = expert.",
+    "levels": {
+      "1": "Beginner",
+      "2": "Basic",
+      "3": "Confident",
+      "4": "Advanced",
+      "5": "Expert"
+    },
+    "skillN": "Skill {{n}}",
+    "name": "Skill",
+    "namePlaceholder": "e.g. Excel, Python, Public speaking",
+    "category": "Category",
+    "categories": {
+      "technical": "Technical",
+      "digital": "Digital",
+      "business": "Business",
+      "soft": "Soft skill",
+      "language": "Language",
+      "other": "Other"
+    },
+    "level": "Level",
+    "minHint": "Add at least 3 skills to complete this step.",
+    "add": "Add skill"
+  },
+  "goals": {
+    "careerGoals": "Career goals",
+    "shortTerm": "Next 12 months",
+    "shortTermPlaceholder": "e.g. Get my first data analyst internship.",
+    "longTerm": "In 3–5 years",
+    "longTermPlaceholder": "e.g. Lead a data team in a bank.",
+    "targetRoles": "Target roles",
+    "targetRolesPlaceholder": "e.g. Data analyst",
+    "interestsTitle": "Interests",
+    "interests": "Topics you want to learn",
+    "interestsHint": "Press Enter after each topic.",
+    "interestsPlaceholder": "e.g. Machine learning",
+    "hobbies": "Hobbies",
+    "hobbiesPlaceholder": "e.g. Chess",
+    "preferences": "Learning preferences",
+    "mode": "Preferred mode",
+    "modes": {
+      "any": "No preference",
+      "online": "Online",
+      "in_person": "In person",
+      "hybrid": "Hybrid"
+    },
+    "hoursPerWeek": "Hours per week available",
+    "preferredLanguage": "Preferred language",
+    "languages": {
+      "any": "No preference",
+      "en": "English",
+      "es": "Spanish"
+    },
+    "budget": "Budget",
+    "budgets": {
+      "free": "Free only",
+      "low": "Low",
+      "medium": "Medium",
+      "high": "High",
+      "employer_paid": "Paid by my employer"
+    },
+    "preferredStart": "Preferred start date"
+  },
+  "cv": {
+    "dropTitle": "Drag and drop your CV here",
+    "replaceTitle": "Drop a new PDF to replace your CV",
+    "hint": "PDF only, up to {{mb}} MB.",
+    "choose": "Choose PDF",
+    "replace": "Replace CV",
+    "uploading": "Uploading…",
+    "uploaded": "CV uploaded.",
+    "uploadedOn": "Uploaded {{date}}",
+    "remove": "Remove CV",
+    "removeTitle": "Remove your CV?",
+    "removeText": "Your CV will be deleted. You can upload a new one at any time.",
+    "removed": "CV removed.",
+    "noTextWarning": "We couldn't read text from this PDF (it may be a scanned image). It's saved, but a text-based PDF gives better recommendations.",
+    "privacy": "Your CV is visible to C2B experts and is processed by an AI provider to recommend programmes."
+  },
+  "remarks": {
+    "title": "Remarks from your organization (read-only)",
+    "categories": {
+      "performance": "Performance",
+      "potential": "Potential",
+      "priority_skill": "Priority skill",
+      "manager_note": "Manager note",
+      "other": "Other"
+    }
+  },
+  "summary": {
+    "present": "present",
+    "yearOfStudy": "year {{n}}",
+    "noBio": "No description yet.",
+    "noEmployment": "No employment details.",
+    "noSkills": "No skills added.",
+    "noGoals": "No goals added yet.",
+    "noCv": "No CV uploaded."
+  },
+  "review": {
+    "completion": "Profile completion",
+    "improve": "To strengthen your profile, complete:",
+    "submitted": "Profile submitted! C2B will prepare your learning pathway.",
+    "submittedTitle": "Profile submitted",
+    "submittedText": "C2B experts and our AI are preparing your pathway. We'll notify you when it's ready.",
+    "readyTitle": "Your profile is ready",
+    "readyText": "Submit it to C2B to receive your personalised learning pathway.",
+    "notReadyTitle": "Reach {{threshold}}% to submit",
+    "notReadyText": "Complete the sections above to unlock submission.",
+    "submit": "Submit to C2B",
+    "employeeTitle": "Your organization submits your profile",
+    "employeeText": "Complete at least {{threshold}}% of your profile. Your organization will then review it and submit it to C2B.",
+    "employeeReady": "Your profile is complete. Your organization can now submit it to C2B.",
+    "confirmTitle": "Submit your profile?",
+    "confirmText": "Editing is paused while C2B prepares your pathway. You can edit again once it's published."
+  }
+}

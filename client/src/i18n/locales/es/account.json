@@ -1,0 +1,39 @@
+{
+  "title": "Configuración",
+  "subtitle": "Tu cuenta, idioma y contraseña.",
+  "saved": "Tus datos se han guardado.",
+  "avatarSaved": "Foto de perfil actualizada.",
+  "account": {
+    "title": "Cuenta",
+    "text": "Cómo apareces en C2B.",
+    "avatarAlt": "Foto de perfil de {{name}}",
+    "name": "Nombre completo",
+    "email": "Correo electrónico",
+    "emailHint": "Contacta con C2B para cambiar el correo con el que inicias sesión.",
+    "language": "Idioma preferido",
+    "languageHint": "Se usa en la interfaz y en tus notificaciones."
+  },
+  "password": {
+    "title": "Contraseña",
+    "text": "Usa al menos 8 caracteres, con una letra y un número.",
+    "googleText": "Inicias sesión con Google. También puedes crear una contraseña para entrar con tu correo.",
+    "current": "Contraseña actual",
+    "currentGoogleHint": "Déjalo vacío si nunca has creado una contraseña.",
+    "new": "Nueva contraseña",
+    "confirm": "Confirmar nueva contraseña",
+    "submit": "Cambiar contraseña",
+    "saved": "Contraseña cambiada."
+  },
+  "admins": {
+    "title": "Administradores de C2B",
+    "text": "Personas que pueden aprobar organizaciones, revisar itinerarios y gestionar el catálogo.",
+    "add": "Añadir administrador",
+    "newTitle": "Nuevo administrador de C2B",
+    "newText": "Comparte la contraseña temporal de forma segura; podrá cambiarla en Configuración.",
+    "tempPassword": "Contraseña temporal",
+    "create": "Crear administrador",
+    "created": "Administrador creado.",
+    "you": "Tú",
+    "since": "Desde el {{date}}"
+  }
+}

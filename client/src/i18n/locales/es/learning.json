@@ -1,0 +1,131 @@
+{
+  "title": "Mi aprendizaje",
+  "subtitle": "Tus inscripciones, pagos y progreso.",
+  "loadError": "No hemos podido cargar las inscripciones.",
+  "emptyTitle": "Aún no tienes inscripciones",
+  "emptyText": "Solicita una inscripción desde tu itinerario o desde el catálogo de programas.",
+  "goToPathway": "Ir a mi itinerario",
+  "browse": "Ver programas",
+  "groups": {
+    "action": "Requieren tu acción",
+    "active": "En curso",
+    "requested": "Pendientes de aprobación de C2B",
+    "completed": "Completados",
+    "closed": "Cerrados"
+  },
+  "request": {
+    "button": "Solicitar inscripción",
+    "enrollOnBehalf": "Inscribir en su nombre",
+    "title": "Solicitar inscripción",
+    "titleOnBehalf": "Inscribir a esta persona",
+    "intake": "Convocatoria preferida",
+    "anyIntake": "Próxima convocatoria disponible",
+    "noIntakes": "Aún no hay fechas de convocatoria. C2B te confirmará la fecha de inicio.",
+    "priceNote": "Precio del programa: {{price}}. Pagarás cuando C2B apruebe la solicitud.",
+    "explain": "C2B revisa cada solicitud. Te avisaremos cuando se apruebe.",
+    "confirm": "Enviar solicitud",
+    "sent": "Inscripción solicitada. Te avisaremos cuando C2B la apruebe.",
+    "sentOnBehalf": "Inscripción solicitada para esta persona.",
+    "viewInLearning": "Ver en Mi aprendizaje"
+  },
+  "payment": {
+    "title": "Completar el pago",
+    "demoTitle": "Pago de demostración: sin dinero real",
+    "demoText": "Es una simulación. No se cobra nada ni se envían datos de pago.",
+    "amount": "Importe",
+    "method": "Método de pago",
+    "methods": {
+      "card": "Tarjeta",
+      "mpesa": "M-Pesa",
+      "bank": "Transferencia bancaria",
+      "employer_invoice": "Factura a la empresa"
+    },
+    "methodHints": {
+      "card": "Visa o Mastercard (simulado)",
+      "mpesa": "Dinero móvil (simulado)",
+      "bank": "Transferencia directa (simulado)",
+      "employer_invoice": "Se factura a tu organización (simulado)"
+    },
+    "phone": "Número de teléfono M-Pesa",
+    "cardName": "Nombre en la tarjeta",
+    "notSent": "Solo demostración: este campo no se envía.",
+    "pay": "Pagar {{amount}}",
+    "processing": "Procesando…",
+    "success": "Pago confirmado (referencia {{reference}}). Tu programa ya está activo."
+  },
+  "card": {
+    "intake": "Convocatoria {{date}}",
+    "progress": "Progreso",
+    "price": "Precio",
+    "payment": "Pago",
+    "paymentStatus": {
+      "unpaid": "Pendiente",
+      "paid": "Pagado",
+      "waived": "Sin coste"
+    },
+    "requested": "Solicitado",
+    "started": "Iniciado",
+    "completed": "Completado",
+    "score": "Puntuación",
+    "scoreShort": "Puntuación {{score}}",
+    "waitingApproval": "C2B está revisando tu solicitud.",
+    "payPending": "¡Aprobada! Completa el pago para empezar.",
+    "payPendingEmployee": "¡Aprobada! Tu organización o tú podéis completar el pago.",
+    "payNow": "Pagar ahora",
+    "rated": "Valorado con {{rating}}/5"
+  },
+  "rate": {
+    "title": "Valora este programa",
+    "yourRating": "Tu valoración",
+    "review": "Opinión (opcional)",
+    "submit": "Enviar valoración",
+    "update": "Actualizar valoración",
+    "saved": "¡Gracias por valorar este programa!",
+    "stars_one": "{{count}} estrella",
+    "stars_other": "{{count}} estrellas"
+  },
+  "org": {
+    "title": "Inscripciones",
+    "subtitle": "Inscripciones, pagos y progreso de tu personal.",
+    "all": "Todas",
+    "search": "Buscar",
+    "searchPlaceholder": "Nombre o correo",
+    "emptyTitle": "No hay inscripciones",
+    "emptyText": "Inscribe a tu personal desde su perfil o deja que soliciten programas desde su itinerario."
+  },
+  "admin": {
+    "title": "Inscripciones",
+    "subtitle": "Aprueba solicitudes, sigue el progreso y marca programas como completados.",
+    "emptyTitle": "No hay inscripciones en «{{status}}»",
+    "student": "Estudiante",
+    "fromPathway": "desde el itinerario",
+    "columns": {
+      "learner": "Persona",
+      "programme": "Programa",
+      "payment": "Pago",
+      "progress": "Progreso",
+      "status": "Estado",
+      "actions": "Acciones"
+    },
+    "approve": "Aprobar",
+    "reject": "Rechazar",
+    "progress": "Progreso",
+    "markCompleted": "Marcar como completado",
+    "drop": "Dar de baja",
+    "progressTitle": "Actualizar progreso",
+    "completeTitle": "Marcar como completado",
+    "score": "Puntuación (opcional)",
+    "scoreHint": "0–100. Se usa en el historial de la persona y en la IA.",
+    "rejectTitle": "¿Rechazar esta solicitud?",
+    "dropTitle": "¿Dar de baja esta inscripción?",
+    "confirmText": "{{name}} · {{programme}}. Se avisará a la persona.",
+    "progressToast": "Progreso actualizado.",
+    "completedToast": "Marcado como completado. Ya cuenta en el historial de la persona.",
+    "toast": {
+      "approved": "Solicitud aprobada.",
+      "rejected": "Solicitud rechazada.",
+      "dropped": "Inscripción dada de baja.",
+      "completed": "Marcado como completado."
+    }
+  }
+}

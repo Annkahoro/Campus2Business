@@ -1,0 +1,38 @@
+{
+  "title": "Mi aprendizaje",
+  "dashboard": {
+    "greeting": "Hola, {{name}}",
+    "journey": "Tu recorrido",
+    "completion": "Perfil completado",
+    "exploreTitle": "Explora el catálogo",
+    "exploreText": "Descubre los programas de C2B mientras preparamos tu itinerario.",
+    "exploreCta": "Ver programas",
+    "organization": "Organización",
+    "activeCourses": "Tus programas activos",
+    "viewAll": "Ver todo",
+    "paymentPending": "Aprobado: completa el pago para empezar."
+  },
+  "tracker": {
+    "profile": "Perfil",
+    "submitted": "Enviado",
+    "under_review": "En revisión",
+    "pathway_published": "Itinerario listo"
+  },
+  "next": {
+    "completeTitle": "Completa tu perfil",
+    "completeText": "Cuanto más sepamos de ti, mejor será tu itinerario de aprendizaje.",
+    "complete": "Continuar perfil",
+    "submitTitle": "Listo para enviar",
+    "submitText": "Tu perfil está completo. Envíalo a C2B para recibir tu itinerario.",
+    "submit": "Revisar y enviar",
+    "orgTitle": "Esperando a tu organización",
+    "orgText": "Tu perfil está completo. Tu organización lo revisará y lo enviará a C2B.",
+    "review": "Revisar perfil",
+    "reviewTitle": "Estamos preparando tu itinerario",
+    "reviewText": "Los expertos de C2B están revisando tu perfil. Te avisaremos cuando tu itinerario esté listo.",
+    "browse": "Ver programas",
+    "pathwayTitle": "Tu itinerario está listo",
+    "pathwayText": "Descubre los programas que C2B te recomienda.",
+    "viewPathway": "Ver mi itinerario"
+  }
+}

@@ -1,0 +1,83 @@
+{
+  "bell": {
+    "label": "Notificaciones",
+    "labelUnread_one": "Notificaciones, {{count}} sin leer",
+    "labelUnread_other": "Notificaciones, {{count}} sin leer",
+    "title": "Notificaciones",
+    "markAll": "Marcar todo como leído",
+    "empty": "No tienes notificaciones pendientes.",
+    "unread": "sin leer"
+  },
+  "orgRegistered": {
+    "title": "Nueva organización registrada",
+    "body": "{{name}} está pendiente de aprobación."
+  },
+  "orgResubmitted": {
+    "title": "Organización reenviada",
+    "body": "{{name}} actualizó sus datos tras el rechazo y espera revisión."
+  },
+  "orgApproved": {
+    "title": "Tu organización ha sido aprobada",
+    "body": "{{name}} ya está activa en C2B. Comparte tu enlace de invitación con tu personal."
+  },
+  "orgRejected": {
+    "title": "Tu organización no ha sido aprobada",
+    "body": "Motivo: {{reason}}. Edita tus datos para volver a enviarla."
+  },
+  "orgSuspended": {
+    "title": "Tu organización está suspendida",
+    "body": "C2B ha suspendido {{name}}. Contacta con C2B para más información."
+  },
+  "employeeJoined": {
+    "title": "Se ha unido una nueva persona",
+    "body": "{{name}} se unió con tu enlace de invitación."
+  },
+  "employeeProfileComplete": {
+    "title": "Perfil listo para enviar",
+    "body": "{{name}} ha completado su perfil. Añade observaciones y envíalo a C2B."
+  },
+  "profileSubmitted": {
+    "title": "Nuevo perfil enviado",
+    "body": "El perfil de {{name}} está listo para un itinerario de aprendizaje."
+  },
+  "remarkAdded": {
+    "title": "Nueva observación de tu organización",
+    "body": "Tu organización añadió o actualizó una observación en tu perfil."
+  },
+  "recommendationReady": {
+    "title": "Borrador de la IA listo para revisar",
+    "body": "El borrador del itinerario de {{name}} está listo para revisión."
+  },
+  "recommendationFailed": {
+    "title": "Falló la generación del itinerario",
+    "body": "La IA no pudo generar un itinerario para {{name}}. Ábrelo para intentarlo de nuevo."
+  },
+  "pathwayPublished": {
+    "title": "Tu itinerario de aprendizaje está listo",
+    "body": "C2B ha publicado {{count}} programas recomendados para ti."
+  },
+  "employeePathwayPublished": {
+    "title": "Itinerario publicado",
+    "body": "C2B publicó un itinerario de aprendizaje para {{name}}."
+  },
+  "enrollmentRequested": {
+    "title": "Nueva solicitud de inscripción",
+    "body": "{{name}} solicitó {{programmeEs}}."
+  },
+  "enrollmentStatusChanged": {
+    "title": "Inscripción actualizada",
+    "body": "{{programmeEs}}: $t(common:status.{{status}})."
+  },
+  "enrollmentProgressUpdated": {
+    "title": "Progreso actualizado",
+    "body": "Tu progreso en {{programmeEs}} es ahora del {{progress}} %."
+  },
+  "enrollmentRequestedOnBehalf": {
+    "title": "Tu organización te ha inscrito",
+    "body": "Te han propuesto para {{programmeEs}}. C2B revisará la solicitud."
+  },
+  "employeeEnrollmentStatusChanged": {
+    "title": "Inscripción de tu personal actualizada",
+    "body": "{{name}} · {{programmeEs}}: $t(common:status.{{status}})."
+  }
+}
