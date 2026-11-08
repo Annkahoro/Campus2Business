@@ -4,6 +4,15 @@ import { sendError } from '../utils/response.js';
 const handler = (_req, res) =>
   sendError(res, { status: 429, code: 'RATE_LIMITED', message: 'Too many requests, please try again later' });
 
+/** Whole API: generous per-IP ceiling against floods and scraping (Phase 10). */
+export const apiLimiter = rateLimit({
+  windowMs: 5 * 60 * 1000,
+  limit: 1000,
+  standardHeaders: 'draft-8',
+  legacyHeaders: false,
+  handler,
+});
+
 /** Stricter limit for login/registration endpoints (brute-force protection). */
 export const authLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,

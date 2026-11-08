@@ -82,8 +82,8 @@ Ask Claude Code: *"Read CLAUDE.md and docs/12-BUILD-PHASES.md, then implement Ph
 - [x] Accessibility pass (focus rings, labels, alt text)
 
 ## Phase 10 — Security and deploy
-- [ ] helmet, CORS whitelist, rate limits (`/auth`, `/admin/recommendations/generate*`)
-- [ ] DTO mappers: no password, CV text or internalNotes leaks (test each role's responses)
+- [x] helmet, CORS whitelist, rate limits (`/auth`, `/admin/recommendations/generate*`)
+- [x] DTO mappers: no password, CV text or internalNotes leaks (test each role's responses)
 - [ ] Deploy server to Render, client to Vercel, Atlas network access; Google origins updated
 - [ ] Seed production demo data; run the full demo story from 00 §5
 - **Test:** full demo on production URLs in both languages.

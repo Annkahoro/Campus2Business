@@ -2,6 +2,7 @@ import { LearnerProfile } from '../models/LearnerProfile.js';
 import { User } from '../models/User.js';
 import { ROLES } from '../models/_shared.js';
 import { ApiError } from '../utils/ApiError.js';
+import { randomToken } from '../utils/tokens.js';
 import { PROFILE, assertTransition } from '../utils/transitions.js';
 import { deleteAsset, uploadBuffer } from './upload.service.js';
 import { extractPdfText, looksLikePdf } from './cv.service.js';
@@ -212,7 +213,7 @@ export async function uploadCv(user, file) {
 
   const [text, uploaded] = await Promise.all([
     extractPdfText(file.buffer),
-    uploadBuffer(file.buffer, { subfolder: 'cvs', resourceType: 'raw', publicId: `cv-${user._id}-${Date.now()}.pdf` }),
+    uploadBuffer(file.buffer, { subfolder: 'cvs', resourceType: 'raw', publicId: `cv-${randomToken(24)}.pdf` /* unguessable: CV links must not be enumerable */ }),
   ]);
 
   const oldPublicId = profile.cv?.publicId;

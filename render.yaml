@@ -1,0 +1,46 @@
+# Render Blueprint for the C2B API (docs/02 §6). Render → New → Blueprint → pick this repository.
+# Secrets use `sync: false`: Render asks for their values once and never stores them in git.
+services:
+  - type: web
+    name: c2b-api
+    runtime: node
+    rootDir: server
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /api/health
+    autoDeploy: true
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: CLIENT_URL
+        sync: false # https://<your-app>.vercel.app
+      - key: CORS_ORIGINS
+        sync: false # https://<your-app>.vercel.app (comma-separated if several)
+      - key: MONGO_URI
+        sync: false
+      - key: JWT_SECRET
+        generateValue: true
+      - key: JWT_EXPIRES_IN
+        value: 7d
+      - key: GOOGLE_CLIENT_ID
+        sync: false
+      - key: CLOUDINARY_CLOUD_NAME
+        sync: false
+      - key: CLOUDINARY_API_KEY
+        sync: false
+      - key: CLOUDINARY_API_SECRET
+        sync: false
+      - key: CLOUDINARY_FOLDER
+        value: c2b
+      - key: ANTHROPIC_API_KEY
+        sync: false
+      - key: CLAUDE_MODEL
+        value: claude-sonnet-5-5
+      - key: AI_MAX_TOKENS
+        value: "16000"
+      - key: AI_MAX_CATALOGUE_ITEMS
+        value: "40"
+      - key: SEED_ADMIN_EMAIL
+        sync: false
+      - key: SEED_ADMIN_PASSWORD
+        sync: false
