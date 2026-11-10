@@ -105,4 +105,10 @@ Employee opens /join/:token
 
 ## 6. Seeded admin
 `npm run seed` creates the first `c2b_admin` from `SEED_ADMIN_EMAIL` / `SEED_ADMIN_PASSWORD`. No public route creates
-C2B admins. An existing admin can create more from the admin panel (`POST /api/admin/users`).
+C2B admins. Every C2B admin can create, edit, deactivate and delete other admins from the admin panel
+(`/api/admin/users`); the last active admin can never be removed.
+
+## 7. Deleting accounts
+Every user, whatever their role, can delete their own account in Settings (`DELETE /api/auth/me`, password required
+for local accounts). C2B admins can delete any learner, organization, enrollment or recommendation; org admins can
+delete their own employees. What each delete removes is listed in `docs/05` → "Account deletion (cascade)".

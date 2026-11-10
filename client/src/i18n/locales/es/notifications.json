@@ -79,5 +79,17 @@
   "employeeEnrollmentStatusChanged": {
     "title": "Inscripción de tu personal actualizada",
     "body": "{{name}} · {{programmeEs}}: $t(common:status.{{status}})."
+  },
+  "orgDeleted": {
+    "title": "Tu organización ha sido eliminada",
+    "body": "{{name}} ya no existe en C2B. Tu cuenta es ahora una cuenta de estudiante individual."
+  },
+  "orgDeletedOwner": {
+    "title": "Tu organización ha sido eliminada",
+    "body": "C2B eliminó {{name}}. Puedes registrar una nueva organización cuando quieras."
+  },
+  "accountDeleted": {
+    "title": "Cuenta eliminada",
+    "body": "{{name}} eliminó su cuenta."
   }
 }

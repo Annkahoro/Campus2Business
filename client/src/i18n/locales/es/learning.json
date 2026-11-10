@@ -125,7 +125,11 @@
       "approved": "Solicitud aprobada.",
       "rejected": "Solicitud rechazada.",
       "dropped": "Inscripción dada de baja.",
-      "completed": "Marcado como completado."
-    }
+      "completed": "Marcado como completado.",
+      "deleted": "Inscripción eliminada."
+    },
+    "deleteNamed": "Eliminar la inscripción de {{name}} en {{programme}}",
+    "deleteTitle": "¿Eliminar inscripción?",
+    "deleteText": "La inscripción de {{name}} en {{programme}} se eliminará de forma permanente, también del historial del estudiante."
   }
 }

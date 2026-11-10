@@ -346,3 +346,15 @@ export async function adminSetProgress(admin, id, { progressPercent, score }) {
   emitEnrollmentStatus(enrollment);
   return loadDTO(enrollment._id, { withAdminNotes: true });
 }
+
+/** DELETE /admin/enrollments/:id — removes the record (also from the learner's history). */
+export async function adminDelete(admin, id) {
+  const enrollment = await findOr404(id);
+  await enrollment.deleteOne();
+  emitEnrollmentStatus({ _id: enrollment._id, learner: enrollment.learner, organization: enrollment.organization, status: 'deleted' });
+  await audit(admin._id, 'enrollment.delete', 'Enrollment', enrollment._id, {
+    learner: String(enrollment.learner),
+    programme: String(enrollment.programme),
+    status: enrollment.status,
+  });
+}

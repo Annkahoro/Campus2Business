@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { AlertCircle, Check, ClipboardList, Flag, Gauge, X } from 'lucide-react';
+import { AlertCircle, Check, ClipboardList, Flag, Gauge, Trash2, X } from 'lucide-react';
 import { Badge, Button, Card, EmptyState, Input, Modal, Pagination, ProgressBar, Spinner, Tabs, toast } from '../../components/ui/index.js';
 import StatusBadge from '../../components/shared/StatusBadge.jsx';
 import ConfirmDialog from '../../components/shared/ConfirmDialog.jsx';
-import { useAdminEnrollments, useSetEnrollmentProgress, useSetEnrollmentStatus } from '../../features/enrollments/hooks.js';
+import { useAdminEnrollments, useDeleteEnrollment, useSetEnrollmentProgress, useSetEnrollmentStatus } from '../../features/enrollments/hooks.js';
 import { formatDate, formatPrice } from '../../features/programmes/format.js';
 import { loc } from '../../lib/localized.js';
 
@@ -98,6 +98,15 @@ export default function AdminEnrollments() {
   const setStatus = useSetEnrollmentStatus();
   const [progressFor, setProgressFor] = useState(null); // { enrollment, mode }
   const [confirm, setConfirm] = useState(null); // { enrollment, status }
+  const [deleting, setDeleting] = useState(null); // enrollment
+  const remove = useDeleteEnrollment();
+
+  const confirmDelete = () =>
+    remove.mutate(deleting.id, {
+      onSuccess: () => toast.success(t('admin.toast.deleted')),
+      onError: toast.apiError,
+      onSettled: () => setDeleting(null),
+    });
 
   const update = (changes) => {
     const next = new URLSearchParams(params);
@@ -247,6 +256,15 @@ export default function AdminEnrollments() {
                             {t('admin.drop')}
                           </Button>
                         )}
+                        <Button
+                          size="sm"
+                          variant="ghost"
+                          className="text-danger"
+                          onClick={() => setDeleting(e)}
+                          aria-label={t('admin.deleteNamed', { name: e.learner.name, programme: loc(e.programme.title, lang) })}
+                        >
+                          <Trash2 size={16} strokeWidth={1.75} aria-hidden="true" />
+                        </Button>
                       </div>
                     </td>
                   </tr>
@@ -296,6 +314,15 @@ export default function AdminEnrollments() {
                         {t('admin.drop')}
                       </Button>
                     )}
+                    <Button
+                      size="sm"
+                      variant="ghost"
+                      className="text-danger"
+                      onClick={() => setDeleting(e)}
+                      leftIcon={<Trash2 size={16} strokeWidth={1.75} aria-hidden="true" />}
+                    >
+                      {t('actions.delete', { ns: 'common' })}
+                    </Button>
                   </div>
                 </li>
               ))}
@@ -317,6 +344,15 @@ export default function AdminEnrollments() {
         title={confirm?.status === 'rejected' ? t('admin.rejectTitle') : t('admin.dropTitle')}
         description={confirm ? t('admin.confirmText', { name: confirm.enrollment.learner.name, programme: loc(confirm.enrollment.programme.title, lang) }) : ''}
         confirmLabel={confirm?.status === 'rejected' ? t('admin.reject') : t('admin.drop')}
+      />
+      <ConfirmDialog
+        open={!!deleting}
+        onClose={() => setDeleting(null)}
+        onConfirm={confirmDelete}
+        loading={remove.isPending}
+        title={t('admin.deleteTitle')}
+        description={deleting ? t('admin.deleteText', { name: deleting.learner.name, programme: loc(deleting.programme.title, lang) }) : ''}
+        confirmLabel={t('actions.delete', { ns: 'common' })}
       />
     </div>
   );

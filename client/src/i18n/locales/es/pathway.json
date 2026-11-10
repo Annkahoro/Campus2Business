@@ -104,7 +104,17 @@
     "noRemarks": "La organización no ha añadido observaciones",
     "noHistory": "Aún no hay inscripciones",
     "noPathways": "Aún no se han generado itinerarios",
-    "score": "puntuación {{score}}"
+    "score": "puntuación {{score}}",
+    "add": "Añadir estudiante",
+    "newTitle": "Nuevo estudiante",
+    "newText": "Crea una cuenta de estudiante. Comparte la contraseña temporal de forma segura; podrá cambiarla en Ajustes.",
+    "create": "Crear estudiante",
+    "created": "Se ha añadido a {{name}}.",
+    "editTitle": "Editar estudiante",
+    "updated": "Se ha actualizado a {{name}}.",
+    "deleted": "Se ha eliminado a {{name}}.",
+    "deleteTitle": "¿Eliminar estudiante?",
+    "deleteText": "Se eliminarán de forma permanente la cuenta, el perfil, el CV, los itinerarios y las inscripciones de {{name}}. Esta acción no se puede deshacer."
   },
   "queue": {
     "title": "Recomendaciones",
@@ -132,7 +142,11 @@
     "publishedNotice": "Publicado el {{date}}. La persona ya puede ver este itinerario.",
     "rejectedTitle": "Rechazado",
     "feedback": "Valoración de la persona: {{rating}}/5",
-    "allVersions": "Todas las versiones"
+    "allVersions": "Todas las versiones",
+    "deleted": "Itinerario eliminado.",
+    "deleteTitle": "¿Eliminar este itinerario?",
+    "deleteText": "Esta versión se eliminará de forma permanente.",
+    "deletePublishedText": "Este itinerario está publicado. {{name}} dejará de verlo salvo que exista otra versión publicada."
   },
   "snapshot": {
     "background": "Trayectoria",

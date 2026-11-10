@@ -33,3 +33,12 @@ export const submitBulk = asyncHandler(async (req, res) => {
 export const deactivate = asyncHandler(async (req, res) => {
   sendSuccess(res, await svc.deactivate(req.employee, req.user));
 });
+
+export const update = asyncHandler(async (req, res) => {
+  sendSuccess(res, await svc.update(req.employee, req.user, req.body));
+});
+
+export const remove = asyncHandler(async (req, res) => {
+  await svc.remove(req.employee, req.user);
+  sendSuccess(res, undefined, { message: 'Employee deleted' });
+});

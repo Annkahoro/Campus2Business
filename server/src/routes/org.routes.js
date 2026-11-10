@@ -18,6 +18,7 @@ import {
   listEmployeesQuery,
   remarkSchema,
   updateInviteSchema,
+  updateEmployeeSchema,
   updateRemarkSchema,
 } from '../validators/organization.validator.js';
 
@@ -42,6 +43,8 @@ router.patch('/employees/:employeeId/remarks/:remarkId', orgScope, validate(upda
 router.delete('/employees/:employeeId/remarks/:remarkId', orgScope, empCtrl.deleteRemark);
 router.post('/employees/:employeeId/submit', orgScope, empCtrl.submit);
 router.patch('/employees/:employeeId/deactivate', orgScope, empCtrl.deactivate);
+router.patch('/employees/:employeeId', orgScope, validate(updateEmployeeSchema), empCtrl.update);
+router.delete('/employees/:employeeId', orgScope, empCtrl.remove);
 router.get('/employees/:employeeId/recommendation', orgScope, recCtrl.employeeRecommendation);
 
 /* Enrollments of own employees (paying for them goes through POST /enrollments/:id/pay) */

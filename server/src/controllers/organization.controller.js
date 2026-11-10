@@ -39,3 +39,15 @@ export const reject = asyncHandler(async (req, res) => {
 export const suspend = asyncHandler(async (req, res) => {
   sendSuccess(res, await orgService.suspend(req.params.id, req.user));
 });
+
+export const adminCreate = asyncHandler(async (req, res) => {
+  sendCreated(res, await orgService.adminCreate(req.user, req.body));
+});
+
+export const adminUpdate = asyncHandler(async (req, res) => {
+  sendSuccess(res, await orgService.adminUpdate(req.user, req.params.id, req.body));
+});
+
+export const adminDelete = asyncHandler(async (req, res) => {
+  sendSuccess(res, await orgService.adminDelete(req.user, req.params.id), { message: 'Organization deleted' });
+});

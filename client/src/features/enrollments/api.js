@@ -17,4 +17,5 @@ export const enrollmentsApi = {
   adminList: (params) => unwrap(api.get('/admin/enrollments', { params: clean(params) })),
   setStatus: (id, body) => unwrap(api.patch(`/admin/enrollments/${id}/status`, body)),
   setProgress: (id, body) => unwrap(api.patch(`/admin/enrollments/${id}/progress`, body)),
+  remove: (id) => unwrap(api.delete(`/admin/enrollments/${id}`)),
 };

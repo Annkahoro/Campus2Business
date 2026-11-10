@@ -34,6 +34,35 @@
     "create": "Create admin",
     "created": "Administrator created.",
     "you": "You",
-    "since": "Since {{date}}"
+    "since": "Since {{date}}",
+    "editTitle": "Edit C2B administrator",
+    "deleteTitle": "Delete administrator?",
+    "deleteText": "{{name}} will lose access immediately and their account will be permanently deleted."
+  },
+  "users": {
+    "active": "Active",
+    "activeHint": "Inactive accounts cannot sign in.",
+    "inactive": "Inactive",
+    "updated": "{{name}} has been updated.",
+    "deleted": "{{name}} has been deleted.",
+    "editNamed": "Edit {{name}}",
+    "deleteNamed": "Delete {{name}}"
+  },
+  "delete": {
+    "title": "Delete account",
+    "text": "Permanently delete your C2B account and the data that belongs to it.",
+    "button": "Delete my account",
+    "modalTitle": "Delete your account?",
+    "confirm": "Delete permanently",
+    "confirmWord": "DELETE",
+    "typeLabel": "Type {{word}} to confirm",
+    "passwordLabel": "Enter your password to confirm",
+    "done": "Your account has been deleted.",
+    "warnings": {
+      "permanent": "This cannot be undone. You will be signed out straight away.",
+      "learner": "Your profile, CV, learning pathways and enrollments will be deleted.",
+      "orgAdmin": "{{name}} will be deleted too. Its invite links stop working and its employees keep their accounts as individual learners.",
+      "admin": "If you are the last active C2B administrator, you cannot delete your account."
+    }
   }
 }

@@ -97,3 +97,46 @@ export const usePathwayFeedback = () => {
     onSuccess: (data) => qc.setQueryData(recKeys.mine, data),
   });
 };
+
+/** Deletes a recommendation; callers navigate away, so its detail cache is dropped, not refetched. */
+export const useDeleteRecommendation = () => {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: recommendationsApi.remove,
+    onSuccess: (_data, id) => {
+      qc.removeQueries({ queryKey: recKeys.detail(id) });
+      qc.invalidateQueries({ queryKey: ['recommendations', 'list'] });
+      qc.invalidateQueries({ queryKey: ['learners'] });
+    },
+  });
+};
+
+/* ── Admin: learner accounts (create / edit / delete) ── */
+export const useCreateLearner = () => {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: recommendationsApi.createLearner,
+    onSuccess: () => qc.invalidateQueries({ queryKey: ['learners'] }),
+  });
+};
+
+export const useUpdateLearner = () => {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: ({ id, body }) => recommendationsApi.updateLearner(id, body),
+    onSuccess: () => qc.invalidateQueries({ queryKey: ['learners'] }),
+  });
+};
+
+export const useDeleteLearner = () => {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: recommendationsApi.deleteLearner,
+    onSuccess: (_data, id) => {
+      qc.removeQueries({ queryKey: recKeys.learner(id) });
+      qc.invalidateQueries({ queryKey: ['learners'] });
+      qc.invalidateQueries({ queryKey: recKeys.all });
+      qc.invalidateQueries({ queryKey: ['enrollments'] });
+    },
+  });
+};

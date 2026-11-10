@@ -7,6 +7,9 @@ export const recommendationsApi = {
   // C2B admin — learners
   learners: (params) => unwrap(api.get('/admin/learners', { params: clean(params) })),
   learner: (userId) => unwrap(api.get(`/admin/learners/${userId}`)),
+  createLearner: (body) => unwrap(api.post('/admin/learners', body)),
+  updateLearner: (userId, body) => unwrap(api.patch(`/admin/learners/${userId}`, body)),
+  deleteLearner: (userId) => unwrap(api.delete(`/admin/learners/${userId}`)),
 
   // C2B admin — recommendations
   list: (params) => unwrap(api.get('/admin/recommendations', { params: clean(params) })),
@@ -18,6 +21,7 @@ export const recommendationsApi = {
   publish: (id) => unwrap(api.post(`/admin/recommendations/${id}/publish`)),
   reject: (id, reason) => unwrap(api.post(`/admin/recommendations/${id}/reject`, { reason })),
   translate: (id) => unwrap(api.post(`/admin/recommendations/${id}/translate`)),
+  remove: (id) => unwrap(api.delete(`/admin/recommendations/${id}`)),
 
   // Learner
   mine: () => unwrap(api.get('/profile/me/recommendation')),

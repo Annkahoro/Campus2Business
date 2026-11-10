@@ -1,12 +1,14 @@
 import { useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { AlertCircle, ArrowLeft, Building2, FileText, MessageSquare } from 'lucide-react';
-import { Alert, Badge, Button, Card, EmptyState, PageSpinner, ProgressBar, Tabs } from '../../components/ui/index.js';
+import { AlertCircle, ArrowLeft, Building2, FileText, MessageSquare, Pencil, Trash2 } from 'lucide-react';
+import { Alert, Badge, Button, Card, EmptyState, PageSpinner, ProgressBar, Tabs, toast } from '../../components/ui/index.js';
+import ConfirmDialog from '../../components/shared/ConfirmDialog.jsx';
+import UserFormModal from '../../components/shared/UserFormModal.jsx';
 import StatusBadge from '../../components/shared/StatusBadge.jsx';
 import ProfileSummary from '../../features/profile/ProfileSummary.jsx';
 import GenerateButton from '../../features/recommendations/GenerateButton.jsx';
-import { useLearner } from '../../features/recommendations/hooks.js';
+import { useDeleteLearner, useLearner, useUpdateLearner } from '../../features/recommendations/hooks.js';
 import { formatDate } from '../../features/programmes/format.js';
 import { loc } from '../../lib/localized.js';
 
@@ -18,7 +20,11 @@ export default function LearnerDetail() {
   const { t, i18n } = useTranslation('pathway');
   const lang = i18n.resolvedLanguage;
   const query = useLearner(id);
+  const navigate = useNavigate();
+  const updateLearner = useUpdateLearner();
+  const deleteLearner = useDeleteLearner();
   const [tab, setTab] = useState('profile');
+  const [dialog, setDialog] = useState(null); // 'edit' | 'delete'
 
   if (query.isPending) return <PageSpinner />;
   if (query.isError) {
@@ -38,6 +44,23 @@ export default function LearnerDetail() {
   const { learner, organization, profile, recommendations, history, canGenerate, isGenerating } = query.data;
   const hasPublished = recommendations.some((r) => r.status === 'published');
   const generating = recommendations.find((r) => r.status === 'generating');
+
+  const onEdit = async (values) => {
+    await updateLearner.mutateAsync({ id: learner.id, body: values });
+    toast.success(t('learners.updated', { name: values.name }));
+    setDialog(null);
+  };
+  const onDelete = () =>
+    deleteLearner.mutate(learner.id, {
+      onSuccess: () => {
+        toast.success(t('learners.deleted', { name: learner.name }));
+        navigate('/admin/learners', { replace: true });
+      },
+      onError: (err) => {
+        toast.apiError(err);
+        setDialog(null);
+      },
+    });
 
   return (
     <div className="space-y-6">
@@ -97,8 +120,41 @@ export default function LearnerDetail() {
               {t('admin.viewPublished')}
             </Button>
           )}
+          <div className="ml-auto flex flex-wrap gap-2">
+            <Button variant="ghost" onClick={() => setDialog('edit')} leftIcon={<Pencil size={18} strokeWidth={1.75} aria-hidden="true" />}>
+              {t('actions.edit', { ns: 'common' })}
+            </Button>
+            <Button
+              variant="ghost"
+              className="text-danger"
+              onClick={() => setDialog('delete')}
+              leftIcon={<Trash2 size={18} strokeWidth={1.75} aria-hidden="true" />}
+            >
+              {t('actions.delete', { ns: 'common' })}
+            </Button>
+          </div>
         </div>
       </Card>
+
+      <UserFormModal
+        open={dialog === 'edit'}
+        onClose={() => setDialog(null)}
+        mode="edit"
+        user={learner}
+        emailEditable={learner.authProvider !== 'google'}
+        onSubmit={onEdit}
+        loading={updateLearner.isPending}
+        title={t('learners.editTitle')}
+      />
+      <ConfirmDialog
+        open={dialog === 'delete'}
+        onClose={() => setDialog(null)}
+        onConfirm={onDelete}
+        loading={deleteLearner.isPending}
+        title={t('learners.deleteTitle')}
+        description={t('learners.deleteText', { name: learner.name })}
+        confirmLabel={t('actions.delete', { ns: 'common' })}
+      />
 
       <Tabs
         label={t('learners.tabsLabel')}

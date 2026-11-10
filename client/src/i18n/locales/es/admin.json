@@ -191,6 +191,23 @@
     "none": "No indicado",
     "noEmployees": "Todavía no se ha unido nadie.",
     "completion": "Perfil completado",
-    "employeeStats": "{{employees}} unidas · {{complete}} completos · {{submitted}} enviados"
+    "employeeStats": "{{employees}} unidas · {{complete}} completos · {{submitted}} enviados",
+    "add": "Añadir organización",
+    "deleteTitle": "¿Eliminar organización?",
+    "deleteText_one": "{{name}} y sus enlaces de invitación se eliminarán de forma permanente. Su {{count}} empleado conservará su cuenta como estudiante individual.",
+    "deleteText_other": "{{name}} y sus enlaces de invitación se eliminarán de forma permanente. Sus {{count}} empleados conservarán sus cuentas como estudiantes individuales.",
+    "deleteDone_one": "Se eliminó {{name}}. {{count}} empleado es ahora estudiante individual.",
+    "deleteDone_other": "Se eliminó {{name}}. {{count}} empleados son ahora estudiantes individuales.",
+    "editor": {
+      "newTitle": "Nueva organización",
+      "newText": "Registra una organización en nombre de un cliente. Queda aprobada de inmediato.",
+      "editTitle": "Editar {{name}}",
+      "editText": "El administrador de la organización verá los cambios de inmediato.",
+      "ownerTitle": "Administrador de la organización",
+      "ownerText": "La persona que gestionará esta organización. Comparte la contraseña temporal de forma segura.",
+      "create": "Crear organización",
+      "created": "Se ha creado y aprobado {{name}}.",
+      "saved": "Se ha guardado {{name}}."
+    }
   }
 }

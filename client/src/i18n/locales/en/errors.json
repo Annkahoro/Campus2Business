@@ -69,5 +69,9 @@
   "ALREADY_COMPLETED": "This programme has already been completed.",
   "PROGRAMME_NOT_FOR_AUDIENCE": "This programme is not offered to this type of learner.",
   "ENROLLMENT_NOT_COMPLETED": "Only completed programmes can be rated.",
-  "ENROLLMENT_NOT_ACTIVE": "Progress can only be updated on active enrollments."
+  "ENROLLMENT_NOT_ACTIVE": "Progress can only be updated on active enrollments.",
+  "LAST_ADMIN": "At least one active C2B administrator must remain.",
+  "CANNOT_DEACTIVATE_SELF": "You cannot deactivate your own account.",
+  "GOOGLE_EMAIL_LOCKED": "This account signs in with Google, so its email cannot be changed.",
+  "USER_NOT_FOUND": "User not found."
 }

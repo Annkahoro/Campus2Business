@@ -1,11 +1,11 @@
 import { useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { AlertCircle, ArrowLeft, Ban, Building2, Check, X } from 'lucide-react';
+import { AlertCircle, ArrowLeft, Ban, Building2, Check, Pencil, Trash2, X } from 'lucide-react';
 import { Alert, Button, Card, CardHeader, EmptyState, Modal, PageSpinner, ProgressBar, Textarea, toast } from '../../components/ui/index.js';
 import StatusBadge from '../../components/shared/StatusBadge.jsx';
 import ConfirmDialog from '../../components/shared/ConfirmDialog.jsx';
-import { useAdminOrg, useApproveOrg, useRejectOrg, useSuspendOrg } from '../../features/organizations/hooks.js';
+import { useAdminDeleteOrg, useAdminOrg, useApproveOrg, useRejectOrg, useSuspendOrg } from '../../features/organizations/hooks.js';
 
 const Chips = ({ items, empty }) =>
   items?.length ? (
@@ -76,7 +76,9 @@ export default function OrganizationDetail() {
   const approve = useApproveOrg();
   const reject = useRejectOrg();
   const suspend = useSuspendOrg();
-  const [dialog, setDialog] = useState(null); // 'approve' | 'reject' | 'suspend'
+  const remove = useAdminDeleteOrg();
+  const navigate = useNavigate();
+  const [dialog, setDialog] = useState(null); // 'approve' | 'reject' | 'suspend' | 'delete'
   const fmt = new Intl.DateTimeFormat(i18n.resolvedLanguage, { dateStyle: 'medium' });
 
   if (query.isPending) return <PageSpinner />;
@@ -147,6 +149,12 @@ export default function OrganizationDetail() {
               {t('orgs.suspend')}
             </Button>
           )}
+          <Button as={Link} to={`/admin/organizations/${id}/edit`} variant="ghost" leftIcon={<Pencil size={18} strokeWidth={1.75} aria-hidden="true" />}>
+            {t('actions.edit', { ns: 'common' })}
+          </Button>
+          <Button variant="ghost" className="text-danger" onClick={() => setDialog('delete')} leftIcon={<Trash2 size={18} strokeWidth={1.75} aria-hidden="true" />}>
+            {t('actions.delete', { ns: 'common' })}
+          </Button>
         </div>
       </Card>
 
@@ -261,6 +269,26 @@ export default function OrganizationDetail() {
         title={t('orgs.suspendTitle')}
         description={t('orgs.suspendText', { name: o.name })}
         confirmLabel={t('orgs.suspend')}
+      />
+      <ConfirmDialog
+        open={dialog === 'delete'}
+        onClose={() => setDialog(null)}
+        onConfirm={() =>
+          remove.mutate(id, {
+            onSuccess: (data) => {
+              toast.success(t('orgs.deleteDone', { name: o.name, count: data?.convertedEmployees ?? 0 }));
+              navigate('/admin/organizations', { replace: true });
+            },
+            onError: (err) => {
+              toast.apiError(err);
+              setDialog(null);
+            },
+          })
+        }
+        loading={remove.isPending}
+        title={t('orgs.deleteTitle')}
+        description={t('orgs.deleteText', { name: o.name, count: stats.employees })}
+        confirmLabel={t('actions.delete', { ns: 'common' })}
       />
       {dialog === 'reject' && (
         <RejectModal open onClose={() => setDialog(null)} loading={reject.isPending} onConfirm={(reason) => reject.mutate({ id, reason }, done('reject'))} />

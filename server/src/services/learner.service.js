@@ -23,6 +23,7 @@ function rowDTO(user, profile, org, latest) {
     avatar: user.avatar?.url ? { url: user.avatar.url } : null,
     type: user.role === ROLES.EMPLOYEE ? 'employee' : 'student',
     isActive: user.isActive,
+    authProvider: user.authProvider,
     organization: org ? { id: String(org._id), name: org.name } : null,
     department: profile?.employment?.department ?? '',
     completionPercent: profile?.completionPercent ?? 0,

@@ -125,7 +125,11 @@
       "approved": "Request approved.",
       "rejected": "Request rejected.",
       "dropped": "Enrollment dropped.",
-      "completed": "Marked as completed."
-    }
+      "completed": "Marked as completed.",
+      "deleted": "Enrollment deleted."
+    },
+    "deleteNamed": "Delete the enrollment of {{name}} in {{programme}}",
+    "deleteTitle": "Delete enrollment?",
+    "deleteText": "The enrollment of {{name}} in {{programme}} will be permanently deleted, including from the learner's history."
   }
 }

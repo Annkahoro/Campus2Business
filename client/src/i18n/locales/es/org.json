@@ -181,7 +181,14 @@
     "pathwayTitle": "Itinerario publicado",
     "noPathway": "Aún no se ha publicado un itinerario para esta persona.",
     "enrollmentsTitle": "Inscripciones",
-    "noEnrollments": "Esta persona aún no tiene inscripciones."
+    "noEnrollments": "Esta persona aún no tiene inscripciones.",
+    "editTitle": "Editar empleado",
+    "updated": "Se ha actualizado a {{name}}.",
+    "reactivate": "Reactivar",
+    "reactivated": "{{name}} puede volver a iniciar sesión.",
+    "deleteTitle": "¿Eliminar empleado?",
+    "deleteText": "Se eliminarán de forma permanente la cuenta, el perfil, los itinerarios y las inscripciones de {{name}}. Si solo quieres retirarle el acceso, desactívalo.",
+    "deleted": "Se ha eliminado a {{name}}."
   },
   "remarks": {
     "title": "Observaciones",

@@ -726,3 +726,31 @@ export async function listForLearner(learnerId) {
     .lean();
   return recs.map(toRecommendationRowDTO);
 }
+
+/**
+ * DELETE /admin/recommendations/:id — any status except `generating`.
+ * The learner's profile is re-derived from what is left (an admin override, so it may skip the normal
+ * status machine): a remaining published pathway → pathway_published, an open draft → under_review,
+ * nothing → submitted (so a new pathway can be generated).
+ */
+export async function adminDelete(admin, id) {
+  const rec = await findOr404(id);
+  if (rec.status === 'generating') throw ApiError.conflict('AI_BUSY', 'This pathway is still being generated');
+  await rec.deleteOne();
+  emitRecommendationStatus({ _id: rec._id, learner: rec.learner, status: 'deleted', version: rec.version });
+
+  const profile = await LearnerProfile.findOne({ user: rec.learner });
+  if (profile && ['under_review', 'pathway_published'].includes(profile.status)) {
+    const [live, open] = await Promise.all([
+      Recommendation.exists({ learner: rec.learner, status: 'published' }),
+      Recommendation.exists({ learner: rec.learner, status: { $in: ['generating', ...EDITABLE] } }),
+    ]);
+    const to = live ? 'pathway_published' : open ? 'under_review' : 'submitted';
+    if (profile.status !== to) {
+      profile.status = to;
+      await profile.save();
+      emitProfileStatus(profile);
+    }
+  }
+  await audit(admin._id, 'recommendation.delete', 'Recommendation', rec._id, { learner: String(rec.learner), status: rec.status });
+}

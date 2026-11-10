@@ -181,7 +181,14 @@
     "pathwayTitle": "Published pathway",
     "noPathway": "No pathway has been published for this employee yet.",
     "enrollmentsTitle": "Enrollments",
-    "noEnrollments": "This employee has no enrollments yet."
+    "noEnrollments": "This employee has no enrollments yet.",
+    "editTitle": "Edit employee",
+    "updated": "{{name}} has been updated.",
+    "reactivate": "Reactivate",
+    "reactivated": "{{name}} can sign in again.",
+    "deleteTitle": "Delete employee?",
+    "deleteText": "{{name}}'s account, profile, pathways and enrollments will be permanently deleted. To only remove their access, deactivate them instead.",
+    "deleted": "{{name}} has been deleted."
   },
   "remarks": {
     "title": "Remarks",

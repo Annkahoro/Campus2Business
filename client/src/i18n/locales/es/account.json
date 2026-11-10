@@ -34,6 +34,35 @@
     "create": "Crear administrador",
     "created": "Administrador creado.",
     "you": "Tú",
-    "since": "Desde el {{date}}"
+    "since": "Desde el {{date}}",
+    "editTitle": "Editar administrador de C2B",
+    "deleteTitle": "¿Eliminar administrador?",
+    "deleteText": "{{name}} perderá el acceso de inmediato y su cuenta se eliminará de forma permanente."
+  },
+  "users": {
+    "active": "Activa",
+    "activeHint": "Las cuentas inactivas no pueden iniciar sesión.",
+    "inactive": "Inactiva",
+    "updated": "Se ha actualizado a {{name}}.",
+    "deleted": "Se ha eliminado a {{name}}.",
+    "editNamed": "Editar a {{name}}",
+    "deleteNamed": "Eliminar a {{name}}"
+  },
+  "delete": {
+    "title": "Eliminar cuenta",
+    "text": "Elimina de forma permanente tu cuenta de C2B y los datos que le pertenecen.",
+    "button": "Eliminar mi cuenta",
+    "modalTitle": "¿Eliminar tu cuenta?",
+    "confirm": "Eliminar definitivamente",
+    "confirmWord": "ELIMINAR",
+    "typeLabel": "Escribe {{word}} para confirmar",
+    "passwordLabel": "Introduce tu contraseña para confirmar",
+    "done": "Tu cuenta ha sido eliminada.",
+    "warnings": {
+      "permanent": "Esta acción no se puede deshacer. Se cerrará tu sesión de inmediato.",
+      "learner": "Se eliminarán tu perfil, tu CV, tus itinerarios de aprendizaje y tus inscripciones.",
+      "orgAdmin": "También se eliminará {{name}}. Sus enlaces de invitación dejarán de funcionar y sus empleados conservarán sus cuentas como estudiantes individuales.",
+      "admin": "Si eres el último administrador activo de C2B, no puedes eliminar tu cuenta."
+    }
   }
 }

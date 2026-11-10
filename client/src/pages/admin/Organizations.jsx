@@ -1,6 +1,6 @@
 import { Link, useSearchParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { AlertCircle, Building2 } from 'lucide-react';
+import { AlertCircle, Building2, Plus } from 'lucide-react';
 import { Badge, Button, Card, EmptyState, Input, Pagination, Spinner, Tabs } from '../../components/ui/index.js';
 import StatusBadge from '../../components/shared/StatusBadge.jsx';
 import { ORG_STATUSES } from '../../features/organizations/constants.js';
@@ -27,9 +27,14 @@ export default function Organizations() {
 
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="font-display text-2xl font-bold md:text-3xl">{t('orgs.title')}</h1>
-        <p className="mt-1 text-ink-muted">{t('orgs.subtitle')}</p>
+      <div className="flex flex-wrap items-end justify-between gap-4">
+        <div>
+          <h1 className="font-display text-2xl font-bold md:text-3xl">{t('orgs.title')}</h1>
+          <p className="mt-1 text-ink-muted">{t('orgs.subtitle')}</p>
+        </div>
+        <Button as={Link} to="/admin/organizations/new" leftIcon={<Plus size={18} strokeWidth={1.75} aria-hidden="true" />}>
+          {t('orgs.add')}
+        </Button>
       </div>
 
       <div className="flex flex-wrap items-end justify-between gap-4">

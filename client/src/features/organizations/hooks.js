@@ -30,7 +30,8 @@ export const useUploadOrgLogo = () => useMeWrite(orgApi.uploadLogo);
 /* ── Admin ── */
 export const useAdminOrgs = (params) =>
   useQuery({ queryKey: orgKeys.adminList(params), queryFn: () => orgApi.adminList(params), placeholderData: keepPreviousData });
-export const useAdminOrg = (id) => useQuery({ queryKey: orgKeys.adminDetail(id), queryFn: () => orgApi.adminGet(id) });
+export const useAdminOrg = (id) =>
+  useQuery({ queryKey: orgKeys.adminDetail(id), queryFn: () => orgApi.adminGet(id), enabled: !!id });
 
 function useAdminDecision(fn) {
   const qc = useQueryClient();
@@ -82,3 +83,41 @@ export const useDeleteRemark = () => useEmployeeWrite(({ id, remarkId }) => orgA
 export const useSubmitEmployee = () => useEmployeeWrite(orgApi.submitEmployee);
 export const useDeactivateEmployee = () => useEmployeeWrite(orgApi.deactivateEmployee);
 export const useSubmitBulk = () => useEmployeeWrite(orgApi.submitBulk);
+
+/* ── Admin CRUD ── */
+export const useAdminCreateOrg = () => {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: orgApi.adminCreate,
+    onSuccess: (data) => {
+      qc.setQueryData(orgKeys.adminDetail(data.organization.id), data);
+      qc.invalidateQueries({ queryKey: ['orgs', 'admin', 'list'] });
+    },
+  });
+};
+export const useAdminUpdateOrg = () => useAdminDecision(({ id, body }) => orgApi.adminUpdate(id, body));
+export const useAdminDeleteOrg = () => {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: orgApi.adminDelete,
+    onSuccess: (_data, id) => {
+      qc.removeQueries({ queryKey: orgKeys.adminDetail(id) });
+      qc.invalidateQueries({ queryKey: ['orgs', 'admin', 'list'] });
+      qc.invalidateQueries({ queryKey: ['learners'] });
+    },
+  });
+};
+
+/* ── Employees: edit / delete ── */
+export const useUpdateEmployee = () => useEmployeeWrite(({ id, body }) => orgApi.updateEmployee(id, body));
+export const useDeleteEmployee = () => {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: orgApi.deleteEmployee,
+    onSuccess: (_data, id) => {
+      qc.removeQueries({ queryKey: orgKeys.employee(id) });
+      qc.invalidateQueries({ queryKey: ['org', 'employees'] });
+      qc.invalidateQueries({ queryKey: ['enrollments'] });
+    },
+  });
+};

@@ -11,6 +11,7 @@ import { passwordRule } from '../auth/schemas.js';
 import { useUploadAvatar } from '../profile/hooks.js';
 import { applyServerFieldErrors } from '../../lib/formErrors.js';
 import { SUPPORTED_LANGS } from '../../i18n/index.js';
+import DeleteAccountCard from './DeleteAccountCard.jsx';
 
 const accountSchema = z.object({
   name: z.string().trim().min(2, 'validation.nameTooShort').max(120),
@@ -174,6 +175,7 @@ export default function AccountSettings({ children }) {
       <AccountCard />
       <PasswordCard />
       {children}
+      <DeleteAccountCard />
     </div>
   );
 }

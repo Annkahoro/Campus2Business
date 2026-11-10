@@ -9,6 +9,7 @@ import { getPublishedForEmployee } from './recommendation.service.js';
 import { listForLearner as enrollmentsOf } from './enrollment.service.js';
 import { emitProfileChanged } from '../sockets/events.js';
 import { disconnectUser } from '../sockets/index.js';
+import { deleteUser } from './account.service.js';
 
 const escapeRegex = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 
@@ -154,4 +155,21 @@ export async function deactivate(employee, orgAdmin) {
   emitProfileChanged(profile);
   await audit(orgAdmin._id, 'employee.deactivate', 'User', employee._id);
   return detail(employee);
+}
+
+/** PATCH /org/employees/:employeeId { name?, isActive? } — reactivating restores access. */
+export async function update(employee, orgAdmin, { name, isActive }) {
+  if (name !== undefined) employee.name = name;
+  const deactivated = isActive === false && employee.isActive;
+  if (isActive !== undefined) employee.isActive = isActive;
+  await employee.save();
+  if (deactivated) disconnectUser(employee._id);
+  emitProfileChanged(await profileOf(employee));
+  await audit(orgAdmin._id, 'employee.update', 'User', employee._id, { name, isActive });
+  return detail(employee);
+}
+
+/** DELETE /org/employees/:employeeId — permanently deletes the employee's account and learning data. */
+export async function remove(employee, orgAdmin) {
+  await deleteUser(employee, orgAdmin);
 }

@@ -15,6 +15,12 @@ const TYPES = {
   'org.approved': { key: 'orgApproved', link: () => '/org' },
   'org.rejected': { key: 'orgRejected', link: () => '/org' },
   'org.suspended': { key: 'orgSuspended', link: () => '/org' },
+  // Former employees become individual learners; the owner keeps an account without an organization.
+  'org.deleted': {
+    key: (p) => (p.forOwner ? 'orgDeletedOwner' : 'orgDeleted'),
+    link: (p) => (p.forOwner ? '/org' : '/learner'),
+  },
+  'user.accountDeleted': { key: 'accountDeleted', link: () => '/admin/learners' },
   'org.employeeJoined': { key: 'employeeJoined', link: (p) => `/org/employees/${p.employeeId}` },
   'org.employeeProfileComplete': { key: 'employeeProfileComplete', link: (p) => `/org/employees/${p.employeeId}` },
   'profile.submitted': { key: 'profileSubmitted', link: (p) => `/admin/learners/${p.userId}` },

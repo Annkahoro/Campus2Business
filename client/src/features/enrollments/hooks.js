@@ -34,3 +34,4 @@ export const usePayEnrollment = () => useEnrollmentWrite(({ id, method }) => enr
 export const useRateEnrollment = () => useEnrollmentWrite(({ id, body }) => enrollmentsApi.rate(id, body));
 export const useSetEnrollmentStatus = () => useEnrollmentWrite(({ id, body }) => enrollmentsApi.setStatus(id, body));
 export const useSetEnrollmentProgress = () => useEnrollmentWrite(({ id, body }) => enrollmentsApi.setProgress(id, body));
+export const useDeleteEnrollment = () => useEnrollmentWrite(enrollmentsApi.remove);

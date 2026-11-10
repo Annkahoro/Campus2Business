@@ -104,7 +104,17 @@
     "noRemarks": "No remarks from the organization",
     "noHistory": "No enrollments yet",
     "noPathways": "No pathways generated yet",
-    "score": "score {{score}}"
+    "score": "score {{score}}",
+    "add": "Add learner",
+    "newTitle": "New learner",
+    "newText": "Creates a student account. Share the temporary password securely; they can change it in Settings.",
+    "create": "Create learner",
+    "created": "{{name}} has been added.",
+    "editTitle": "Edit learner",
+    "updated": "{{name}} has been updated.",
+    "deleted": "{{name}} has been deleted.",
+    "deleteTitle": "Delete learner?",
+    "deleteText": "{{name}}'s account, profile, CV, pathways and enrollments will be permanently deleted. This cannot be undone."
   },
   "queue": {
     "title": "Recommendations",
@@ -132,7 +142,11 @@
     "publishedNotice": "Published on {{date}}. The learner can see this pathway.",
     "rejectedTitle": "Rejected",
     "feedback": "Learner rating: {{rating}}/5",
-    "allVersions": "All versions"
+    "allVersions": "All versions",
+    "deleted": "Pathway deleted.",
+    "deleteTitle": "Delete this pathway?",
+    "deleteText": "This version will be permanently deleted.",
+    "deletePublishedText": "This pathway is published. {{name}} will no longer see it unless another published version exists."
   },
   "snapshot": {
     "background": "Background",

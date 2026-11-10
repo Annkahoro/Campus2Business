@@ -69,5 +69,9 @@
   "ALREADY_COMPLETED": "Este programa ya está completado.",
   "PROGRAMME_NOT_FOR_AUDIENCE": "Este programa no se ofrece a este tipo de participante.",
   "ENROLLMENT_NOT_COMPLETED": "Solo se pueden valorar programas completados.",
-  "ENROLLMENT_NOT_ACTIVE": "Solo se puede actualizar el progreso de inscripciones activas."
+  "ENROLLMENT_NOT_ACTIVE": "Solo se puede actualizar el progreso de inscripciones activas.",
+  "LAST_ADMIN": "Debe quedar al menos un administrador de C2B activo.",
+  "CANNOT_DEACTIVATE_SELF": "No puedes desactivar tu propia cuenta.",
+  "GOOGLE_EMAIL_LOCKED": "Esta cuenta inicia sesión con Google, así que su correo no se puede cambiar.",
+  "USER_NOT_FOUND": "Usuario no encontrado."
 }

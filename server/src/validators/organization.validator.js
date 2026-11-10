@@ -2,6 +2,7 @@ import { z } from 'zod';
 import { ORG_SIZES, ORG_STATUSES, TRAINING_BUDGETS } from '../models/Organization.js';
 import { REMARK_CATEGORIES } from '../models/LearnerProfile.js';
 import { objectId, paginationQuery, stringList } from './common.js';
+import { passwordSchema } from './auth.validator.js';
 
 const str = (max) => z.string().trim().max(max).optional().default('');
 // No .default() here: it is used in the partial (PATCH) schema.
@@ -98,3 +99,22 @@ export const listEmployeesQuery = z.object({
   status: z.enum(['draft', 'complete', 'submitted', 'under_review', 'pathway_published']).optional(),
   search: z.string().trim().max(100).optional(),
 });
+
+/** POST /admin/organizations — organization + the account of its org admin. */
+export const adminCreateOrgSchema = createOrgSchema.extend({
+  owner: z.object({
+    name: z.string().trim().min(2, 'NAME_TOO_SHORT').max(120),
+    email: z.string().trim().toLowerCase().email('INVALID_EMAIL').max(254),
+    password: passwordSchema,
+    preferredLanguage: z.enum(['en', 'es']).optional(),
+  }),
+});
+
+/** PATCH /org/employees/:employeeId */
+export const updateEmployeeSchema = z
+  .object({
+    name: z.string().trim().min(2, 'NAME_TOO_SHORT').max(120),
+    isActive: z.boolean(),
+  })
+  .partial()
+  .refine((v) => Object.keys(v).length > 0, { message: 'NOTHING_TO_UPDATE' });

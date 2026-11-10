@@ -12,6 +12,7 @@ import {
   registerSchema,
   updateMeSchema,
 } from '../validators/auth.validator.js';
+import { deleteAccountSchema } from '../validators/user.validator.js';
 
 const router = Router();
 
@@ -23,6 +24,8 @@ router.post('/google', authLimiter, validate(googleSchema), ctrl.google);
 
 router.get('/me', protect, ctrl.getMe);
 router.patch('/me', protect, validate(updateMeSchema), ctrl.updateMe);
+// Every user may delete their own account (password confirmation for local accounts).
+router.delete('/me', protect, authLimiter, validate(deleteAccountSchema), ctrl.deleteMe);
 router.patch('/me/password', protect, authLimiter, validate(changePasswordSchema), ctrl.changePassword);
 router.post('/me/avatar', protect, uploadAvatar, requireFile, ctrl.uploadAvatar);
 

@@ -1,6 +1,7 @@
 import { asyncHandler } from '../middleware/asyncHandler.js';
 import { sendCreated, sendSuccess } from '../utils/response.js';
 import * as authService from '../services/auth.service.js';
+import { deleteOwnAccount } from '../services/account.service.js';
 
 export const register = asyncHandler(async (req, res) => {
   sendCreated(res, await authService.registerStudent(req.body));
@@ -38,4 +39,9 @@ export const uploadAvatar = asyncHandler(async (req, res) => {
 export const changePassword = asyncHandler(async (req, res) => {
   await authService.changePassword(req.user._id, req.body);
   sendSuccess(res, undefined, { message: 'Password updated' });
+});
+
+export const deleteMe = asyncHandler(async (req, res) => {
+  await deleteOwnAccount(req.user._id, req.body);
+  sendSuccess(res, undefined, { message: 'Account deleted' });
 });

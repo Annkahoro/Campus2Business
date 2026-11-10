@@ -79,5 +79,17 @@
   "employeeEnrollmentStatusChanged": {
     "title": "Employee enrollment updated",
     "body": "{{name}} · {{programme}}: $t(common:status.{{status}})."
+  },
+  "orgDeleted": {
+    "title": "Your organization was removed",
+    "body": "{{name}} no longer exists on C2B. Your account is now an individual learner account."
+  },
+  "orgDeletedOwner": {
+    "title": "Your organization was deleted",
+    "body": "C2B deleted {{name}}. You can register a new organization at any time."
+  },
+  "accountDeleted": {
+    "title": "Account deleted",
+    "body": "{{name}} deleted their account."
   }
 }

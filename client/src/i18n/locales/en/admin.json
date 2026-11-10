@@ -191,6 +191,23 @@
     "none": "None provided",
     "noEmployees": "No employees have joined yet.",
     "completion": "Profile completion",
-    "employeeStats": "{{employees}} joined · {{complete}} complete · {{submitted}} submitted"
+    "employeeStats": "{{employees}} joined · {{complete}} complete · {{submitted}} submitted",
+    "add": "Add organization",
+    "deleteTitle": "Delete organization?",
+    "deleteText_one": "{{name}} and its invite links will be permanently deleted. Its {{count}} employee keeps their account as an individual learner.",
+    "deleteText_other": "{{name}} and its invite links will be permanently deleted. Its {{count}} employees keep their accounts as individual learners.",
+    "deleteDone_one": "{{name}} was deleted. {{count}} employee is now an individual learner.",
+    "deleteDone_other": "{{name}} was deleted. {{count}} employees are now individual learners.",
+    "editor": {
+      "newTitle": "New organization",
+      "newText": "Register an organization on behalf of a client. It is approved straight away.",
+      "editTitle": "Edit {{name}}",
+      "editText": "Changes are visible to the organization admin right away.",
+      "ownerTitle": "Organization admin",
+      "ownerText": "The person who will manage this organization. Share the temporary password securely.",
+      "create": "Create organization",
+      "created": "{{name}} has been created and approved.",
+      "saved": "{{name}} has been saved."
+    }
   }
 }

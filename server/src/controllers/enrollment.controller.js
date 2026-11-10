@@ -33,3 +33,8 @@ export const adminSetStatus = asyncHandler(async (req, res) => {
 export const adminSetProgress = asyncHandler(async (req, res) => {
   sendSuccess(res, await svc.adminSetProgress(req.user, req.params.id, req.body));
 });
+
+export const adminDelete = asyncHandler(async (req, res) => {
+  await svc.adminDelete(req.user, req.params.id);
+  sendSuccess(res, undefined, { message: 'Enrollment deleted' });
+});

@@ -11,6 +11,7 @@ import { deleteAsset, uploadImage } from './upload.service.js';
 import { notifyAdmins, notifyUser } from './notification.service.js';
 import { joinOrganizationRooms } from '../sockets/index.js';
 import { emitInvitesChanged, emitOrgStatus } from '../sockets/events.js';
+import { removeOrganization } from './account.service.js';
 
 const escapeRegex = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 
@@ -231,3 +232,64 @@ async function decide(id, admin, to, { reason } = {}) {
 export const approve = (id, admin) => decide(id, admin, 'approved');
 export const reject = (id, admin, reason) => decide(id, admin, 'rejected', { reason });
 export const suspend = (id, admin) => decide(id, admin, 'suspended');
+
+/* ─────────────────────────── C2B admin CRUD ─────────────────────────── */
+
+/**
+ * POST /admin/organizations { owner: { name, email, password }, ...org }
+ * C2B registers an organization on someone's behalf: creates the org admin account and the organization,
+ * already approved (with its default invite link).
+ */
+export async function adminCreate(admin, { owner, ...data }) {
+  if (await User.exists({ email: owner.email })) {
+    throw ApiError.conflict('EMAIL_IN_USE', 'An account with this email already exists');
+  }
+  const user = await User.create({
+    name: owner.name,
+    email: owner.email,
+    password: owner.password,
+    role: ROLES.ORG_ADMIN,
+    authProvider: 'local',
+    preferredLanguage: owner.preferredLanguage ?? 'en',
+  });
+  let org;
+  try {
+    org = await Organization.create({
+      ...data,
+      owner: user._id,
+      slug: slugify(data.name),
+      status: 'approved',
+      reviewedBy: admin._id,
+      reviewedAt: new Date(),
+    });
+    user.organization = org._id;
+    await user.save();
+    await InviteLink.create({ organization: org._id, token: randomToken(24), label: 'Default', createdBy: admin._id });
+  } catch (err) {
+    if (org) await Organization.deleteOne({ _id: org._id }).catch(() => {});
+    await User.deleteOne({ _id: user._id }).catch(() => {});
+    throw err;
+  }
+  emitOrgStatus(org);
+  await audit(admin._id, 'org.create', 'Organization', org._id);
+  return adminGet(org._id);
+}
+
+/** PATCH /admin/organizations/:id — edit details (status changes go through approve/reject/suspend). */
+export async function adminUpdate(admin, id, data) {
+  const org = await Organization.findById(id);
+  if (!org) throw ApiError.notFound('ORG_NOT_FOUND', 'Organization not found');
+  org.set(data);
+  await org.save();
+  emitOrgStatus(org);
+  await audit(admin._id, 'org.update', 'Organization', org._id, { fields: Object.keys(data) });
+  return adminGet(org._id);
+}
+
+/** DELETE /admin/organizations/:id — the org admin account stays (without an organization). */
+export async function adminDelete(admin, id) {
+  const org = await Organization.findById(id);
+  if (!org) throw ApiError.notFound('ORG_NOT_FOUND', 'Organization not found');
+  await notifyUser(org.owner, 'org.deleted', { name: org.name, forOwner: true });
+  return removeOrganization(org, admin);
+}

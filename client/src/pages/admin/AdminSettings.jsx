@@ -1,94 +1,61 @@
 import { useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
-import { UserPlus } from 'lucide-react';
-import { Badge, Button, Card, CardHeader, Input, Modal, PasswordInput, Spinner, toast } from '../../components/ui/index.js';
+import { Pencil, Trash2, UserPlus } from 'lucide-react';
+import { Badge, Button, Card, CardHeader, Spinner, toast } from '../../components/ui/index.js';
+import ConfirmDialog from '../../components/shared/ConfirmDialog.jsx';
+import UserFormModal from '../../components/shared/UserFormModal.jsx';
 import AccountSettings from '../../features/account/AccountSettings.jsx';
-import { passwordRule } from '../../features/auth/schemas.js';
 import { useAuth } from '../../context/AuthContext.jsx';
 import { api, unwrap } from '../../lib/axios.js';
-import { applyServerFieldErrors } from '../../lib/formErrors.js';
 import { formatDate } from '../../features/programmes/format.js';
 
 const ADMINS_KEY = ['admin', 'users'];
-const schema = z.object({
-  name: z.string().trim().min(2, 'validation.nameTooShort').max(120),
-  email: z.string().trim().min(1, 'validation.required').email('validation.emailInvalid'),
-  password: passwordRule,
-});
 
-function NewAdminModal({ open, onClose }) {
-  const { t } = useTranslation('account');
+const adminsApi = {
+  list: () => unwrap(api.get('/admin/users')),
+  create: (body) => unwrap(api.post('/admin/users', body)),
+  update: ({ id, body }) => unwrap(api.patch(`/admin/users/${id}`, body)),
+  remove: (id) => unwrap(api.delete(`/admin/users/${id}`)),
+};
+
+function useAdminWrite(mutationFn) {
   const qc = useQueryClient();
-  const create = useMutation({
-    mutationFn: (body) => unwrap(api.post('/admin/users', body)),
-    onSuccess: () => qc.invalidateQueries({ queryKey: ADMINS_KEY }),
-  });
-  const {
-    register,
-    handleSubmit,
-    reset,
-    setError,
-    formState: { errors },
-  } = useForm({ resolver: zodResolver(schema), defaultValues: { name: '', email: '', password: '' } });
-
-  const close = () => {
-    reset();
-    onClose();
-  };
-  const onSubmit = handleSubmit(async (values) => {
-    try {
-      await create.mutateAsync(values);
-      toast.success(t('admins.created'));
-      close();
-    } catch (err) {
-      if (err?.response?.data?.code === 'EMAIL_IN_USE') setError('email', { type: 'server', message: 'errors:EMAIL_IN_USE' });
-      else if (!applyServerFieldErrors(err, setError)) toast.apiError(err);
-    }
-  });
-
-  return (
-    <Modal
-      open={open}
-      onClose={close}
-      title={t('admins.newTitle')}
-      description={t('admins.newText')}
-      footer={
-        <>
-          <Button variant="ghost" onClick={close} disabled={create.isPending}>
-            {t('actions.cancel')}
-          </Button>
-          <Button type="submit" form="new-admin-form" loading={create.isPending}>
-            {t('admins.create')}
-          </Button>
-        </>
-      }
-    >
-      <form id="new-admin-form" onSubmit={onSubmit} className="space-y-4" noValidate>
-        <Input {...register('name')} label={t('account.name')} error={errors.name?.message} required />
-        <Input {...register('email')} type="email" label={t('account.email')} error={errors.email?.message} required />
-        <PasswordInput
-          {...register('password')}
-          label={t('admins.tempPassword')}
-          hint={t('auth:fields.passwordHint')}
-          error={errors.password?.message}
-          autoComplete="new-password"
-          required
-        />
-      </form>
-    </Modal>
-  );
+  return useMutation({ mutationFn, onSuccess: () => qc.invalidateQueries({ queryKey: ADMINS_KEY }) });
 }
 
-/** /admin/settings — own account + C2B admin users (docs/09; docs/04 §6: admins create other admins). */
+/**
+ * /admin/settings — own account + C2B admin users (docs/04 §6).
+ * Every C2B admin can create, edit, deactivate and delete other admins. Their own account is edited
+ * (and deleted) in the sections above/below; the last active admin can never be removed (LAST_ADMIN).
+ */
 export default function AdminSettings() {
   const { t, i18n } = useTranslation('account');
   const { user } = useAuth();
-  const [open, setOpen] = useState(false);
-  const admins = useQuery({ queryKey: ADMINS_KEY, queryFn: () => unwrap(api.get('/admin/users')) });
+  const [modal, setModal] = useState(null); // { mode: 'create' } | { mode: 'edit', admin }
+  const [deleting, setDeleting] = useState(null);
+  const admins = useQuery({ queryKey: ADMINS_KEY, queryFn: adminsApi.list });
+  const create = useAdminWrite(adminsApi.create);
+  const update = useAdminWrite(adminsApi.update);
+  const remove = useAdminWrite(adminsApi.remove);
+
+  const onSubmit = async (values) => {
+    if (modal.mode === 'create') {
+      await create.mutateAsync(values);
+      toast.success(t('admins.created'));
+    } else {
+      await update.mutateAsync({ id: modal.admin.id, body: values });
+      toast.success(t('users.updated', { name: values.name }));
+    }
+    setModal(null);
+  };
+
+  const confirmDelete = () =>
+    remove.mutate(deleting.id, {
+      onSuccess: () => toast.success(t('users.deleted', { name: deleting.name })),
+      onError: toast.apiError,
+      onSettled: () => setDeleting(null),
+    });
 
   return (
     <AccountSettings>
@@ -97,7 +64,7 @@ export default function AdminSettings() {
           title={t('admins.title')}
           description={t('admins.text')}
           action={
-            <Button size="sm" onClick={() => setOpen(true)} leftIcon={<UserPlus size={16} aria-hidden="true" />}>
+            <Button size="sm" onClick={() => setModal({ mode: 'create' })} leftIcon={<UserPlus size={16} aria-hidden="true" />}>
               {t('admins.add')}
             </Button>
           }
@@ -106,21 +73,72 @@ export default function AdminSettings() {
           <Spinner className="text-emerald" />
         ) : (
           <ul className="divide-y divide-line">
-            {(admins.data ?? []).map((a) => (
-              <li key={a.id} className="flex flex-wrap items-center justify-between gap-3 py-3">
-                <div>
-                  <p className="font-medium">
-                    {a.name} {a.id === user.id && <Badge variant="soft">{t('admins.you')}</Badge>}
-                  </p>
-                  <p className="text-sm text-ink-muted">{a.email}</p>
-                </div>
-                <span className="text-sm text-ink-muted">{t('admins.since', { date: formatDate(a.createdAt, i18n.resolvedLanguage) })}</span>
-              </li>
-            ))}
+            {(admins.data ?? []).map((a) => {
+              const isMe = a.id === user.id;
+              return (
+                <li key={a.id} className="flex flex-wrap items-center justify-between gap-3 py-3">
+                  <div className="min-w-0">
+                    <p className="flex flex-wrap items-center gap-2 font-medium">
+                      {a.name}
+                      {isMe && <Badge variant="soft">{t('admins.you')}</Badge>}
+                      {!a.isActive && <Badge variant="neutral">{t('users.inactive')}</Badge>}
+                    </p>
+                    <p className="text-sm text-ink-muted">{a.email}</p>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="text-sm text-ink-muted">
+                      {t('admins.since', { date: formatDate(a.createdAt, i18n.resolvedLanguage) })}
+                    </span>
+                    {!isMe && (
+                      <>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => setModal({ mode: 'edit', admin: a })}
+                          aria-label={t('users.editNamed', { name: a.name })}
+                        >
+                          <Pencil size={16} strokeWidth={1.75} aria-hidden="true" />
+                        </Button>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          className="text-danger"
+                          onClick={() => setDeleting(a)}
+                          aria-label={t('users.deleteNamed', { name: a.name })}
+                        >
+                          <Trash2 size={16} strokeWidth={1.75} aria-hidden="true" />
+                        </Button>
+                      </>
+                    )}
+                  </div>
+                </li>
+              );
+            })}
           </ul>
         )}
       </Card>
-      <NewAdminModal open={open} onClose={() => setOpen(false)} />
+
+      <UserFormModal
+        open={!!modal}
+        onClose={() => setModal(null)}
+        mode={modal?.mode ?? 'create'}
+        user={modal?.admin}
+        emailEditable={modal?.admin?.authProvider !== 'google'}
+        onSubmit={onSubmit}
+        loading={create.isPending || update.isPending}
+        title={modal?.mode === 'edit' ? t('admins.editTitle') : t('admins.newTitle')}
+        description={modal?.mode === 'edit' ? undefined : t('admins.newText')}
+        submitLabel={modal?.mode === 'edit' ? undefined : t('admins.create')}
+      />
+      <ConfirmDialog
+        open={!!deleting}
+        onClose={() => setDeleting(null)}
+        onConfirm={confirmDelete}
+        loading={remove.isPending}
+        title={t('admins.deleteTitle')}
+        description={deleting ? t('admins.deleteText', { name: deleting.name }) : ''}
+        confirmLabel={t('actions.delete', { ns: 'common' })}
+      />
     </AccountSettings>
   );
 }

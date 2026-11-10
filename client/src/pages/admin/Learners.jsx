@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { AlertCircle, Sparkles, Users } from 'lucide-react';
+import { AlertCircle, Sparkles, UserPlus, Users } from 'lucide-react';
 import {
   Badge,
   Button,
@@ -16,7 +16,8 @@ import {
   toast,
 } from '../../components/ui/index.js';
 import StatusBadge from '../../components/shared/StatusBadge.jsx';
-import { useGenerateBulk, useLearners } from '../../features/recommendations/hooks.js';
+import { useCreateLearner, useGenerateBulk, useLearners } from '../../features/recommendations/hooks.js';
+import UserFormModal from '../../components/shared/UserFormModal.jsx';
 import { GENERATABLE_PROFILE_STATUSES } from '../../features/recommendations/constants.js';
 
 const TYPES = ['all', 'student', 'employee'];
@@ -33,6 +34,14 @@ export default function Learners() {
   const query = useLearners({ type: type === 'all' ? undefined : type, status, search, page });
   const bulk = useGenerateBulk();
   const [selected, setSelected] = useState(new Set());
+  const [creating, setCreating] = useState(false);
+  const createLearner = useCreateLearner();
+
+  const onCreate = async (values) => {
+    await createLearner.mutateAsync(values);
+    toast.success(t('learners.created', { name: values.name }));
+    setCreating(false);
+  };
 
   const update = (changes) => {
     const next = new URLSearchParams(params);
@@ -72,15 +81,35 @@ export default function Learners() {
           <h1 className="font-display text-2xl font-bold md:text-3xl">{t('learners.title')}</h1>
           <p className="mt-1 text-ink-muted">{t('learners.subtitle')}</p>
         </div>
-        <Button
-          onClick={runBulk}
-          disabled={selected.size === 0}
-          loading={bulk.isPending}
-          leftIcon={<Sparkles size={18} strokeWidth={1.75} aria-hidden="true" />}
-        >
-          {t('admin.bulkGenerate', { count: selected.size })}
-        </Button>
+        <div className="flex flex-wrap gap-3">
+          <Button
+            variant="outline"
+            onClick={() => setCreating(true)}
+            leftIcon={<UserPlus size={18} strokeWidth={1.75} aria-hidden="true" />}
+          >
+            {t('learners.add')}
+          </Button>
+          <Button
+            onClick={runBulk}
+            disabled={selected.size === 0}
+            loading={bulk.isPending}
+            leftIcon={<Sparkles size={18} strokeWidth={1.75} aria-hidden="true" />}
+          >
+            {t('admin.bulkGenerate', { count: selected.size })}
+          </Button>
+        </div>
       </div>
+
+      <UserFormModal
+        open={creating}
+        onClose={() => setCreating(false)}
+        mode="create"
+        onSubmit={onCreate}
+        loading={createLearner.isPending}
+        title={t('learners.newTitle')}
+        description={t('learners.newText')}
+        submitLabel={t('learners.create')}
+      />
 
       <div className="flex flex-wrap items-end gap-4">
         <Tabs

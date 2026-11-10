@@ -56,3 +56,8 @@ export const myFeedback = asyncHandler(async (req, res) => {
 export const employeeRecommendation = asyncHandler(async (req, res) => {
   sendSuccess(res, await svc.getPublishedForEmployee(req.employee._id));
 });
+
+export const adminDelete = asyncHandler(async (req, res) => {
+  await svc.adminDelete(req.user, req.params.id);
+  sendSuccess(res, undefined, { message: 'Recommendation deleted' });
+});

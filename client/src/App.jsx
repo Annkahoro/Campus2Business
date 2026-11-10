@@ -26,6 +26,7 @@ const NotFound = lazy(() => import('./pages/public/NotFound.jsx'));
 const AdminDashboard = lazy(() => import('./pages/admin/AdminDashboard.jsx'));
 const Organizations = lazy(() => import('./pages/admin/Organizations.jsx'));
 const OrganizationDetail = lazy(() => import('./pages/admin/OrganizationDetail.jsx'));
+const OrganizationEditor = lazy(() => import('./pages/admin/OrganizationEditor.jsx'));
 const ProgrammesList = lazy(() => import('./pages/admin/ProgrammesList.jsx'));
 const ProgrammeEditor = lazy(() => import('./pages/admin/ProgrammeEditor.jsx'));
 const ProgrammeView = lazy(() => import('./pages/admin/ProgrammeView.jsx'));
@@ -87,7 +88,9 @@ export default function App() {
           >
             <Route index element={<AdminDashboard />} />
             <Route path="organizations" element={<Organizations />} />
+            <Route path="organizations/new" element={<OrganizationEditor />} />
             <Route path="organizations/:id" element={<OrganizationDetail />} />
+            <Route path="organizations/:id/edit" element={<OrganizationEditor />} />
             <Route path="programmes" element={<ProgrammesList />} />
             <Route path="programmes/new" element={<ProgrammeEditor />} />
             <Route path="programmes/:id" element={<ProgrammeView />} />

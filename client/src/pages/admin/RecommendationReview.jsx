@@ -1,9 +1,11 @@
-import { Link, useParams } from 'react-router-dom';
+import { useState } from 'react';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { AlertCircle, ArrowLeft, Loader2, Sparkles } from 'lucide-react';
-import { Alert, Button, Card, EmptyState, PageSpinner } from '../../components/ui/index.js';
+import { AlertCircle, ArrowLeft, Loader2, Sparkles, Trash2 } from 'lucide-react';
+import { Alert, Button, Card, EmptyState, PageSpinner, toast } from '../../components/ui/index.js';
+import ConfirmDialog from '../../components/shared/ConfirmDialog.jsx';
 import StatusBadge from '../../components/shared/StatusBadge.jsx';
-import { useRecommendation } from '../../features/recommendations/hooks.js';
+import { useDeleteRecommendation, useRecommendation } from '../../features/recommendations/hooks.js';
 import ReviewEditor from '../../features/recommendations/ReviewEditor.jsx';
 import PathwayOverview from '../../features/recommendations/PathwayOverview.jsx';
 import GenerateButton from '../../features/recommendations/GenerateButton.jsx';
@@ -16,6 +18,9 @@ export default function RecommendationReview() {
   const { t, i18n } = useTranslation('pathway');
   const lang = i18n.resolvedLanguage;
   const query = useRecommendation(id);
+  const navigate = useNavigate();
+  const remove = useDeleteRecommendation();
+  const [confirmDelete, setConfirmDelete] = useState(false);
 
   if (query.isPending) return <PageSpinner />;
   if (query.isError) {
@@ -49,8 +54,41 @@ export default function RecommendationReview() {
             })}
           </p>
         </div>
-        <StatusBadge status={rec.status} />
+        <div className="flex items-center gap-3">
+          <StatusBadge status={rec.status} />
+          {rec.status !== 'generating' && (
+            <Button
+              variant="ghost"
+              size="sm"
+              className="text-danger"
+              onClick={() => setConfirmDelete(true)}
+              leftIcon={<Trash2 size={16} strokeWidth={1.75} aria-hidden="true" />}
+            >
+              {t('actions.delete', { ns: 'common' })}
+            </Button>
+          )}
+        </div>
       </div>
+      <ConfirmDialog
+        open={confirmDelete}
+        onClose={() => setConfirmDelete(false)}
+        onConfirm={() =>
+          remove.mutate(rec.id, {
+            onSuccess: () => {
+              toast.success(t('review.deleted'));
+              navigate(`/admin/learners/${learner.user.id}`, { replace: true });
+            },
+            onError: (err) => {
+              toast.apiError(err);
+              setConfirmDelete(false);
+            },
+          })
+        }
+        loading={remove.isPending}
+        title={t('review.deleteTitle')}
+        description={rec.status === 'published' ? t('review.deletePublishedText', { name: learner.user.name }) : t('review.deleteText')}
+        confirmLabel={t('actions.delete', { ns: 'common' })}
+      />
     </div>
   );
 

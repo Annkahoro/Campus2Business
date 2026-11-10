@@ -20,6 +20,9 @@ export const orgApi = {
   approve: (id) => unwrap(api.patch(`/admin/organizations/${id}/approve`)),
   reject: (id, reason) => unwrap(api.patch(`/admin/organizations/${id}/reject`, { reason })),
   suspend: (id) => unwrap(api.patch(`/admin/organizations/${id}/suspend`)),
+  adminCreate: (body) => unwrap(api.post('/admin/organizations', body)),
+  adminUpdate: (id, body) => unwrap(api.patch(`/admin/organizations/${id}`, body)),
+  adminDelete: (id) => unwrap(api.delete(`/admin/organizations/${id}`)),
 
   // Invites
   validateInvite: (token) => unwrap(api.get(`/invites/${token}/validate`)),
@@ -38,4 +41,6 @@ export const orgApi = {
   submitEmployee: (id) => unwrap(api.post(`/org/employees/${id}/submit`)),
   submitBulk: (employeeIds) => unwrap(api.post('/org/employees/submit-bulk', { employeeIds })),
   deactivateEmployee: (id) => unwrap(api.patch(`/org/employees/${id}/deactivate`)),
+  updateEmployee: (id, body) => unwrap(api.patch(`/org/employees/${id}`, body)),
+  deleteEmployee: (id) => unwrap(api.delete(`/org/employees/${id}`)),
 };
