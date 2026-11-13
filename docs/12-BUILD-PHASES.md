@@ -97,7 +97,8 @@ Ask Claude Code: *"Read CLAUDE.md and docs/12-BUILD-PHASES.md, then implement Ph
 - [x] Programme form auto-saves unsaved input in the browser and restores it on return (`client/src/lib/useFormDraft.js`)
 - [x] Run `npm run catalogue:sync` against production
 - [x] Main C2B admin (Render `SEED_ADMIN_*`) synced on start-up, protected from deletion; other admins can delete themselves
-- [x] Organizations list: select rows / select all in a tab, bulk approve, suspend/reactivate and delete (archives the old demo programmes, imports covers to Cloudinary)
+- [x] Organizations list: select rows / select all in a tab, bulk approve, suspend/reactivate and delete
+- [x] Learners list: select any learner / select all matching the filters, bulk generate pathways and bulk delete (archives the old demo programmes, imports covers to Cloudinary)
 
 ---
 

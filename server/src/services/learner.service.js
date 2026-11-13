@@ -35,7 +35,8 @@ function rowDTO(user, profile, org, latest) {
 }
 
 /** GET /admin/learners?type=&org=&status=&department=&search=&page=&limit= */
-export async function list({ type, org, status, department, search, page = 1, limit = 20 }) {
+/** LearnerProfile filter for the admin learner list (also used by bulk delete's "select all"). */
+export async function learnerProfileFilter({ type, org, status, department, search }) {
   const profileFilter = {};
   if (type) profileFilter.learnerType = type;
   if (status) profileFilter.status = status;
@@ -49,6 +50,11 @@ export async function list({ type, org, status, department, search, page = 1, li
   }
   const users = await User.find(userFilter, '_id').lean();
   profileFilter.user = { $in: users.map((u) => u._id) };
+  return profileFilter;
+}
+
+export async function list({ type, org, status, department, search, page = 1, limit = 20 }) {
+  const profileFilter = await learnerProfileFilter({ type, org, status, department, search });
 
   const [profiles, total, statusRows] = await Promise.all([
     LearnerProfile.find(profileFilter)

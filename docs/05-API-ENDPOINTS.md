@@ -130,6 +130,7 @@ All deletes are hard deletes, done in `services/account.service.js`, and written
 | GET | `/admin/learners` | `?type=student|employee&org=&status=&search=&page=` |
 | GET | `/admin/learners/:userId` | full profile incl. CV link, remarks, history, all recommendation versions |
 | POST | `/admin/learners` | `{ name, email, password }` → student account (employees still join only by invite) |
+| POST | `/admin/learners/bulk-delete` | `{ userIds }` or `{ filter: { type, status, search } }` ("select all", max 500) → `{ deleted, failed }` |
 | PATCH | `/admin/learners/:userId` | `{ name?, email?, preferredLanguage?, isActive? }` (email locked for Google accounts → `GOOGLE_EMAIL_LOCKED`) |
 | DELETE | `/admin/learners/:userId` | hard delete with cascade; `AI_BUSY` while a pathway is generating |
 

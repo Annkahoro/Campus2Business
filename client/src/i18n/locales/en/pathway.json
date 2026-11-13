@@ -114,7 +114,25 @@
     "updated": "{{name}} has been updated.",
     "deleted": "{{name}} has been deleted.",
     "deleteTitle": "Delete learner?",
-    "deleteText": "{{name}}'s account, profile, CV, pathways and enrollments will be permanently deleted. This cannot be undone."
+    "deleteText": "{{name}}'s account, profile, CV, pathways and enrollments will be permanently deleted. This cannot be undone.",
+    "bulk": {
+      "region": "Bulk actions",
+      "selected_one": "{{count}} learner selected",
+      "selected_other": "{{count}} learners selected",
+      "selectAllMatching": "Select all {{count}} learners matching these filters",
+      "selectPage": "Select all on this page",
+      "clear": "Clear selection",
+      "delete": "Delete",
+      "noneGeneratable": "None of the selected learners has submitted a profile",
+      "confirmTitle_one": "Delete {{count}} learner?",
+      "confirmTitle_other": "Delete {{count}} learners?",
+      "confirmText_one": "Their account, profile, CV, pathways and enrollments will be permanently deleted. This can’t be undone.",
+      "confirmText_other": "Their accounts, profiles, CVs, pathways and enrollments will be permanently deleted. This can’t be undone.",
+      "deleted_one": "{{count}} learner deleted.",
+      "deleted_other": "{{count}} learners deleted.",
+      "failed_one": "{{count}} learner could not be deleted: {{names}}",
+      "failed_other": "{{count}} learners could not be deleted: {{names}}"
+    }
   },
   "queue": {
     "title": "Recommendations",

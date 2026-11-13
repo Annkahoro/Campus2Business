@@ -8,6 +8,7 @@ import { toPublicUser } from '../utils/dto.js';
 import { disconnectUser } from '../sockets/index.js';
 import { emitProfileChanged } from '../sockets/events.js';
 import { assertNotLastAdmin, deleteUser } from './account.service.js';
+import { learnerProfileFilter } from './learner.service.js';
 
 const LEARNER_ROLES = [ROLES.STUDENT, ROLES.EMPLOYEE];
 
@@ -120,4 +121,33 @@ export async function updateLearner(admin, id, data) {
 /** DELETE /admin/learners/:userId */
 export async function deleteLearner(admin, id) {
   await deleteUser(await findUser(id, LEARNER_ROLES, 'LEARNER_NOT_FOUND'), admin);
+}
+
+const BULK_MAX = 500;
+
+/**
+ * POST /admin/learners/bulk-delete { userIds } or { filter: { type, status, search } } ("select all").
+ * Each learner goes through the same deletion as DELETE /admin/learners/:userId; one failure (e.g. a pathway
+ * being generated right now → AI_BUSY) doesn't stop the rest. → { deleted: [ids], failed: [{ id, name, code }] }
+ */
+export async function bulkDeleteLearners(admin, { userIds, filter }) {
+  let ids = userIds;
+  if (!ids) {
+    const profiles = await LearnerProfile.find(await learnerProfileFilter(filter), 'user').limit(BULK_MAX + 1).lean();
+    ids = profiles.map((p) => String(p.user));
+  }
+  if (ids.length > BULK_MAX) throw ApiError.badRequest('BULK_TOO_MANY', `At most ${BULK_MAX} learners at once`);
+
+  const users = await User.find({ _id: { $in: ids }, role: { $in: LEARNER_ROLES } });
+  const deleted = [];
+  const failed = [];
+  for (const user of users) {
+    try {
+      await deleteUser(user, admin);
+      deleted.push(String(user._id));
+    } catch (err) {
+      failed.push({ id: String(user._id), name: user.name, code: err instanceof ApiError ? err.code : 'INTERNAL_ERROR' });
+    }
+  }
+  return { deleted, failed };
 }

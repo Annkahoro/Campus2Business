@@ -114,7 +114,25 @@
     "updated": "Se ha actualizado a {{name}}.",
     "deleted": "Se ha eliminado a {{name}}.",
     "deleteTitle": "¿Eliminar estudiante?",
-    "deleteText": "Se eliminarán de forma permanente la cuenta, el perfil, el CV, los itinerarios y las inscripciones de {{name}}. Esta acción no se puede deshacer."
+    "deleteText": "Se eliminarán de forma permanente la cuenta, el perfil, el CV, los itinerarios y las inscripciones de {{name}}. Esta acción no se puede deshacer.",
+    "bulk": {
+      "region": "Acciones en bloque",
+      "selected_one": "{{count}} alumno seleccionado",
+      "selected_other": "{{count}} alumnos seleccionados",
+      "selectAllMatching": "Seleccionar los {{count}} alumnos que cumplen estos filtros",
+      "selectPage": "Seleccionar todos en esta página",
+      "clear": "Quitar selección",
+      "delete": "Eliminar",
+      "noneGeneratable": "Ninguno de los alumnos seleccionados ha enviado su perfil",
+      "confirmTitle_one": "¿Eliminar {{count}} alumno?",
+      "confirmTitle_other": "¿Eliminar {{count}} alumnos?",
+      "confirmText_one": "Se eliminarán de forma permanente su cuenta, perfil, CV, itinerarios e inscripciones. No se puede deshacer.",
+      "confirmText_other": "Se eliminarán de forma permanente sus cuentas, perfiles, CV, itinerarios e inscripciones. No se puede deshacer.",
+      "deleted_one": "{{count}} alumno eliminado.",
+      "deleted_other": "{{count}} alumnos eliminados.",
+      "failed_one": "No se pudo eliminar {{count}} alumno: {{names}}",
+      "failed_other": "No se pudieron eliminar {{count}} alumnos: {{names}}"
+    }
   },
   "queue": {
     "title": "Recomendaciones",

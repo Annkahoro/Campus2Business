@@ -140,3 +140,16 @@ export const useDeleteLearner = () => {
     },
   });
 };
+
+export const useBulkDeleteLearners = () => {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: recommendationsApi.bulkDeleteLearners,
+    onSettled: () => {
+      qc.invalidateQueries({ queryKey: ['learners'] });
+      qc.invalidateQueries({ queryKey: recKeys.all });
+      qc.invalidateQueries({ queryKey: ['enrollments'] });
+      qc.invalidateQueries({ queryKey: ['orgs'] });
+    },
+  });
+};

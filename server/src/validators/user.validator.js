@@ -1,5 +1,6 @@
 import { z } from 'zod';
 import { passwordSchema } from './auth.validator.js';
+import { objectId } from './common.js';
 
 const name = z.string().trim().min(2, 'NAME_TOO_SHORT').max(120);
 const email = z.string().trim().toLowerCase().email('INVALID_EMAIL').max(254);
@@ -27,6 +28,19 @@ export const adminUpdateUserSchema = z
   .refine((v) => Object.keys(v).length > 0, { message: 'NOTHING_TO_UPDATE' });
 
 /** DELETE /auth/me — local accounts confirm with their password; Google-only accounts send nothing. */
+export const bulkDeleteLearnersSchema = z
+  .object({
+    userIds: z.array(objectId).min(1).max(500).optional(),
+    filter: z
+      .object({
+        type: z.enum(['student', 'employee']).optional(),
+        status: z.string().trim().max(40).optional(),
+        search: z.string().trim().max(100).optional(),
+      })
+      .optional(),
+  })
+  .refine((v) => !!v.userIds !== !!v.filter, { message: 'IDS_OR_FILTER', path: ['userIds'] });
+
 export const deleteAccountSchema = z.object({
   password: z.string().max(128).optional(),
 });

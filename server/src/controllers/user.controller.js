@@ -33,3 +33,7 @@ export const deleteLearner = asyncHandler(async (req, res) => {
   await userService.deleteLearner(req.user, req.params.userId);
   sendSuccess(res, undefined, { message: 'Learner deleted' });
 });
+
+export const bulkDeleteLearners = asyncHandler(async (req, res) => {
+  sendSuccess(res, await userService.bulkDeleteLearners(req.user, req.body));
+});

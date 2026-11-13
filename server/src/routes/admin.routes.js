@@ -11,7 +11,7 @@ import * as categoryCtrl from '../controllers/category.controller.js';
 import * as importCtrl from '../controllers/catalogueImport.controller.js';
 import { applyImportSchema, importPreviewQuery } from '../validators/catalogueImport.validator.js';
 import { createCategorySchema, reorderCategoriesSchema, updateCategorySchema } from '../validators/category.validator.js';
-import { adminUpdateUserSchema, createAdminSchema, createLearnerSchema } from '../validators/user.validator.js';
+import { adminUpdateUserSchema, bulkDeleteLearnersSchema, createAdminSchema, createLearnerSchema } from '../validators/user.validator.js';
 import {
   adminListProgrammesQuery,
   createProgrammeSchema,
@@ -86,6 +86,7 @@ router.patch('/organizations/:id/suspend', orgCtrl.suspend);
 /* Learners */
 router.get('/learners', validate(listLearnersQuery, 'query'), learnerCtrl.list);
 router.post('/learners', validate(createLearnerSchema), userCtrl.createLearner);
+router.post('/learners/bulk-delete', validate(bulkDeleteLearnersSchema), userCtrl.bulkDeleteLearners);
 router.get('/learners/:userId', learnerCtrl.detail);
 router.patch('/learners/:userId', validate(adminUpdateUserSchema), userCtrl.updateLearner);
 router.delete('/learners/:userId', userCtrl.deleteLearner);
