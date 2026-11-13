@@ -95,7 +95,7 @@ Ask Claude Code: *"Read CLAUDE.md and docs/12-BUILD-PHASES.md, then implement Ph
 - [x] Real catalogue imported (18 eLearning + 34 scheduled courses) with English translations; demo seed uses the real codes
 - [x] "Import from campus2b.com" on Admin → Programmes: finds site courses not on the platform (by `sourceUrls` + ignore list), imports them as drafts, adds new runs’ dates to an existing programme, or ignores them
 - [x] Programme form auto-saves unsaved input in the browser and restores it on return (`client/src/lib/useFormDraft.js`)
-- [ ] Run `npm run catalogue:sync` against production (archives the old demo programmes, imports covers to Cloudinary)
+- [x] Run `npm run catalogue:sync` against production (archives the old demo programmes, imports covers to Cloudinary)
 
 ---
 
