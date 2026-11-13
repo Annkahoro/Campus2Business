@@ -85,7 +85,7 @@ Legend: 🌐 public · 🔐 any logged-in user · 🅰️ c2b_admin · 🏢 org_
 ## Account deletion (cascade)
 All deletes are hard deletes, done in `services/account.service.js`, and written to the audit log.
 - **Learner** (student/employee): user, profile + CV file, recommendations, enrollments, notifications, avatar.
-- **Organization**: org, invite links, logo. Its employees are **not** deleted: they become `student`s and keep their
+- **Organization**: org, invite links, logo and its org admin account(s). Its employees are **not** deleted: they become `student`s and keep their
   profile and history; the org's private `orgRemarks` are removed. Employees are notified (`org.deleted`).
 - **Org admin**: their organization is deleted as above, then the account.
 - **C2B admin**: the last active C2B admin can never be deleted or deactivated (`LAST_ADMIN`).

@@ -220,8 +220,8 @@
     "employeeStats": "{{employees}} unidas · {{complete}} completos · {{submitted}} enviados",
     "add": "Añadir organización",
     "deleteTitle": "¿Eliminar organización?",
-    "deleteText_one": "{{name}} y sus enlaces de invitación se eliminarán de forma permanente. Su {{count}} empleado conservará su cuenta como estudiante individual.",
-    "deleteText_other": "{{name}} y sus enlaces de invitación se eliminarán de forma permanente. Sus {{count}} empleados conservarán sus cuentas como estudiantes individuales.",
+    "deleteText_one": "Se eliminarán de forma permanente {{name}}, sus enlaces de invitación y la cuenta de su administrador. Su {{count}} empleado conserva su cuenta como alumno individual.",
+    "deleteText_other": "Se eliminarán de forma permanente {{name}}, sus enlaces de invitación y la cuenta de su administrador. Sus {{count}} empleados conservan su cuenta como alumnos individuales.",
     "deleteDone_one": "Se eliminó {{name}}. {{count}} empleado es ahora estudiante individual.",
     "deleteDone_other": "Se eliminó {{name}}. {{count}} empleados son ahora estudiantes individuales.",
     "editor": {
@@ -265,8 +265,8 @@
         "delete": {
           "title_one": "¿Eliminar {{count}} organización?",
           "title_other": "¿Eliminar {{count}} organizaciones?",
-          "text_one": "Se eliminarán de forma permanente junto con sus enlaces de invitación. Sus empleados conservan su cuenta como alumnos individuales. No se puede deshacer.",
-          "text_other": "Se eliminarán de forma permanente junto con sus enlaces de invitación. Sus empleados conservan su cuenta como alumnos individuales. No se puede deshacer."
+          "text_one": "Se eliminarán de forma permanente junto con sus enlaces de invitación y la cuenta de su administrador. Sus empleados conservan su cuenta como alumnos individuales. No se puede deshacer.",
+          "text_other": "Se eliminarán de forma permanente junto con sus enlaces de invitación y las cuentas de sus administradores. Sus empleados conservan su cuenta como alumnos individuales. No se puede deshacer."
         }
       },
       "done": {

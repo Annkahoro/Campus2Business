@@ -98,7 +98,8 @@ Ask Claude Code: *"Read CLAUDE.md and docs/12-BUILD-PHASES.md, then implement Ph
 - [x] Run `npm run catalogue:sync` against production
 - [x] Main C2B admin (Render `SEED_ADMIN_*`) synced on start-up, protected from deletion; other admins can delete themselves
 - [x] Organizations list: select rows / select all in a tab, bulk approve, suspend/reactivate and delete
-- [x] Learners list: select any learner / select all matching the filters, bulk generate pathways and bulk delete (archives the old demo programmes, imports covers to Cloudinary)
+- [x] Learners list: select any learner / select all matching the filters, bulk generate pathways and bulk delete
+- [x] Deleting an organization deletes its org admin account(s); 5 leftover org admins without an organization removed from production (archives the old demo programmes, imports covers to Cloudinary)
 
 ---
 

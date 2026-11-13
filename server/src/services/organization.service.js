@@ -295,7 +295,6 @@ export async function adminUpdate(admin, id, data) {
 export async function adminDelete(admin, id) {
   const org = await Organization.findById(id);
   if (!org) throw ApiError.notFound('ORG_NOT_FOUND', 'Organization not found');
-  await notifyUser(org.owner, 'org.deleted', { name: org.name, forOwner: true });
   return removeOrganization(org, admin);
 }
 

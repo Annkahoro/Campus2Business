@@ -220,8 +220,8 @@
     "employeeStats": "{{employees}} joined · {{complete}} complete · {{submitted}} submitted",
     "add": "Add organization",
     "deleteTitle": "Delete organization?",
-    "deleteText_one": "{{name}} and its invite links will be permanently deleted. Its {{count}} employee keeps their account as an individual learner.",
-    "deleteText_other": "{{name}} and its invite links will be permanently deleted. Its {{count}} employees keep their accounts as individual learners.",
+    "deleteText_one": "{{name}}, its invite links and its organization admin account will be permanently deleted. Its {{count}} employee keeps their account as an individual learner.",
+    "deleteText_other": "{{name}}, its invite links and its organization admin account will be permanently deleted. Its {{count}} employees keep their accounts as individual learners.",
     "deleteDone_one": "{{name}} was deleted. {{count}} employee is now an individual learner.",
     "deleteDone_other": "{{name}} was deleted. {{count}} employees are now individual learners.",
     "editor": {
@@ -265,8 +265,8 @@
         "delete": {
           "title_one": "Delete {{count}} organization?",
           "title_other": "Delete {{count}} organizations?",
-          "text_one": "It and its invite links will be permanently deleted. Its employees keep their accounts as individual learners. This can’t be undone.",
-          "text_other": "They and their invite links will be permanently deleted. Their employees keep their accounts as individual learners. This can’t be undone."
+          "text_one": "It, its invite links and its organization admin account will be permanently deleted. Its employees keep their accounts as individual learners. This can’t be undone.",
+          "text_other": "They, their invite links and their organization admin accounts will be permanently deleted. Their employees keep their accounts as individual learners. This can’t be undone."
         }
       },
       "done": {

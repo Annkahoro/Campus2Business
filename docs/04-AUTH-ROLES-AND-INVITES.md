@@ -117,4 +117,6 @@ admin panel (`/api/admin/users`) and can delete their own account; the last acti
 ## 7. Deleting accounts
 Every user, whatever their role, can delete their own account in Settings (`DELETE /api/auth/me`, password required
 for local accounts). C2B admins can delete any learner, organization, enrollment or recommendation; org admins can
-delete their own employees. What each delete removes is listed in `docs/05` → "Account deletion (cascade)".
+delete their own employees. Deleting an organization also deletes its org admin account(s) (the account only exists to
+run that organization); its employees keep their accounts as individual learners. What each delete removes is listed
+in `docs/05` → "Account deletion (cascade)".

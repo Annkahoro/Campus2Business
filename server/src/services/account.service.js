@@ -20,7 +20,8 @@ import { emitOrgStatus } from '../sockets/events.js';
  * - Deleting an organization removes its invite links and logo. Its employees are NOT deleted: they did not
  *   choose this, so they become individual learners (role `student`) and keep their profile and history.
  *   The organization's private remarks on them are removed.
- * - Deleting an org admin also deletes the organization they own.
+ * - Deleting an org admin also deletes the organization they own, and deleting an organization deletes its
+ *   org admin accounts.
  * - The last active C2B admin can never be deleted (someone must be able to run the platform).
  * - The main C2B admin (isSuperAdmin, configured on the server) can never be deleted, not even by themselves.
  */
@@ -52,12 +53,17 @@ async function deleteLearnerData(user) {
 }
 
 /**
- * Deletes an organization. Employees become individual learners; other org admins lose the link.
- * Used by C2B admins (DELETE /admin/organizations/:id) and when the owner deletes their account.
+ * Deletes an organization. Employees become individual learners; its org admin accounts (the owner and any other
+ * org_admin of this org) are deleted with it — an org admin account only exists to run that organization.
+ * Used by C2B admins (DELETE /admin/organizations/:id) and when the owner deletes their account
+ * (`skipUserId` = that owner, whose account deleteUser removes itself).
  */
-export async function removeOrganization(org, actor) {
+export async function removeOrganization(org, actor, { skipUserId = null } = {}) {
   const members = await User.find({ organization: org._id }, '_id role');
   const employeeIds = members.filter((m) => m.role === ROLES.EMPLOYEE).map((m) => m._id);
+  const adminIds = [...new Set([...members.filter((m) => m.role === ROLES.ORG_ADMIN).map((m) => String(m._id)), String(org.owner)])].filter(
+    (id) => id !== String(skipUserId),
+  );
 
   await Promise.all([
     InviteLink.deleteMany({ organization: org._id }),
@@ -78,8 +84,30 @@ export async function removeOrganization(org, actor) {
   for (const id of employeeIds) await notifyUser(id, 'org.deleted', { name: org.name });
   for (const m of members) disconnectUser(m._id);
 
-  await audit(actor?._id, 'org.delete', 'Organization', org._id, { name: org.name, employees: employeeIds.length });
-  return { convertedEmployees: employeeIds.length };
+  // Org admin accounts go with the organization (they are signed out: their token no longer finds a user).
+  const orgAdmins = await User.find({ _id: { $in: adminIds }, role: ROLES.ORG_ADMIN });
+  for (const admin of orgAdmins) await removeAccount(admin, actor, { reason: 'organization deleted' });
+
+  await audit(actor?._id, 'org.delete', 'Organization', org._id, {
+    name: org.name,
+    employees: employeeIds.length,
+    orgAdminsDeleted: orgAdmins.length,
+  });
+  return { convertedEmployees: employeeIds.length, deletedOrgAdmins: orgAdmins.length };
+}
+
+/** Removes the user document and what hangs off every account (notifications, sockets, avatar) + audit entry. */
+async function removeAccount(user, actor, extra = {}) {
+  await Notification.deleteMany({ recipient: user._id });
+  await User.deleteOne({ _id: user._id });
+  disconnectUser(user._id);
+  if (user.avatar?.publicId) await deleteAsset(user.avatar.publicId);
+  const self = actor && String(actor._id) === String(user._id);
+  await audit(actor?._id, self ? 'user.selfDelete' : 'user.delete', 'User', user._id, {
+    role: user.role,
+    email: user.email,
+    ...extra,
+  });
 }
 
 /**
@@ -93,20 +121,12 @@ export async function deleteUser(user, actor) {
 
   if (user.role === ROLES.ORG_ADMIN) {
     const owned = await Organization.findOne({ owner: user._id });
-    if (owned) await removeOrganization(owned, actor);
+    if (owned) await removeOrganization(owned, actor, { skipUserId: user._id });
   }
   if (LEARNER_ROLES.includes(user.role)) await deleteLearnerData(user);
 
-  await Notification.deleteMany({ recipient: user._id });
-  await User.deleteOne({ _id: user._id });
-  disconnectUser(user._id);
-  if (user.avatar?.publicId) await deleteAsset(user.avatar.publicId);
-
+  await removeAccount(user, actor);
   const self = actor && String(actor._id) === String(user._id);
-  await audit(actor?._id, self ? 'user.selfDelete' : 'user.delete', 'User', user._id, {
-    role: user.role,
-    email: user.email,
-  });
   if (self && user.role !== ROLES.C2B_ADMIN) {
     await notifyAdmins('user.accountDeleted', { name: user.name, role: user.role });
   }
