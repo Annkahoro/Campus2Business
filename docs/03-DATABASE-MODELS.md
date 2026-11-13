@@ -23,6 +23,7 @@ Login identity for every role.
   avatar:        { url: String, publicId: String },
   preferredLanguage: { type: String, enum: ['en', 'es'], default: 'en' },
   isActive:      { type: Boolean, default: true },
+  isSuperAdmin:  { type: Boolean, default: false },  // main C2B admin (SEED_ADMIN_* on the server); at most one
   lastLoginAt:   Date,
 }
 ```

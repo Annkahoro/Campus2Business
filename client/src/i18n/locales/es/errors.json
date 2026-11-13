@@ -79,5 +79,7 @@
   "CATEGORY_NOT_FOUND": "Esta categoría ya no existe.",
   "IMPORT_SITE_UNAVAILABLE": "No se pudo conectar con campus2b.com. Inténtalo de nuevo en unos minutos.",
   "IMPORT_PAGE_FAILED": "No se pudo leer la página del curso.",
-  "IMPORT_ALREADY_IMPORTED": "Este curso ya está en la plataforma."
+  "IMPORT_ALREADY_IMPORTED": "Este curso ya está en la plataforma.",
+  "SUPER_ADMIN_PROTECTED": "El administrador principal de C2B no se puede eliminar ni desactivar.",
+  "SUPER_ADMIN_MANAGED": "El correo y la contraseña del administrador principal se gestionan en la configuración del servidor."
 }

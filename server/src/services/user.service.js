@@ -73,6 +73,12 @@ export async function createAdmin({ name, email, password, preferredLanguage }) 
 /** PATCH /admin/users/:id — own account is edited in Settings (and can't be deactivated here). */
 export async function updateAdmin(admin, id, data) {
   const user = await findUser(id, [ROLES.C2B_ADMIN], 'USER_NOT_FOUND');
+  if (user.isSuperAdmin) {
+    if (data.isActive === false) throw ApiError.forbidden('SUPER_ADMIN_PROTECTED', 'The main C2B admin cannot be deactivated');
+    if (data.email !== undefined && data.email !== user.email) {
+      throw ApiError.forbidden('SUPER_ADMIN_MANAGED', 'The main admin email is set in the server settings');
+    }
+  }
   if (String(user._id) === String(admin._id) && data.isActive === false) {
     throw ApiError.badRequest('CANNOT_DEACTIVATE_SELF', 'You cannot deactivate your own account');
   }

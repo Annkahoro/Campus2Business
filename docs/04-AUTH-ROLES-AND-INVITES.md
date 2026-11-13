@@ -103,10 +103,16 @@ Employee opens /join/:token
 - C2B admins see remarks on the profile view, and they are included in the AI context.
 - Remarks can still be added after submission. Each change notifies the employee (`profile.remarkAdded`).
 
-## 6. Seeded admin
-`npm run seed` creates the first `c2b_admin` from `SEED_ADMIN_EMAIL` / `SEED_ADMIN_PASSWORD`. No public route creates
-C2B admins. Every C2B admin can create, edit, deactivate and delete other admins from the admin panel
-(`/api/admin/users`); the last active admin can never be removed.
+## 6. Main admin and other admins
+The **main C2B admin** (`isSuperAdmin`) is configured on the server with `SEED_ADMIN_EMAIL` / `SEED_ADMIN_PASSWORD`
+(Render environment variables). On every server start (and `npm run seed`) `services/superAdmin.service.js` brings
+that account in line: the existing admin with that email is marked as main admin (or the account is created), and a
+changed email or password in Render is applied to the **same** account. The main admin can never be deleted or
+deactivated (by anyone, including themselves) and their email/password can only be changed in Render
+(`SUPER_ADMIN_PROTECTED`, `SUPER_ADMIN_MANAGED`); their name can be edited.
+
+No public route creates C2B admins. Every C2B admin can create, edit, deactivate and delete other admins from the
+admin panel (`/api/admin/users`) and can delete their own account; the last active admin can never be removed.
 
 ## 7. Deleting accounts
 Every user, whatever their role, can delete their own account in Settings (`DELETE /api/auth/me`, password required

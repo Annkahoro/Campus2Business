@@ -55,6 +55,15 @@ export default function DeleteAccountCard() {
   if (user.role === 'org_admin' && organization) warnings.push(t('delete.warnings.orgAdmin', { name: organization.name }));
   if (user.role === 'c2b_admin') warnings.push(t('delete.warnings.admin'));
 
+  // The main C2B admin (configured on the server) can never be deleted — the server refuses it too.
+  if (user.isSuperAdmin) {
+    return (
+      <Card>
+        <CardHeader title={t('delete.title')} description={t('delete.superAdmin')} />
+      </Card>
+    );
+  }
+
   return (
     <Card className="border-danger">
       <CardHeader title={t('delete.title')} description={t('delete.text')} />

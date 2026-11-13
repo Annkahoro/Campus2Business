@@ -13,6 +13,7 @@ export function toPublicUser(user) {
     email: user.email,
     role: user.role,
     authProvider: user.authProvider,
+    isSuperAdmin: !!user.isSuperAdmin,
     organization: idOf(user.organization),
     avatar: user.avatar?.url ? { url: user.avatar.url } : null,
     preferredLanguage: user.preferredLanguage,

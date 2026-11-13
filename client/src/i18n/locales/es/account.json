@@ -22,7 +22,8 @@
     "new": "Nueva contraseña",
     "confirm": "Confirmar nueva contraseña",
     "submit": "Cambiar contraseña",
-    "saved": "Contraseña cambiada."
+    "saved": "Contraseña cambiada.",
+    "superAdmin": "Esta es la cuenta de administrador principal de C2B. Su contraseña se define en la configuración del servidor (Render): cambia SEED_ADMIN_PASSWORD allí y se aplicará al reiniciar el servidor."
   },
   "admins": {
     "title": "Administradores de C2B",
@@ -37,7 +38,8 @@
     "since": "Desde el {{date}}",
     "editTitle": "Editar administrador de C2B",
     "deleteTitle": "¿Eliminar administrador?",
-    "deleteText": "{{name}} perderá el acceso de inmediato y su cuenta se eliminará de forma permanente."
+    "deleteText": "{{name}} perderá el acceso de inmediato y su cuenta se eliminará de forma permanente.",
+    "mainAdmin": "Admin principal"
   },
   "users": {
     "active": "Activa",
@@ -63,6 +65,7 @@
       "learner": "Se eliminarán tu perfil, tu CV, tus itinerarios de aprendizaje y tus inscripciones.",
       "orgAdmin": "También se eliminará {{name}}. Sus enlaces de invitación dejarán de funcionar y sus empleados conservarán sus cuentas como estudiantes individuales.",
       "admin": "Si eres el último administrador activo de C2B, no puedes eliminar tu cuenta."
-    }
+    },
+    "superAdmin": "Esta es la cuenta de administrador principal de C2B, así que no se puede eliminar. Su correo y contraseña se gestionan en la configuración del servidor (Render)."
   }
 }

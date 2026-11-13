@@ -79,5 +79,7 @@
   "CATEGORY_NOT_FOUND": "This category no longer exists.",
   "IMPORT_SITE_UNAVAILABLE": "campus2b.com could not be reached. Try again in a few minutes.",
   "IMPORT_PAGE_FAILED": "The course page could not be read.",
-  "IMPORT_ALREADY_IMPORTED": "This course is already on the platform."
+  "IMPORT_ALREADY_IMPORTED": "This course is already on the platform.",
+  "SUPER_ADMIN_PROTECTED": "The main C2B admin can’t be deleted or deactivated.",
+  "SUPER_ADMIN_MANAGED": "The main C2B admin’s email and password are managed in the server settings."
 }

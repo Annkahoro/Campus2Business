@@ -5,6 +5,7 @@ import { initSockets } from './sockets/index.js';
 import { connectDB, disconnectDB } from './config/db.js';
 import app from './app.js';
 import { failStuckGenerations } from './services/recommendation.service.js';
+import { syncSuperAdmin } from './services/superAdmin.service.js';
 
 const server = http.createServer(app);
 
@@ -16,6 +17,8 @@ async function start() {
   try {
     await connectDB();
     await failStuckGenerations();
+    // Main admin follows SEED_ADMIN_EMAIL / SEED_ADMIN_PASSWORD (Render settings); never blocks start-up.
+    await syncSuperAdmin().catch((err) => console.error('❌ Main admin sync failed:', err.message));
   } catch (err) {
     console.error('❌ MongoDB connection failed:', err.message);
     // In production the API is useless without a database. In development we keep

@@ -22,6 +22,7 @@ import { emitOrgStatus } from '../sockets/events.js';
  *   The organization's private remarks on them are removed.
  * - Deleting an org admin also deletes the organization they own.
  * - The last active C2B admin can never be deleted (someone must be able to run the platform).
+ * - The main C2B admin (isSuperAdmin, configured on the server) can never be deleted, not even by themselves.
  */
 
 const LEARNER_ROLES = [ROLES.STUDENT, ROLES.EMPLOYEE];
@@ -86,6 +87,7 @@ export async function removeOrganization(org, actor) {
  * `actor` is who did it (the user themselves, a C2B admin, or an org admin removing an employee).
  */
 export async function deleteUser(user, actor) {
+  if (user.isSuperAdmin) throw ApiError.forbidden('SUPER_ADMIN_PROTECTED', 'The main C2B admin cannot be deleted');
   await assertNotLastAdmin(user);
   if (LEARNER_ROLES.includes(user.role)) await assertNotGenerating(user._id);
 

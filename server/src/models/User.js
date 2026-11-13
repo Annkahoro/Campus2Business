@@ -16,12 +16,17 @@ const userSchema = new Schema(
     avatar: { url: String, publicId: String },
     preferredLanguage: { type: String, enum: LANGUAGES, default: 'en' },
     isActive: { type: Boolean, default: true },
+    // The main C2B admin, configured by SEED_ADMIN_EMAIL / SEED_ADMIN_PASSWORD on the server (Render).
+    // Never deleted or deactivated; email and password follow the server settings (services/superAdmin.service.js).
+    isSuperAdmin: { type: Boolean, default: false },
     lastLoginAt: Date,
   },
   { timestamps: true },
 );
 
 userSchema.index({ role: 1, organization: 1 });
+// At most one main admin.
+userSchema.index({ isSuperAdmin: 1 }, { unique: true, partialFilterExpression: { isSuperAdmin: true } });
 
 userSchema.pre('save', async function hashPassword() {
   if (!this.isModified('password') || !this.password) return;

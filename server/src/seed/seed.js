@@ -1,6 +1,6 @@
 /**
  * npm run seed — idempotent. Safe to run repeatedly; never overwrites data edited by admins.
- * - Phase 1: first c2b_admin from SEED_ADMIN_EMAIL / SEED_ADMIN_PASSWORD
+ * - Phase 1: main c2b_admin from SEED_ADMIN_EMAIL / SEED_ADMIN_PASSWORD (also synced on every server start)
  * - Categories from categories.json (inserted only if missing)
  * - Phase 2: programme catalogue from programmes.json (matched by `code`, inserted only if missing).
  *   programmes.json is the real C2B catalogue imported from campus2b.com (eLearning + General catalogues).
@@ -19,14 +19,13 @@
 import { readFile } from 'node:fs/promises';
 import { env } from '../config/env.js';
 import { connectDB, disconnectDB } from '../config/db.js';
-import { User } from '../models/User.js';
 import { Programme } from '../models/Programme.js';
 import { Category } from '../models/Category.js';
 import { CatalogueImportIgnore } from '../models/CatalogueImportIgnore.js';
-import { ROLES } from '../models/_shared.js';
 import { isCloudinaryConfigured } from '../config/cloudinary.js';
 import { uploadImageFromUrl } from '../services/upload.service.js';
 import { seedDemo } from './demo.js';
+import { syncSuperAdmin } from '../services/superAdmin.service.js';
 
 const SYNC = process.argv.includes('--sync-catalogue');
 
@@ -37,29 +36,6 @@ const LEGACY_DEMO_CODES = [
 ];
 
 const readJson = async (name) => JSON.parse(await readFile(new URL(`./${name}`, import.meta.url), 'utf8'));
-
-async function seedAdmin() {
-  const email = env.SEED_ADMIN_EMAIL?.toLowerCase();
-  const password = env.SEED_ADMIN_PASSWORD;
-  if (!email || !password) {
-    console.warn('⚠️  SEED_ADMIN_EMAIL / SEED_ADMIN_PASSWORD not set; skipping admin seed');
-    return null;
-  }
-
-  const existing = await User.findOne({ email });
-  if (existing) {
-    if (existing.role !== ROLES.C2B_ADMIN) {
-      console.warn(`⚠️  ${email} exists with role "${existing.role}"; not changing it`);
-    } else {
-      console.log(`✔  C2B admin already exists: ${email}`);
-    }
-    return existing;
-  }
-
-  const admin = await User.create({ name: 'C2B Admin', email, password, role: ROLES.C2B_ADMIN, authProvider: 'local' });
-  console.log(`✅ Created C2B admin: ${email}`);
-  return admin;
-}
 
 async function seedCategories() {
   const categories = await readJson('categories.json');
@@ -158,7 +134,7 @@ async function seedImportIgnores() {
 
 async function run() {
   await connectDB();
-  const admin = await seedAdmin();
+  const admin = await syncSuperAdmin();
   await seedCategories();
   await migrateLegacyCategory();
   await seedProgrammes(admin);

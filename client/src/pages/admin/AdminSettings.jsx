@@ -28,6 +28,7 @@ function useAdminWrite(mutationFn) {
  * /admin/settings — own account + C2B admin users (docs/04 §6).
  * Every C2B admin can create, edit, deactivate and delete other admins. Their own account is edited
  * (and deleted) in the sections above/below; the last active admin can never be removed (LAST_ADMIN).
+ * The main admin (isSuperAdmin, set on the server) can be renamed but never deleted, deactivated or re-emailed.
  */
 export default function AdminSettings() {
   const { t, i18n } = useTranslation('account');
@@ -80,6 +81,7 @@ export default function AdminSettings() {
                   <div className="min-w-0">
                     <p className="flex flex-wrap items-center gap-2 font-medium">
                       {a.name}
+                      {a.isSuperAdmin && <Badge variant="active">{t('admins.mainAdmin')}</Badge>}
                       {isMe && <Badge variant="soft">{t('admins.you')}</Badge>}
                       {!a.isActive && <Badge variant="neutral">{t('users.inactive')}</Badge>}
                     </p>
@@ -99,6 +101,7 @@ export default function AdminSettings() {
                         >
                           <Pencil size={16} strokeWidth={1.75} aria-hidden="true" />
                         </Button>
+                        {!a.isSuperAdmin && (
                         <Button
                           variant="ghost"
                           size="sm"
@@ -108,6 +111,7 @@ export default function AdminSettings() {
                         >
                           <Trash2 size={16} strokeWidth={1.75} aria-hidden="true" />
                         </Button>
+                        )}
                       </>
                     )}
                   </div>
@@ -123,7 +127,8 @@ export default function AdminSettings() {
         onClose={() => setModal(null)}
         mode={modal?.mode ?? 'create'}
         user={modal?.admin}
-        emailEditable={modal?.admin?.authProvider !== 'google'}
+        emailEditable={modal?.admin?.authProvider !== 'google' && !modal?.admin?.isSuperAdmin}
+        canDeactivate={!modal?.admin?.isSuperAdmin}
         onSubmit={onSubmit}
         loading={create.isPending || update.isPending}
         title={modal?.mode === 'edit' ? t('admins.editTitle') : t('admins.newTitle')}

@@ -219,6 +219,8 @@ export async function uploadAvatar(user, file) {
 export async function changePassword(userId, { currentPassword, newPassword }) {
   const user = await User.findById(userId).select('+password');
   if (!user) throw ApiError.notFound();
+  // Changed here it would be overwritten by SEED_ADMIN_PASSWORD on the next server start.
+  if (user.isSuperAdmin) throw ApiError.forbidden('SUPER_ADMIN_MANAGED', 'The main admin password is set in the server settings');
 
   // Google-only users have no password yet and may set one without a current password.
   if (user.password) {

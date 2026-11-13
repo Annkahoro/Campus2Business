@@ -22,7 +22,8 @@
     "new": "New password",
     "confirm": "Confirm new password",
     "submit": "Change password",
-    "saved": "Password changed."
+    "saved": "Password changed.",
+    "superAdmin": "This is the main C2B admin account. Its password is set in the server settings (Render): change SEED_ADMIN_PASSWORD there and it applies after the server restarts."
   },
   "admins": {
     "title": "C2B administrators",
@@ -37,7 +38,8 @@
     "since": "Since {{date}}",
     "editTitle": "Edit C2B administrator",
     "deleteTitle": "Delete administrator?",
-    "deleteText": "{{name}} will lose access immediately and their account will be permanently deleted."
+    "deleteText": "{{name}} will lose access immediately and their account will be permanently deleted.",
+    "mainAdmin": "Main admin"
   },
   "users": {
     "active": "Active",
@@ -63,6 +65,7 @@
       "learner": "Your profile, CV, learning pathways and enrollments will be deleted.",
       "orgAdmin": "{{name}} will be deleted too. Its invite links stop working and its employees keep their accounts as individual learners.",
       "admin": "If you are the last active C2B administrator, you cannot delete your account."
-    }
+    },
+    "superAdmin": "This is the main C2B admin account, so it can’t be deleted. Its email and password are managed in the server settings (Render)."
   }
 }

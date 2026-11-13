@@ -126,6 +126,15 @@ function PasswordCard() {
     }
   });
 
+  // The main admin password is SEED_ADMIN_PASSWORD on the server; changing it here would be undone on restart.
+  if (user.isSuperAdmin) {
+    return (
+      <Card>
+        <CardHeader title={t('password.title')} description={t('password.superAdmin')} />
+      </Card>
+    );
+  }
+
   return (
     <Card>
       <CardHeader title={t('password.title')} description={isGoogle ? t('password.googleText') : t('password.text')} />
