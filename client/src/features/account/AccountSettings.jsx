@@ -37,7 +37,7 @@ function AccountCard() {
   });
   const save = useMutation({
     mutationFn: authApi.updateMe,
-    onSuccess: (updated) => qc.setQueryData(ME_QUERY_KEY, (prev) => (prev ? { ...prev, user: updated } : prev)),
+    onSuccess: (updated) => qc.setQueryData(ME_QUERY_KEY, (prev) => (prev ? { ...prev, user: { ...prev.user, ...updated } } : prev)),
   });
   const {
     register,
@@ -98,7 +98,7 @@ function AccountCard() {
 
 function PasswordCard() {
   const { t } = useTranslation('account');
-  const { user } = useAuth();
+  const { user, refetchMe } = useAuth();
   const isGoogle = user.authProvider === 'google';
   const form = useForm({
     resolver: zodResolver(passwordSchema),
@@ -117,6 +117,7 @@ function PasswordCard() {
     try {
       await change.mutateAsync({ currentPassword: currentPassword || undefined, newPassword });
       reset();
+      refetchMe(); // hasPassword may have changed (Google account setting its first password)
       toast.success(t('password.saved'));
     } catch (err) {
       if (err?.response?.data?.code === 'INVALID_CURRENT_PASSWORD') {

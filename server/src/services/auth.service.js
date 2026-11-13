@@ -16,8 +16,17 @@ import { Organization } from '../models/Organization.js';
 const googleClient = new OAuth2Client(env.GOOGLE_CLIENT_ID);
 
 /** Standard auth response: { token, user }. */
-function authPayload(user) {
-  return { token: signJwt(user), user: toPublicUser(user) };
+/**
+ * The signed-in user's own profile. `hasPassword` tells the client which confirmation to ask for: Google users
+ * can set a password later and then keep authProvider 'google', so authProvider alone is not enough.
+ */
+async function toOwnUser(user) {
+  const hasPassword = !!(await User.exists({ _id: user._id, password: { $type: 'string' } }));
+  return { ...toPublicUser(user), hasPassword };
+}
+
+async function authPayload(user) {
+  return { token: signJwt(user), user: await toOwnUser(user) };
 }
 
 async function assertEmailFree(email) {
@@ -136,7 +145,7 @@ export async function googleLogin({ credential, intent, inviteToken, preferredLa
     if (!user.googleId) user.googleId = sub;
     if (!user.avatar?.url && picture) user.avatar = { url: picture };
     await touchLogin(user);
-    return { ...authPayload(user), isNew: false };
+    return { ...(await authPayload(user)), isNew: false };
   }
 
   if (intent === 'login') {
@@ -154,7 +163,7 @@ export async function googleLogin({ credential, intent, inviteToken, preferredLa
       avatar: picture ? { url: picture } : undefined,
       preferredLanguage: preferredLanguage ?? 'en',
     });
-    return { ...authPayload(user), isNew: true };
+    return { ...(await authPayload(user)), isNew: true };
   }
 
   const role = intent === 'org_admin' ? ROLES.ORG_ADMIN : ROLES.STUDENT;
@@ -168,7 +177,7 @@ export async function googleLogin({ credential, intent, inviteToken, preferredLa
     preferredLanguage: preferredLanguage ?? 'en',
     lastLoginAt: new Date(),
   });
-  return { ...authPayload(user), isNew: true };
+  return { ...(await authPayload(user)), isNew: true };
 }
 
 /**
@@ -176,10 +185,10 @@ export async function googleLogin({ credential, intent, inviteToken, preferredLa
  * Org admins get their full organization; employees get a summary (name, logo, status, departments).
  */
 export async function getMe(user) {
-  if (!user.organization) return { user: toPublicUser(user), organization: null };
+  if (!user.organization) return { user: await toOwnUser(user), organization: null };
   const org = await Organization.findById(user.organization);
   const organization = user.role === ROLES.ORG_ADMIN ? toOrgDTO(org) : toOrgSummaryDTO(org);
-  return { user: toPublicUser(user), organization };
+  return { user: await toOwnUser(user), organization };
 }
 
 /** PATCH /auth/me */
@@ -187,7 +196,7 @@ export async function updateMe(user, { name, preferredLanguage }) {
   if (name !== undefined) user.name = name;
   if (preferredLanguage !== undefined) user.preferredLanguage = preferredLanguage;
   await user.save();
-  return toPublicUser(user);
+  return toOwnUser(user);
 }
 
 /** POST /auth/me/avatar — square 400px crop centred on the face. */
@@ -203,7 +212,7 @@ export async function uploadAvatar(user, file) {
   user.avatar = uploaded;
   await user.save();
   if (oldPublicId) await deleteAsset(oldPublicId);
-  return toPublicUser(user);
+  return toOwnUser(user);
 }
 
 /** PATCH /auth/me/password */

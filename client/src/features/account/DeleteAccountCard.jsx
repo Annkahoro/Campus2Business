@@ -9,11 +9,12 @@ import { authApi } from '../auth/api.js';
 
 /**
  * "Danger zone": every user can permanently delete their own account.
- * Local accounts confirm with their password; Google-only accounts type DELETE (ELIMINAR in Spanish).
+ * Accounts with a password confirm with it (including Google accounts that set one later); Google-only
+ * accounts type DELETE (ELIMINAR in Spanish). The server applies the same rule.
  */
 export default function DeleteAccountCard() {
   const { t } = useTranslation('account');
-  const { user, organization, logout } = useAuth();
+  const { user, organization, logout, refetchMe } = useAuth();
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const [password, setPassword] = useState('');
@@ -21,9 +22,10 @@ export default function DeleteAccountCard() {
   const [error, setError] = useState(null);
   const remove = useMutation({ mutationFn: authApi.deleteMe });
 
-  const isGoogle = user.authProvider === 'google';
+  // hasPassword comes from /auth/me; fall back to the sign-up method for sessions started before it existed.
+  const needsPassword = user.hasPassword ?? user.authProvider !== 'google';
   const word = t('delete.confirmWord');
-  const canConfirm = isGoogle ? typed.trim().toUpperCase() === word.toUpperCase() : password.length > 0;
+  const canConfirm = needsPassword ? password.length > 0 : typed.trim().toUpperCase() === word.toUpperCase();
 
   const close = () => {
     if (remove.isPending) return;
@@ -34,15 +36,17 @@ export default function DeleteAccountCard() {
   };
 
   const confirm = () =>
-    remove.mutate(isGoogle ? {} : { password }, {
+    remove.mutate(needsPassword ? { password } : {}, {
       onSuccess: () => {
         toast.success(t('delete.done'));
         logout();
         navigate('/', { replace: true });
       },
       onError: (err) => {
-        if (err?.response?.data?.code === 'INVALID_CURRENT_PASSWORD') setError('errors:INVALID_CURRENT_PASSWORD');
-        else toast.apiError(err);
+        if (err?.response?.data?.code === 'INVALID_CURRENT_PASSWORD') {
+          setError('errors:INVALID_CURRENT_PASSWORD');
+          if (!needsPassword) refetchMe(); // the account has a password after all → the password field appears
+        } else toast.apiError(err);
       },
     });
 
@@ -82,11 +86,15 @@ export default function DeleteAccountCard() {
               ))}
             </ul>
           </Alert>
-          {isGoogle ? (
+          {!needsPassword ? (
             <Input
               label={t('delete.typeLabel', { word })}
               value={typed}
-              onChange={(e) => setTyped(e.target.value)}
+              onChange={(e) => {
+                setTyped(e.target.value);
+                setError(null);
+              }}
+              error={error}
               autoComplete="off"
               required
             />

@@ -21,6 +21,6 @@ export function useUploadAvatar() {
   const qc = useQueryClient();
   return useMutation({
     mutationFn: uploadAvatar,
-    onSuccess: ({ user }) => qc.setQueryData(ME_QUERY_KEY, (prev) => (prev ? { ...prev, user } : prev)),
+    onSuccess: ({ user }) => qc.setQueryData(ME_QUERY_KEY, (prev) => (prev ? { ...prev, user: { ...prev.user, ...user } } : prev)),
   });
 }
