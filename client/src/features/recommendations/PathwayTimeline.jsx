@@ -3,7 +3,8 @@ import { useTranslation } from 'react-i18next';
 import { Clock, MonitorSmartphone, Target } from 'lucide-react';
 import { loc } from '../../lib/localized.js';
 import { cn } from '../../lib/cn.js';
-import { categoryLabel, formatDuration, formatPrice } from '../programmes/format.js';
+import { formatDuration, priceLabel } from '../programmes/format.js';
+import { useCategoryLabel } from '../programmes/hooks.js';
 import { PHASE_STYLES } from './constants.js';
 
 export function PhaseBadge({ phase, className }) {
@@ -46,6 +47,7 @@ export function MatchScore({ value }) {
 export default function PathwayTimeline({ steps, programmeHref, renderAction }) {
   const { t, i18n } = useTranslation('pathway');
   const lang = i18n.resolvedLanguage;
+  const categoryLabel = useCategoryLabel();
 
   return (
     <ol className="relative space-y-6">
@@ -54,11 +56,11 @@ export default function PathwayTimeline({ steps, programmeHref, renderAction }) 
         const title = p.missing ? t('programmeUnavailable') : loc(p.title, lang);
         const last = index === steps.length - 1;
         const meta = [
-          p.category && categoryLabel(t, p.category),
+          p.categories?.length && p.categories.map(categoryLabel).join(', '),
           p.level && t(`programme.levels.${p.level}`, { ns: 'common', defaultValue: p.level }),
         ].filter(Boolean);
         const duration = formatDuration(p, t);
-        const price = formatPrice(p.price, lang, t);
+        const price = priceLabel(p, lang, t);
 
         return (
           <li key={`${p.id}-${index}`} className="relative flex gap-4">

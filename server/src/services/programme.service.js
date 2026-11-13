@@ -6,10 +6,13 @@ import { getActiveFields, toFieldDTO } from './programmeField.service.js';
 import { validateCustomFields } from './customFields.js';
 import { deleteAsset, uploadImage } from './upload.service.js';
 import { emitProgrammesChanged } from '../sockets/events.js';
+import { assertCategoriesExist } from './category.service.js';
 
 const escapeRegex = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 const isAdminUser = (user) => user?.role === ROLES.C2B_ADMIN;
 const mapToObject = (m) => (m instanceof Map ? Object.fromEntries(m) : { ...(m ?? {}) });
+const i18nList = (v) => ({ en: [...(v?.en ?? [])], es: [...(v?.es ?? [])] });
+const i18n = (v) => ({ en: v?.en ?? '', es: v?.es ?? '' });
 
 /* ─────────────────────────── DTO ─────────────────────────── */
 
@@ -35,7 +38,13 @@ export function toProgrammeDTO(p, { visibleKeys = null } = {}) {
     shortDescription: p.shortDescription,
     description: p.description,
     coverImage: p.coverImage?.url ? { url: p.coverImage.url } : null,
-    category: p.category,
+    catalogue: p.catalogue ?? 'elearning',
+    categories: p.categories ?? [],
+    featured: !!p.featured,
+    subsidised: !!p.subsidised,
+    topics: i18nList(p.topics),
+    idealFor: i18nList(p.idealFor),
+    organizer: p.organizer || 'C2B',
     level: p.level,
     durationValue: p.durationValue ?? null,
     durationUnit: p.durationUnit ?? null,
@@ -51,11 +60,15 @@ export function toProgrammeDTO(p, { visibleKeys = null } = {}) {
       id: String(i._id),
       startDate: i.startDate,
       endDate: i.endDate ?? null,
+      startTime: i.startTime ?? null,
+      endTime: i.endTime ?? null,
+      note: i18n(i.note),
       seats: i.seats ?? null,
       location: i.location ?? '',
     })),
     tags: p.tags ?? [],
     customFields,
+    ...(visibleKeys ? {} : { sourceUrls: p.sourceUrls ?? [] }), // admins only
     status: p.status,
     createdAt: p.createdAt,
     updatedAt: p.updatedAt,
@@ -67,7 +80,11 @@ export function toProgrammeDTO(p, { visibleKeys = null } = {}) {
 function buildFilter(q) {
   const filter = {};
   if (q.status) filter.status = q.status;
-  if (q.category) filter.category = q.category;
+  if (q.catalogue) filter.catalogue = q.catalogue;
+  if (q.category) filter.categories = q.category;
+  if (q.featured !== undefined) filter.featured = q.featured;
+  if (q.subsidised !== undefined) filter.subsidised = q.subsidised;
+  if (q.exclude) filter._id = { $ne: q.exclude };
   if (q.level) filter.level = q.level;
   if (q.mode) filter.deliveryMode = q.mode;
   if (q.lang) filter.language = q.lang;
@@ -80,7 +97,7 @@ function buildFilter(q) {
 }
 
 async function paginate(filter, { page, limit, all }, mapper) {
-  const query = Programme.find(filter).sort({ category: 1, level: 1, 'title.en': 1 });
+  const query = Programme.find(filter).sort({ featured: -1, catalogue: 1, 'title.es': 1 });
   if (all) {
     const items = await query.lean();
     return { items: items.map(mapper), page: 1, limit: items.length, total: items.length, pages: 1 };
@@ -119,12 +136,6 @@ export async function getForViewer(id, user) {
   const fields = (await getActiveFields()).filter((f) => admin || f.showToLearners);
   const visibleKeys = admin ? null : new Set(fields.map((f) => f.key));
   return { programme: toProgrammeDTO(programme, { visibleKeys }), fields: fields.map(toFieldDTO) };
-}
-
-/** GET /programmes/meta/categories — distinct categories of published programmes. */
-export async function listCategories() {
-  const categories = await Programme.distinct('category', { status: 'published' });
-  return categories.sort();
 }
 
 /** GET /admin/programmes — every status. */
@@ -166,6 +177,7 @@ async function assertValidPrerequisites(programmeId, prereqIds) {
 const dedupe = (ids) => [...new Set((ids ?? []).map(String))];
 
 export async function create(data, userId) {
+  await assertCategoriesExist(data.categories);
   await assertValidPrerequisites(null, data.prerequisites);
   if (data.code && (await Programme.exists({ code: data.code }))) {
     throw ApiError.conflict('PROGRAMME_CODE_EXISTS', `Programme code ${data.code} already exists`);
@@ -189,6 +201,7 @@ export async function update(id, data) {
   const programme = await Programme.findById(id);
   if (!programme) throw ApiError.notFound('PROGRAMME_NOT_FOUND', 'Programme not found');
 
+  if (data.categories) await assertCategoriesExist(data.categories);
   if (data.prerequisites) {
     await assertValidPrerequisites(id, data.prerequisites);
     data.prerequisites = dedupe(data.prerequisites);

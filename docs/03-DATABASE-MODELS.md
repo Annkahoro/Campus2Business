@@ -197,12 +197,18 @@ The "open space" that lets the C2B admin add new programme fields without code c
 ## 6. Programme
 ```js
 {
-  code:        { type: String, unique: true },         // e.g. C2B-DT-101
+  code:        { type: String, unique: true },         // e.g. C2B-EL-01 (eLearning) / C2B-GN-01 (General)
   title:       I18nText,
   shortDescription: I18nText,
   description: I18nText,
   coverImage:  { url: String, publicId: String },
-  category:    { type: String, required: true },       // Digital Transformation, Data & AI, Leadership, Agile…
+  catalogue:   { type: String, enum: ['elearning', 'general'], required: true }, // as on campus2b.com: self-paced online vs scheduled dates
+  categories:  [String],      // Category slugs (min 1); first = primary. A programme can be in several categories
+  featured:    Boolean,       // "Destacados": shown first in the catalogue and on the landing page
+  subsidised:  Boolean,       // shown as "Subsidised" instead of a price; enrollment amount = 0
+  topics:      { en: [String], es: [String] },   // "Topics covered"
+  idealFor:    { en: [String], es: [String] },   // "It's for you or your company if…"
+  organizer:   { type: String, default: 'C2B' },
   level:       { type: String, enum: ['beginner', 'intermediate', 'advanced', 'expert'], required: true },
   durationValue: Number,
   durationUnit:  { type: String, enum: ['hours', 'days', 'weeks', 'months'] },
@@ -214,16 +220,40 @@ The "open space" that lets the C2B admin add new programme fields without code c
   targetAudience: [{ type: String, enum: ['student', 'employee'] }],
   targetDepartments: [String],    // e.g. ICT, Finance — empty = all
   price:     { amount: Number, currency: { type: String, default: 'EUR' } },
-  intakes:   [{ startDate: Date, endDate: Date, seats: Number, location: String }],
+  intakes:   [{ startDate: Date, endDate: Date, startTime: 'HH:mm', endTime: 'HH:mm', note: I18nText, seats: Number, location: String }],
   tags:      [String],
 
   customFields: { type: Map, of: Schema.Types.Mixed, default: {} },   // keyed by ProgrammeField.key
+  sourceUrls:   [String],   // campus2b.com course page(s) it was imported from (several when repeat runs were merged); admins only
 
   status:    { type: String, enum: ['draft', 'published', 'archived'], default: 'draft' },
   createdBy: { type: ObjectId, ref: 'User' },
 }
 ```
 - Text index on `title.en`, `title.es`, `skillsGained`, `tags` (used for AI pre-filtering).
+- The real C2B catalogue (52 courses imported from campus2b.com, Spanish originals + English translations) is in `server/src/seed/programmes.json`; `npm run catalogue:sync` imports it into an existing database and archives the 15 old demo programmes (admin-created programmes are left alone). `npm run seed` backfills `sourceUrls` on existing programmes (matched by code).
+- Imported later through Admin → Programmes → "Import from campus2b.com": new site courses become `draft` programmes (Spanish text, next `C2B-EL-NN` / `C2B-GN-NN` code), or their dates are added to an existing programme.
+
+### 6b. Category
+```js
+{
+  slug:     { type: String, unique: true, immutable: true },  // e.g. artificial_intelligence
+  name:     I18nText,
+  order:    Number,     // order of the catalogue filter chips
+  isActive: Boolean,    // inactive = hidden from filters and the programme form; programmes keep the slug
+}
+```
+- Managed by C2B admins (`/admin/categories`). Seeded from `server/src/seed/categories.json` (the campus2b.com categories).
+### 6c. CatalogueImportIgnore
+```js
+{
+  url:       { type: String, unique: true },  // canonical campus2b.com course URL
+  title:     String,
+  ignoredBy: { type: ObjectId, ref: 'User' },
+}
+```
+- campus2b.com courses an admin chose not to import (e.g. webinars); hidden from the import list until restored. Seeded from `server/src/seed/import-ignore.json`.
+
 - `programme.service.js` validates `customFields` against the active `ProgrammeField` definitions (type checks, required).
 
 ---
@@ -352,4 +382,5 @@ User 1──1 LearnerProfile
 User 1──* Recommendation *──* Programme
 User 1──* Enrollment *──1 Programme
 ProgrammeField *──(defines keys of)── Programme.customFields
+Category 1──* Programme.categories (by slug)
 ```

@@ -31,6 +31,7 @@ const ProgrammesList = lazy(() => import('./pages/admin/ProgrammesList.jsx'));
 const ProgrammeEditor = lazy(() => import('./pages/admin/ProgrammeEditor.jsx'));
 const ProgrammeView = lazy(() => import('./pages/admin/ProgrammeView.jsx'));
 const ProgrammeFields = lazy(() => import('./pages/admin/ProgrammeFields.jsx'));
+const Categories = lazy(() => import('./pages/admin/Categories.jsx'));
 const Learners = lazy(() => import('./pages/admin/Learners.jsx'));
 const LearnerDetail = lazy(() => import('./pages/admin/LearnerDetail.jsx'));
 const Recommendations = lazy(() => import('./pages/admin/Recommendations.jsx'));
@@ -96,6 +97,7 @@ export default function App() {
             <Route path="programmes/:id" element={<ProgrammeView />} />
             <Route path="programmes/:id/edit" element={<ProgrammeEditor />} />
             <Route path="programme-fields" element={<ProgrammeFields />} />
+            <Route path="categories" element={<Categories />} />
             <Route path="learners" element={<Learners />} />
             <Route path="learners/:id" element={<LearnerDetail />} />
             <Route path="recommendations" element={<Recommendations />} />

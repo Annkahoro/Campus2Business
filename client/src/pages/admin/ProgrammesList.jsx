@@ -1,14 +1,21 @@
 import { useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { AlertCircle, BookOpen, Eye, EyeOff, Pencil, Plus, Trash2 } from 'lucide-react';
+import { AlertCircle, BookOpen, DownloadCloud, Eye, EyeOff, Pencil, Plus, Trash2 } from 'lucide-react';
 import { Button, Card, EmptyState, Input, Pagination, Select, Spinner, toast } from '../../components/ui/index.js';
 import StatusBadge from '../../components/shared/StatusBadge.jsx';
 import ConfirmDialog from '../../components/shared/ConfirmDialog.jsx';
+import ImportProgrammesModal from '../../features/programmes/ImportProgrammesModal.jsx';
 import { loc } from '../../lib/localized.js';
-import { CATEGORIES, PROGRAMME_STATUSES, coverFor } from '../../features/programmes/constants.js';
-import { categoryLabel, formatPrice } from '../../features/programmes/format.js';
-import { useAdminProgrammes, useDeleteProgramme, useSetProgrammeStatus } from '../../features/programmes/hooks.js';
+import { CATALOGUES, PROGRAMME_STATUSES, coverFor } from '../../features/programmes/constants.js';
+import { priceLabel } from '../../features/programmes/format.js';
+import {
+  useAdminProgrammes,
+  useCategoryLabel,
+  useDeleteProgramme,
+  useProgrammeCategories,
+  useSetProgrammeStatus,
+} from '../../features/programmes/hooks.js';
 
 const iconBtn =
   'rounded-lg p-2 text-ink-muted hover:bg-mint-soft hover:text-emerald focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald disabled:opacity-50';
@@ -20,14 +27,19 @@ export default function ProgrammesList() {
   const filters = {
     search: params.get('search') ?? '',
     status: params.get('status') ?? '',
+    catalogue: params.get('catalogue') ?? '',
     category: params.get('category') ?? '',
     page: Number(params.get('page')) || 1,
   };
   const [toDelete, setToDelete] = useState(null);
+  const [importOpen, setImportOpen] = useState(false);
 
   const query = useAdminProgrammes({ ...filters, limit: 20 });
   const setStatus = useSetProgrammeStatus();
   const remove = useDeleteProgramme();
+  const categories = useProgrammeCategories();
+  const categoryLabel = useCategoryLabel();
+  const categoriesText = (p) => (p.categories ?? []).map(categoryLabel).join(', ');
 
   const update = (changes) => {
     const next = new URLSearchParams(params);
@@ -63,12 +75,19 @@ export default function ProgrammesList() {
           <h1 className="font-display text-2xl font-bold md:text-3xl">{t('admin:programmes.title')}</h1>
           <p className="mt-1 text-ink-muted">{t('admin:programmes.subtitle')}</p>
         </div>
-        <Button as={Link} to="/admin/programmes/new" leftIcon={<Plus size={18} strokeWidth={1.75} aria-hidden="true" />}>
-          {t('admin:programmes.new')}
-        </Button>
+        <div className="flex flex-wrap gap-3">
+          <Button variant="outline" onClick={() => setImportOpen(true)} leftIcon={<DownloadCloud size={18} strokeWidth={1.75} aria-hidden="true" />}>
+            {t('admin:import.button')}
+          </Button>
+          <Button as={Link} to="/admin/programmes/new" leftIcon={<Plus size={18} strokeWidth={1.75} aria-hidden="true" />}>
+            {t('admin:programmes.new')}
+          </Button>
+        </div>
       </div>
 
-      <Card className="grid gap-4 p-4 sm:grid-cols-3" padded={false}>
+      <ImportProgrammesModal open={importOpen} onClose={() => setImportOpen(false)} />
+
+      <Card className="grid gap-4 p-4 sm:grid-cols-2 lg:grid-cols-4" padded={false}>
         <Input
             label={t('programme.filters.search')}
             placeholder={t('admin:programmes.searchPlaceholder')}
@@ -84,11 +103,18 @@ export default function ProgrammesList() {
             options={PROGRAMME_STATUSES.map((s) => ({ value: s, label: t(`status.${s}`) }))}
           />
           <Select
+            label={t('admin:programmes.columns.catalogue')}
+            placeholder={t('programme.filters.all')}
+            value={filters.catalogue}
+            onChange={(e) => update({ catalogue: e.target.value })}
+            options={CATALOGUES.map((c) => ({ value: c, label: t(`programme.catalogues.${c}`) }))}
+          />
+          <Select
             label={t('programme.filters.category')}
             placeholder={t('programme.filters.all')}
             value={filters.category}
             onChange={(e) => update({ category: e.target.value })}
-            options={CATEGORIES.map((c) => ({ value: c, label: categoryLabel(t, c) }))}
+            options={(categories.data ?? []).map((c) => ({ value: c.slug, label: categoryLabel(c.slug) }))}
           />
       </Card>
 
@@ -127,6 +153,7 @@ export default function ProgrammesList() {
               <thead className="bg-cream-dark text-xs uppercase text-ink-muted">
                 <tr>
                   <th scope="col" className="px-5 py-3 font-semibold">{t('admin:programmes.columns.programme')}</th>
+                  <th scope="col" className="px-5 py-3 font-semibold">{t('admin:programmes.columns.catalogue')}</th>
                   <th scope="col" className="px-5 py-3 font-semibold">{t('admin:programmes.columns.category')}</th>
                   <th scope="col" className="px-5 py-3 font-semibold">{t('admin:programmes.columns.level')}</th>
                   <th scope="col" className="px-5 py-3 font-semibold">{t('admin:programmes.columns.price')}</th>
@@ -148,9 +175,10 @@ export default function ProgrammesList() {
                         </div>
                       </div>
                     </td>
-                    <td className="px-5 py-3 text-sm">{categoryLabel(t, p.category)}</td>
+                    <td className="px-5 py-3 text-sm">{t(`programme.catalogues.${p.catalogue}`)}</td>
+                    <td className="px-5 py-3 text-sm">{categoriesText(p)}</td>
                     <td className="px-5 py-3 text-sm">{t(`programme.levels.${p.level}`)}</td>
-                    <td className="px-5 py-3 text-sm">{formatPrice(p.price, lang, t) ?? '—'}</td>
+                    <td className="px-5 py-3 text-sm">{priceLabel(p, lang, t) ?? '—'}</td>
                     <td className="px-5 py-3">
                       <StatusBadge status={p.status} />
                     </td>
@@ -173,8 +201,8 @@ export default function ProgrammesList() {
                     <StatusBadge status={p.status} />
                   </div>
                   <p className="text-sm text-ink-muted">
-                    {categoryLabel(t, p.category)} · {t(`programme.levels.${p.level}`)}
-                    {formatPrice(p.price, lang, t) && ` · ${formatPrice(p.price, lang, t)}`}
+                    {t(`programme.catalogues.${p.catalogue}`)} · {categoriesText(p)} · {t(`programme.levels.${p.level}`)}
+                    {priceLabel(p, lang, t) && ` · ${priceLabel(p, lang, t)}`}
                   </p>
                   <RowActions p={p} onToggle={togglePublish} onDelete={setToDelete} busy={setStatus.isPending} />
                 </li>

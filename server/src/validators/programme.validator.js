@@ -1,17 +1,24 @@
 import { z } from 'zod';
 import {
   AUDIENCES,
+  CATALOGUES,
   DELIVERY_MODES,
   DURATION_UNITS,
   PROGRAMME_LEVELS,
   PROGRAMME_STATUSES,
 } from '../models/Programme.js';
-import { booleanQuery, i18nText, i18nTextRequired, objectId, paginationQuery, stringList } from './common.js';
+import { booleanQuery, i18nList, i18nText, i18nTextRequired, objectId, paginationQuery, stringList } from './common.js';
+
+const time = z.string().trim().regex(/^([01]\d|2[0-3]):[0-5]\d$/, 'INVALID_TIME');
+const categorySlug = z.string().trim().regex(/^[a-z][a-z0-9_]{1,59}$/, 'INVALID_CATEGORY');
 
 const intake = z
   .object({
     startDate: z.coerce.date(),
     endDate: z.coerce.date().optional().nullable(),
+    startTime: time.optional().nullable(),
+    endTime: time.optional().nullable(),
+    note: i18nText(200).optional(),
     seats: z.number().int().min(0).max(100000).optional().nullable(),
     location: z.string().trim().max(200).optional(),
   })
@@ -30,7 +37,17 @@ const shape = {
   title: i18nTextRequired(200),
   shortDescription: i18nText(400),
   description: i18nText(8000),
-  category: z.string().trim().min(1).max(60),
+  catalogue: z.enum(CATALOGUES),
+  categories: z
+    .array(categorySlug)
+    .min(1, 'REQUIRED')
+    .max(10)
+    .transform((arr) => [...new Set(arr)]),
+  featured: z.boolean(),
+  subsidised: z.boolean(),
+  topics: i18nList(60, 500),
+  idealFor: i18nList(20, 500),
+  organizer: z.string().trim().max(100),
   level: z.enum(PROGRAMME_LEVELS),
   durationValue: z.number().positive().max(10000).nullable(),
   durationUnit: z.enum(DURATION_UNITS).nullable(),
@@ -51,7 +68,7 @@ const shape = {
   status: z.enum(PROGRAMME_STATUSES),
 };
 
-export const createProgrammeSchema = z.object(shape).partial().required({ title: true, category: true, level: true });
+export const createProgrammeSchema = z.object(shape).partial().required({ title: true, categories: true, level: true });
 
 export const updateProgrammeSchema = z
   .object(shape)
@@ -61,7 +78,11 @@ export const updateProgrammeSchema = z
 export const programmeStatusSchema = z.object({ status: z.enum(PROGRAMME_STATUSES) });
 
 export const listProgrammesQuery = z.object({
+  catalogue: z.enum(CATALOGUES).optional(),
   category: z.string().trim().max(60).optional(),
+  featured: booleanQuery,
+  subsidised: booleanQuery,
+  exclude: objectId.optional(), // e.g. related programmes without the current one
   level: z.enum(PROGRAMME_LEVELS).optional(),
   mode: z.enum(DELIVERY_MODES).optional(),
   lang: z.enum(['en', 'es']).optional(),

@@ -4,14 +4,15 @@ import { Controller, useFieldArray, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { useTranslation } from 'react-i18next';
-import { Plus, Search, Trash2 } from 'lucide-react';
-import { Button, Card, CardHeader, Input, Select, Spinner, TagInput, Tabs, Textarea } from '../../components/ui/index.js';
+import { CheckCircle2, Plus, Search, Trash2 } from 'lucide-react';
+import { Alert, Button, Card, CardHeader, Input, Select, Spinner, Switch, TagInput, Tabs, Textarea } from '../../components/ui/index.js';
 import DynamicField from '../../components/shared/DynamicField.jsx';
 import { loc } from '../../lib/localized.js';
 import { cn } from '../../lib/cn.js';
-import { AUDIENCES, CATEGORIES, CONTENT_LANGS, DURATION_UNITS, LEVELS, MODES, PROGRAMME_STATUSES } from './constants.js';
-import { categoryLabel } from './format.js';
-import { useAdminProgrammes } from './hooks.js';
+import { AUDIENCES, CATALOGUES, CONTENT_LANGS, DURATION_UNITS, LEVELS, MODES, PROGRAMME_STATUSES } from './constants.js';
+import { useAdminProgrammes, useCategoryLabel } from './hooks.js';
+import { useAdminCategories } from '../categories/hooks.js';
+import { useFormDraft } from '../../lib/useFormDraft.js';
 
 /* ─────────────── schema (messages are i18n keys) ─────────────── */
 
@@ -32,7 +33,13 @@ const schema = z
     title: i18nPair,
     shortDescription: i18nPair,
     description: i18nPair,
-    category: z.string().min(1, 'validation.required'),
+    catalogue: z.enum(CATALOGUES),
+    categories: z.array(z.string()).min(1, 'admin:programmeForm.errors.categoryRequired'),
+    featured: z.boolean(),
+    subsidised: z.boolean(),
+    organizer: z.string().trim().max(100),
+    topics: i18nPair,
+    idealFor: i18nPair,
     level: z.string().min(1, 'validation.required'),
     durationValue: optionalNumber,
     durationUnit: z.string(),
@@ -50,6 +57,9 @@ const schema = z
         .object({
           startDate: z.string().min(1, 'validation.required'),
           endDate: z.string(),
+          startTime: z.string(),
+          endTime: z.string(),
+          note: i18nPair,
           seats: optionalNumber,
           location: z.string(),
         })
@@ -67,6 +77,9 @@ const schema = z
 const pair = (v) => ({ en: v?.en ?? '', es: v?.es ?? '' });
 const dateOnly = (d) => (d ? String(d).slice(0, 10) : '');
 const numStr = (n) => (n === null || n === undefined ? '' : String(n));
+/** Lists (topics, ideal for) are edited as one item per line. */
+const linesPair = (v) => ({ en: (v?.en ?? []).join('\n'), es: (v?.es ?? []).join('\n') });
+const toLines = (s) => s.split('\n').map((l) => l.trim()).filter(Boolean);
 
 function toFormValues(p, fields) {
   const custom = {};
@@ -80,7 +93,13 @@ function toFormValues(p, fields) {
     title: pair(p?.title),
     shortDescription: pair(p?.shortDescription),
     description: pair(p?.description),
-    category: p?.category ?? '',
+    catalogue: p?.catalogue ?? 'elearning',
+    categories: p?.categories ?? [],
+    featured: !!p?.featured,
+    subsidised: !!p?.subsidised,
+    organizer: p?.organizer ?? 'C2B',
+    topics: linesPair(p?.topics),
+    idealFor: linesPair(p?.idealFor),
     level: p?.level ?? '',
     durationValue: numStr(p?.durationValue),
     durationUnit: p?.durationUnit ?? 'weeks',
@@ -96,6 +115,9 @@ function toFormValues(p, fields) {
     intakes: (p?.intakes ?? []).map((i) => ({
       startDate: dateOnly(i.startDate),
       endDate: dateOnly(i.endDate),
+      startTime: i.startTime ?? '',
+      endTime: i.endTime ?? '',
+      note: pair(i.note),
       seats: numStr(i.seats),
       location: i.location ?? '',
     })),
@@ -111,7 +133,13 @@ function toPayload(v) {
     title: v.title,
     shortDescription: v.shortDescription,
     description: v.description,
-    category: v.category,
+    catalogue: v.catalogue,
+    categories: v.categories,
+    featured: v.featured,
+    subsidised: v.subsidised,
+    organizer: v.organizer || 'C2B',
+    topics: { en: toLines(v.topics.en), es: toLines(v.topics.es) },
+    idealFor: { en: toLines(v.idealFor.en), es: toLines(v.idealFor.es) },
     level: v.level,
     durationValue: toNum(v.durationValue),
     durationUnit: v.durationValue ? v.durationUnit || null : null,
@@ -127,6 +155,9 @@ function toPayload(v) {
     intakes: v.intakes.map((i) => ({
       startDate: i.startDate,
       endDate: i.endDate || null,
+      startTime: i.startTime || null,
+      endTime: i.endTime || null,
+      note: i.note,
       seats: i.seats === '' ? null : Math.round(Number(i.seats)),
       location: i.location,
     })),
@@ -224,30 +255,48 @@ function PrerequisitePicker({ value, onChange, excludeId }) {
 
 /**
  * Admin programme form (docs/09). `fields` = active ProgrammeField definitions.
- * onSubmit(payload, { setError }) lets the page map server field errors back onto inputs.
+ * onSubmit(payload, { setError, clearDraft }) lets the page map server field errors back onto inputs and
+ * drop the auto-saved draft once the save succeeded.
+ *
+ * Unsaved input is auto-saved in this browser (useFormDraft) and restored when the admin comes back, e.g.
+ * after leaving to manage custom fields or categories, a refresh or a closed tab.
  */
 export default function ProgrammeForm({ programme, fields, onSubmit, submitting }) {
   const { t, i18n } = useTranslation();
   const lang = i18n.resolvedLanguage;
   const [contentLang, setContentLang] = useState(lang === 'es' ? 'es' : 'en');
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps -- the form is re-mounted (keyed) for another programme or field set
+  const defaultValues = useMemo(() => toFormValues(programme, fields), []);
   const {
     register,
     control,
     handleSubmit,
     watch,
+    reset,
+    getValues,
     setError,
     formState: { errors },
-  } = useForm({ resolver: zodResolver(schema), defaultValues: toFormValues(programme, fields) });
+  } = useForm({ resolver: zodResolver(schema), defaultValues });
+  const draft = useFormDraft({
+    key: `programme:${programme?.id ?? 'new'}`,
+    form: { watch, reset, getValues },
+    defaultValues,
+    version: programme?.updatedAt ?? null,
+  });
+  const timeFmt = (iso) => new Intl.DateTimeFormat(lang, { dateStyle: 'medium', timeStyle: 'short' }).format(new Date(iso));
 
   const intakes = useFieldArray({ control, name: 'intakes' });
   const title = watch('title');
-  const category = watch('category');
+  const selectedCategories = watch('categories');
+  const subsidised = watch('subsidised');
+  const categoryLabel = useCategoryLabel();
+  const adminCategories = useAdminCategories();
 
-  const categoryOptions = [...new Set([...CATEGORIES, ...(category ? [category] : [])])].map((c) => ({
-    value: c,
-    label: categoryLabel(t, c),
-  }));
+  // Active categories plus any inactive one already on this programme (so it can be unticked).
+  const categoryOptions = (adminCategories.data ?? [])
+    .filter((c) => c.isActive || selectedCategories.includes(c.slug))
+    .map((c) => ({ value: c.slug, label: loc(c.name, lang) || categoryLabel(c.slug) }));
 
   const langTabs = CONTENT_LANGS.map((l) => ({
     value: l,
@@ -258,11 +307,11 @@ export default function ProgrammeForm({ programme, fields, onSubmit, submitting 
   // If the only errors are on the hidden language tab, switch to it so they are visible.
   const onInvalid = (errs) => {
     const langWithError = CONTENT_LANGS.find((l) =>
-      ['title', 'shortDescription', 'description', 'prerequisiteText'].some((n) => errs?.[n]?.[l]),
+      ['title', 'shortDescription', 'description', 'prerequisiteText', 'topics', 'idealFor'].some((n) => errs?.[n]?.[l]),
     );
     if (langWithError) setContentLang(langWithError);
   };
-  const submit = handleSubmit((values) => onSubmit(toPayload(values), { setError }), onInvalid);
+  const submit = handleSubmit((values) => onSubmit(toPayload(values), { setError, clearDraft: () => draft.clear(values) }), onInvalid);
 
   // Show EN/ES inputs for the active tab only, but keep both registered.
   const i18nInputs = (name, Component, props = {}) =>
@@ -279,6 +328,17 @@ export default function ProgrammeForm({ programme, fields, onSubmit, submitting 
 
   return (
     <form onSubmit={submit} noValidate className="space-y-6">
+      {draft.restoredAt && (
+        <Alert variant={draft.stale ? 'warning' : 'info'} title={t('admin:programmeForm.draft.restoredTitle')}>
+          <p>
+            {t('admin:programmeForm.draft.restoredText', { time: timeFmt(draft.restoredAt) })}
+            {draft.stale && ` ${t('admin:programmeForm.draft.stale')}`}
+          </p>
+          <Button size="sm" variant="outline" className="mt-2" onClick={draft.discard}>
+            {t('admin:programmeForm.draft.discard')}
+          </Button>
+        </Alert>
+      )}
       {/* Basics */}
       <Card>
         <CardHeader
@@ -289,12 +349,14 @@ export default function ProgrammeForm({ programme, fields, onSubmit, submitting 
           {i18nInputs('title', Input, { label: t('admin:programmeForm.fields.title'), required: true })}
           {i18nInputs('shortDescription', Textarea, { label: t('admin:programmeForm.fields.shortDescription'), rows: 2 })}
           {i18nInputs('description', Textarea, { label: t('admin:programmeForm.fields.description'), rows: 7 })}
+          {i18nInputs('topics', Textarea, { label: t('admin:programmeForm.fields.topics'), hint: t('admin:programmeForm.hints.onePerLine'), rows: 6 })}
+          {i18nInputs('idealFor', Textarea, { label: t('admin:programmeForm.fields.idealFor'), hint: t('admin:programmeForm.hints.onePerLine'), rows: 4 })}
           <div className="grid gap-4 sm:grid-cols-2">
             <Input
               {...register('code')}
               label={t('admin:programmeForm.fields.code')}
               hint={t('admin:programmeForm.hints.code')}
-              placeholder="C2B-DT-101"
+              placeholder="C2B-EL-01"
               error={errors.code?.message}
             />
             <Select
@@ -312,7 +374,13 @@ export default function ProgrammeForm({ programme, fields, onSubmit, submitting 
         <CardHeader title={t('admin:programmeForm.sections.classification')} />
         <div className="space-y-5">
           <div className="grid gap-4 sm:grid-cols-2">
-            <Select {...register('category')} label={t('admin:programmeForm.fields.category')} options={categoryOptions} error={errors.category?.message} required />
+            <Select
+              {...register('catalogue')}
+              label={t('admin:programmeForm.fields.catalogue')}
+              hint={t('admin:programmeForm.hints.catalogue')}
+              placeholder={false}
+              options={CATALOGUES.map((c) => ({ value: c, label: t(`programme.catalogues.${c}`) }))}
+            />
             <Select
               {...register('level')}
               label={t('admin:programmeForm.fields.level')}
@@ -320,6 +388,42 @@ export default function ProgrammeForm({ programme, fields, onSubmit, submitting 
               error={errors.level?.message}
               required
             />
+          </div>
+          <Controller
+            control={control}
+            name="categories"
+            render={({ field }) => (
+              <div className="space-y-2">
+                <CheckboxGroup
+                  legend={t('admin:programmeForm.fields.categories')}
+                  options={categoryOptions}
+                  value={field.value}
+                  onChange={field.onChange}
+                  error={errors.categories?.message}
+                />
+                <p className="text-xs text-ink-muted">
+                  {t('admin:programmeForm.hints.categories')}{' '}
+                  <Link to="/admin/categories" className="font-semibold text-emerald hover:underline">
+                    {t('admin:programmeForm.manageCategories')}
+                  </Link>
+                </p>
+              </div>
+            )}
+          />
+          <div className="grid gap-4 sm:grid-cols-2 sm:items-start">
+            <Controller
+              control={control}
+              name="featured"
+              render={({ field }) => (
+                <Switch
+                  checked={field.value}
+                  onChange={field.onChange}
+                  label={t('admin:programmeForm.fields.featured')}
+                  description={t('admin:programmeForm.hints.featured')}
+                />
+              )}
+            />
+            <Input {...register('organizer')} label={t('admin:programmeForm.fields.organizer')} placeholder="C2B" />
           </div>
           <Controller
             control={control}
@@ -392,7 +496,19 @@ export default function ProgrammeForm({ programme, fields, onSubmit, submitting 
               />
             )}
           />
-          <div className="grid gap-4 sm:grid-cols-3">
+          <Controller
+            control={control}
+            name="subsidised"
+            render={({ field }) => (
+              <Switch
+                checked={field.value}
+                onChange={field.onChange}
+                label={t('admin:programmeForm.fields.subsidised')}
+                description={t('admin:programmeForm.hints.subsidised')}
+              />
+            )}
+          />
+          <div className="grid gap-4 sm:grid-cols-3" hidden={subsidised}>
             <Input
               {...register('price.amount')}
               type="number"
@@ -409,7 +525,7 @@ export default function ProgrammeForm({ programme, fields, onSubmit, submitting 
             <legend className="text-sm font-medium text-ink">{t('admin:programmeForm.fields.intakes')}</legend>
             {intakes.fields.length === 0 && <p className="text-sm text-ink-muted">{t('programme.noIntakes')}</p>}
             {intakes.fields.map((item, index) => (
-              <div key={item.id} className="grid gap-3 rounded-xl border border-line bg-cream p-4 sm:grid-cols-[1fr_1fr_110px_1fr_auto] sm:items-end">
+              <div key={item.id} className="grid gap-3 rounded-xl border border-line bg-cream p-4 sm:grid-cols-2 lg:grid-cols-[1fr_1fr_120px_120px_100px_auto] lg:items-end">
                 <Input
                   {...register(`intakes.${index}.startDate`)}
                   type="date"
@@ -423,6 +539,8 @@ export default function ProgrammeForm({ programme, fields, onSubmit, submitting 
                   label={t('admin:programmeForm.fields.endDate')}
                   error={errors.intakes?.[index]?.endDate?.message}
                 />
+                <Input {...register(`intakes.${index}.startTime`)} type="time" label={t('admin:programmeForm.fields.startTime')} />
+                <Input {...register(`intakes.${index}.endTime`)} type="time" label={t('admin:programmeForm.fields.endTime')} />
                 <Input
                   {...register(`intakes.${index}.seats`)}
                   type="number"
@@ -430,7 +548,6 @@ export default function ProgrammeForm({ programme, fields, onSubmit, submitting 
                   label={t('admin:programmeForm.fields.seats')}
                   error={errors.intakes?.[index]?.seats?.message}
                 />
-                <Input {...register(`intakes.${index}.location`)} label={t('admin:programmeForm.fields.location')} />
                 <Button
                   variant="ghost"
                   onClick={() => intakes.remove(index)}
@@ -439,12 +556,17 @@ export default function ProgrammeForm({ programme, fields, onSubmit, submitting 
                 >
                   <Trash2 size={18} strokeWidth={1.75} aria-hidden="true" />
                 </Button>
+                <div className="grid gap-3 sm:col-span-2 lg:col-span-6 lg:grid-cols-3">
+                  <Input {...register(`intakes.${index}.location`)} label={t('admin:programmeForm.fields.location')} hint={t('admin:programmeForm.hints.location')} />
+                  <Input {...register(`intakes.${index}.note.en`)} label={`${t('admin:programmeForm.fields.intakeNote')} (EN)`} placeholder="Tuesdays and Thursdays" />
+                  <Input {...register(`intakes.${index}.note.es`)} label={`${t('admin:programmeForm.fields.intakeNote')} (ES)`} placeholder="Martes y jueves" />
+                </div>
               </div>
             ))}
             <Button
               variant="outline"
               size="sm"
-              onClick={() => intakes.append({ startDate: '', endDate: '', seats: '', location: '' })}
+              onClick={() => intakes.append({ startDate: '', endDate: '', startTime: '', endTime: '', note: { en: '', es: '' }, seats: '', location: '' })}
               leftIcon={<Plus size={16} strokeWidth={1.75} aria-hidden="true" />}
             >
               {t('admin:programmeForm.addIntake')}
@@ -519,7 +641,13 @@ export default function ProgrammeForm({ programme, fields, onSubmit, submitting 
         )}
       </Card>
 
-      <div className="sticky bottom-0 z-10 -mx-4 flex justify-end gap-3 border-t border-line bg-cream px-4 py-4 md:-mx-8 md:px-8">
+      <div className="sticky bottom-0 z-10 -mx-4 flex flex-wrap items-center justify-end gap-3 border-t border-line bg-cream px-4 py-4 md:-mx-8 md:px-8">
+        {draft.savedAt && (
+          <p className="mr-auto flex items-center gap-1.5 text-xs text-ink-muted" role="status">
+            <CheckCircle2 size={14} strokeWidth={1.75} className="text-emerald" aria-hidden="true" />
+            {t('admin:programmeForm.draft.savedLocally', { time: timeFmt(draft.savedAt) })}
+          </p>
+        )}
         <Button as={Link} to="/admin/programmes" variant="ghost">
           {t('actions.cancel')}
         </Button>

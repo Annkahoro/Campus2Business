@@ -73,5 +73,11 @@
   "LAST_ADMIN": "At least one active C2B administrator must remain.",
   "CANNOT_DEACTIVATE_SELF": "You cannot deactivate your own account.",
   "GOOGLE_EMAIL_LOCKED": "This account signs in with Google, so its email cannot be changed.",
-  "USER_NOT_FOUND": "User not found."
+  "USER_NOT_FOUND": "User not found.",
+  "INVALID_CATEGORY": "One of the selected categories does not exist.",
+  "CATEGORY_SLUG_EXISTS": "A category with this identifier already exists.",
+  "CATEGORY_NOT_FOUND": "This category no longer exists.",
+  "IMPORT_SITE_UNAVAILABLE": "campus2b.com could not be reached. Try again in a few minutes.",
+  "IMPORT_PAGE_FAILED": "The course page could not be read.",
+  "IMPORT_ALREADY_IMPORTED": "This course is already on the platform."
 }

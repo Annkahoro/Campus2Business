@@ -15,6 +15,10 @@ export const programmesApi = {
   update: (id, body) => unwrap(api.patch(`/admin/programmes/${id}`, body)),
   setStatus: (id, status) => unwrap(api.patch(`/admin/programmes/${id}/status`, { status })),
   remove: (id) => unwrap(api.delete(`/admin/programmes/${id}`)),
+  // Import from campus2b.com (reading the site can take a while)
+  importPreview: (params) => unwrap(api.get('/admin/programmes/import/preview', { params: clean(params), timeout: 120000 })),
+  importApply: (items) => unwrap(api.post('/admin/programmes/import', { items }, { timeout: 180000 })),
+  restoreIgnored: (id) => unwrap(api.delete(`/admin/programmes/import/ignored/${id}`)),
   uploadCover: (id, file) => {
     const form = new FormData();
     form.append('file', file);

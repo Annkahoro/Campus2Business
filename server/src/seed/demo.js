@@ -186,7 +186,7 @@ export async function seedDemo() {
       submittedAt: daysAgo(2),
       submittedBy: hr._id,
     });
-    enrollments += await ensureHistory(user, [['C2B-AG-101', 84, 200], ['C2B-CL-101', 88, 90]], idByCode);
+    enrollments += await ensureHistory(user, [['C2B-EL-12', 84, 200], ['C2B-EL-13', 88, 90]], idByCode);
   }
 
   /* ── Grace (Finance, goal digital finance lead, remarks) ── */
@@ -247,23 +247,23 @@ export async function seedDemo() {
 
   /* ── Peers with history (feed historical signals) ── */
   const ictPaths = [
-    [['C2B-CL-101', 82, 300], ['C2B-CL-201', 78, 200]],
-    [['C2B-CL-101', 90, 280], ['C2B-CL-201', 85, 150]],
-    [['C2B-CL-101', 75, 260], ['C2B-CY-101', 88, 170]],
-    [['C2B-AG-101', 80, 320], ['C2B-CL-101', 86, 220], ['C2B-CL-201', 81, 100]],
-    [['C2B-CL-101', 88, 240], ['C2B-CL-201', 90, 120]],
-    [['C2B-CY-101', 79, 230], ['C2B-CL-101', 83, 140]],
+    [['C2B-EL-13', 82, 300], ['C2B-GN-34', 78, 200]],
+    [['C2B-EL-13', 90, 280], ['C2B-GN-34', 85, 150]],
+    [['C2B-EL-13', 75, 260], ['C2B-EL-16', 88, 170]],
+    [['C2B-EL-12', 80, 320], ['C2B-EL-13', 86, 220], ['C2B-GN-34', 81, 100]],
+    [['C2B-EL-13', 88, 240], ['C2B-GN-34', 90, 120]],
+    [['C2B-EL-16', 79, 230], ['C2B-EL-13', 83, 140]],
   ];
   const financePaths = [
-    [['C2B-DA-101', 85, 300], ['C2B-FN-101', 88, 220], ['C2B-FN-201', 82, 120]],
-    [['C2B-FN-101', 80, 280], ['C2B-DA-101', 84, 190], ['C2B-DA-201', 79, 90]],
-    [['C2B-DA-101', 90, 250], ['C2B-DA-201', 86, 140]],
-    [['C2B-FN-101', 77, 210], ['C2B-FN-201', 81, 110]],
+    [['C2B-EL-09', 85, 300], ['C2B-EL-01', 88, 220], ['C2B-GN-01', 82, 120]],
+    [['C2B-EL-01', 80, 280], ['C2B-EL-09', 84, 190], ['C2B-EL-17', 79, 90]],
+    [['C2B-EL-09', 90, 250], ['C2B-EL-17', 86, 140]],
+    [['C2B-EL-01', 77, 210], ['C2B-GN-01', 81, 110]],
   ];
   const studentPaths = [
-    [['C2B-DA-101', 88, 260], ['C2B-DA-201', 84, 150]],
-    [['C2B-DA-101', 79, 240], ['C2B-DA-201', 80, 130], ['C2B-DA-301', 76, 40]],
-    [['C2B-SS-101', 90, 220], ['C2B-DA-101', 85, 120]],
+    [['C2B-EL-09', 88, 260], ['C2B-EL-17', 84, 150]],
+    [['C2B-EL-09', 79, 240], ['C2B-EL-17', 80, 130], ['C2B-GN-25', 76, 40]],
+    [['C2B-EL-05', 90, 220], ['C2B-EL-09', 85, 120]],
   ];
 
   const peer = async (email, name, role, profile, path) => {

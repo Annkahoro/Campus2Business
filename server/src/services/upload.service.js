@@ -35,6 +35,18 @@ export const uploadImage = (buffer, subfolder, maxWidth = 1600) =>
     transformation: [{ width: maxWidth, crop: 'limit' }, { quality: 'auto', fetch_format: 'auto' }],
   });
 
+/** Imports a remote image (e.g. a catalogue cover) into Cloudinary, resized like uploadImage. */
+export async function uploadImageFromUrl(url, subfolder, publicId, maxWidth = 1600) {
+  if (!isCloudinaryConfigured) throw ApiError.internal('UPLOAD_ERROR', 'Cloudinary is not configured');
+  const result = await cloudinary.uploader.upload(url, {
+    folder: `${env.CLOUDINARY_FOLDER}/${subfolder}`,
+    public_id: publicId,
+    overwrite: true,
+    transformation: [{ width: maxWidth, crop: 'limit' }, { quality: 'auto', fetch_format: 'auto' }],
+  });
+  return { url: result.secure_url, publicId: result.public_id };
+}
+
 /**
  * Short-lived signed download link for a private raw asset (CV PDFs).
  * Cloudinary blocks public CDN delivery of PDFs by default (401 "deny or ACL failure"), and CVs should not

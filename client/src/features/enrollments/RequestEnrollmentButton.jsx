@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { CalendarPlus } from 'lucide-react';
 import { Button, Modal, Select, toast } from '../../components/ui/index.js';
 import StatusBadge from '../../components/shared/StatusBadge.jsx';
-import { formatDate, formatPrice } from '../programmes/format.js';
+import { formatDateRange, formatTimeRange, priceLabel } from '../programmes/format.js';
 import { loc } from '../../lib/localized.js';
 import { OPEN_STATUSES } from './constants.js';
 import { useRequestEnrollment } from './hooks.js';
@@ -54,7 +54,7 @@ export default function RequestEnrollmentButton({ programme, enrollments = [], r
     }
   };
 
-  const price = formatPrice(programme.price, lang, t);
+  const price = priceLabel(programme, lang, t);
 
   return (
     <>
@@ -88,16 +88,16 @@ export default function RequestEnrollmentButton({ programme, enrollments = [], r
                 { value: '', label: t('request.anyIntake') },
                 ...intakes.map((i) => ({
                   value: new Date(i.startDate).toISOString(),
-                  label: [formatDate(i.startDate, lang), i.location].filter(Boolean).join(' · '),
+                  label: [formatDateRange(i, lang), formatTimeRange(i), i.location].filter(Boolean).join(' · '),
                 })),
               ]}
             />
           ) : (
-            <p className="text-sm text-ink-muted">{t('request.noIntakes')}</p>
+            <p className="text-sm text-ink-muted">{programme.catalogue === 'elearning' ? t('request.selfPaced') : t('request.noIntakes')}</p>
           )}
           {price && (
             <p className="text-sm text-ink-muted">
-              {t('request.priceNote', { price })}
+              {programme.subsidised ? t('request.subsidisedNote') : t('request.priceNote', { price })}
             </p>
           )}
           <p className="text-sm text-ink-muted">{t('request.explain')}</p>

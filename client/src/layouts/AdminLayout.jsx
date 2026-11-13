@@ -7,6 +7,7 @@ import {
   Settings,
   SlidersHorizontal,
   Sparkles,
+  Tags,
   Users,
 } from 'lucide-react';
 import DashboardLayout from './DashboardLayout.jsx';
@@ -17,6 +18,7 @@ const NAV = [
   { to: '/admin/learners', labelKey: 'nav.learners', icon: Users },
   { to: '/admin/recommendations', labelKey: 'nav.recommendations', icon: Sparkles },
   { to: '/admin/programmes', labelKey: 'nav.programmes', icon: BookOpen },
+  { to: '/admin/categories', labelKey: 'nav.categories', icon: Tags },
   { to: '/admin/programme-fields', labelKey: 'nav.programmeFields', icon: SlidersHorizontal },
   { to: '/admin/enrollments', labelKey: 'nav.enrollments', icon: ClipboardList },
   { to: '/admin/reports', labelKey: 'nav.reports', icon: BarChart3 },

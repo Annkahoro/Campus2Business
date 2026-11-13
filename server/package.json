@@ -7,7 +7,8 @@
     "dev": "nodemon src/server.js",
     "start": "node src/server.js",
     "seed": "node src/seed/seed.js",
-    "seed:demo": "node src/seed/seed.js --demo"
+    "seed:demo": "node src/seed/seed.js --demo",
+    "catalogue:sync": "node src/seed/seed.js --sync-catalogue"
   },
   "author": "",
   "license": "ISC",
@@ -15,6 +16,7 @@
   "dependencies": {
     "@anthropic-ai/sdk": "^1.4.0",
     "bcryptjs": "^3.0.3",
+    "cheerio": "^1.2.0",
     "cloudinary": "^2.11.0",
     "compression": "^1.8.2",
     "cors": "^2.8.6",

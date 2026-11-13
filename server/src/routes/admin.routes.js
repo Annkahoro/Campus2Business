@@ -7,6 +7,10 @@ import { ROLES } from '../models/_shared.js';
 import * as userCtrl from '../controllers/user.controller.js';
 import * as programmeCtrl from '../controllers/programme.controller.js';
 import * as fieldCtrl from '../controllers/programmeField.controller.js';
+import * as categoryCtrl from '../controllers/category.controller.js';
+import * as importCtrl from '../controllers/catalogueImport.controller.js';
+import { applyImportSchema, importPreviewQuery } from '../validators/catalogueImport.validator.js';
+import { createCategorySchema, reorderCategoriesSchema, updateCategorySchema } from '../validators/category.validator.js';
 import { adminUpdateUserSchema, createAdminSchema, createLearnerSchema } from '../validators/user.validator.js';
 import {
   adminListProgrammesQuery,
@@ -43,6 +47,10 @@ router.patch('/users/:id', validate(adminUpdateUserSchema), userCtrl.updateAdmin
 router.delete('/users/:id', userCtrl.deleteAdmin);
 
 /* Programmes */
+// Import from campus2b.com — before the /programmes/:id routes
+router.get('/programmes/import/preview', validate(importPreviewQuery, 'query'), importCtrl.preview);
+router.post('/programmes/import', validate(applyImportSchema), importCtrl.apply);
+router.delete('/programmes/import/ignored/:id', importCtrl.restoreIgnored);
 router.get('/programmes', validate(adminListProgrammesQuery, 'query'), programmeCtrl.adminList);
 router.post('/programmes', validate(createProgrammeSchema), programmeCtrl.create);
 router.patch('/programmes/:id', validate(updateProgrammeSchema), programmeCtrl.update);
@@ -56,6 +64,13 @@ router.post('/programme-fields', validate(createFieldSchema), fieldCtrl.create);
 router.patch('/programme-fields/reorder', validate(reorderFieldsSchema), fieldCtrl.reorder);
 router.patch('/programme-fields/:id', validate(updateFieldSchema), fieldCtrl.update);
 router.delete('/programme-fields/:id', fieldCtrl.deactivate);
+
+/* Programme categories — /reorder must come before /:id */
+router.get('/categories', categoryCtrl.listAll);
+router.post('/categories', validate(createCategorySchema), categoryCtrl.create);
+router.patch('/categories/reorder', validate(reorderCategoriesSchema), categoryCtrl.reorder);
+router.patch('/categories/:id', validate(updateCategorySchema), categoryCtrl.update);
+router.delete('/categories/:id', categoryCtrl.remove);
 
 /* Organizations */
 router.get('/organizations', validate(adminListOrgsQuery, 'query'), orgCtrl.adminList);

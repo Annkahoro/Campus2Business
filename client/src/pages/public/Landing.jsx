@@ -25,9 +25,8 @@ import {
 } from 'lucide-react';
 import { Button } from '../../components/ui/index.js';
 import ProgrammeCard from '../../features/programmes/ProgrammeCard.jsx';
-import { useProgrammes } from '../../features/programmes/hooks.js';
+import { useCategoryLabel, useProgrammeCategories, useProgrammes } from '../../features/programmes/hooks.js';
 import { usePublicStats } from '../../features/landing/hooks.js';
-import { CATEGORIES } from '../../features/programmes/constants.js';
 import { useAuth } from '../../context/AuthContext.jsx';
 import { homeFor } from '../../lib/roles.js';
 import heroImg from '../../assets/images/photos/hero-learning.webp';
@@ -140,6 +139,8 @@ function Hero() {
 /* ───────── About C2B ───────── */
 function AboutC2B() {
   const { t } = useTranslation('landing');
+  const categories = useProgrammeCategories();
+  const categoryLabel = useCategoryLabel();
   const pillars = [
     { Icon: UserRound, key: 'experts' },
     { Icon: Sparkles, key: 'ai' },
@@ -169,13 +170,13 @@ function AboutC2B() {
         <div className="mx-auto max-w-7xl px-4 py-8 md:px-8">
           <p className="text-center text-sm font-semibold text-ink-muted">{t('about.areas')}</p>
           <ul className="mt-4 flex flex-wrap justify-center gap-2">
-            {CATEGORIES.map((c) => (
+            {(categories.data ?? []).filter((c) => c.counts?.total > 0).map(({ slug: c }) => (
               <li key={c}>
                 <Link
                   to={`/programmes?category=${c}`}
                   className="inline-block rounded-full border border-line bg-cream px-3.5 py-1.5 text-sm font-medium text-ink hover:border-emerald hover:text-emerald focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald"
                 >
-                  {t(`programme.categories.${c}`, { ns: 'common' })}
+                  {categoryLabel(c)}
                 </Link>
               </li>
             ))}
@@ -277,7 +278,7 @@ function ForOrganizations() {
 /* ───────── Featured programmes ───────── */
 function FeaturedProgrammes() {
   const { t } = useTranslation('landing');
-  const query = useProgrammes({ limit: 6 });
+  const query = useProgrammes({ featured: 'true', limit: 6 });
   const items = query.data?.items ?? [];
   if (!query.isPending && items.length === 0) return null;
   return (

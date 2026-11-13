@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import { I18nText } from './_shared.js';
+import { I18nList, I18nText } from './_shared.js';
 
 const { Schema } = mongoose;
 
@@ -10,21 +10,11 @@ export const PROGRAMME_STATUSES = ['draft', 'published', 'archived'];
 export const AUDIENCES = ['student', 'employee'];
 
 /**
- * Standard C2B catalogue categories (stored as slugs, translated on the client).
- * The schema accepts any string so C2B can add categories later.
+ * The two C2B catalogues (mirrors campus2b.com):
+ * - elearning: self-paced online courses on the virtual platform, start any time
+ * - general:   scheduled courses (live virtual classroom or in person) with fixed dates on the training calendar
  */
-export const PROGRAMME_CATEGORIES = [
-  'digital_transformation',
-  'data_ai',
-  'cloud',
-  'cybersecurity',
-  'agile_pm',
-  'leadership_change',
-  'finance',
-  'hr_people',
-  'marketing_ecommerce',
-  'soft_skills',
-];
+export const CATALOGUES = ['elearning', 'general'];
 
 const programmeSchema = new Schema(
   {
@@ -33,7 +23,13 @@ const programmeSchema = new Schema(
     shortDescription: I18nText,
     description: I18nText,
     coverImage: { url: String, publicId: String },
-    category: { type: String, required: true, trim: true },
+    catalogue: { type: String, enum: CATALOGUES, required: true, default: 'elearning' },
+    categories: { type: [{ type: String, trim: true }], default: [] }, // Category slugs; first = primary
+    featured: { type: Boolean, default: false }, // "Destacados" on campus2b.com
+    subsidised: { type: Boolean, default: false }, // shown as "Subsidised" instead of a price
+    topics: I18nList, // "Topics covered"
+    idealFor: I18nList, // "It's for your company if…"
+    organizer: { type: String, trim: true, default: 'C2B' },
     level: { type: String, enum: PROGRAMME_LEVELS, required: true },
     durationValue: Number,
     durationUnit: { type: String, enum: DURATION_UNITS },
@@ -45,8 +41,22 @@ const programmeSchema = new Schema(
     targetAudience: [{ type: String, enum: AUDIENCES }],
     targetDepartments: [String], // empty = all
     price: { amount: Number, currency: { type: String, default: 'EUR' } },
-    intakes: [{ startDate: Date, endDate: Date, seats: Number, location: String }],
+    intakes: [
+      {
+        startDate: Date,
+        endDate: Date,
+        startTime: String, // 'HH:mm'
+        endTime: String, // 'HH:mm'
+        note: I18nText, // e.g. 'Tuesdays and Thursdays'
+        seats: Number,
+        location: String,
+      },
+    ],
     tags: [String],
+
+    // campus2b.com course pages this programme was imported from (several when repeat runs were merged).
+    // Used by the admin "Import from campus2b.com" tool to find courses that are not on the platform yet.
+    sourceUrls: { type: [{ type: String, trim: true }], default: [] },
 
     customFields: { type: Map, of: Schema.Types.Mixed, default: {} }, // keyed by ProgrammeField.key
 
@@ -62,7 +72,8 @@ programmeSchema.index(
   // `language` is our own array field, so point Mongo's per-document language override elsewhere.
   { name: 'programme_text', default_language: 'none', language_override: 'textSearchLanguage' },
 );
-programmeSchema.index({ status: 1, category: 1, level: 1 });
+programmeSchema.index({ status: 1, catalogue: 1, categories: 1 });
+programmeSchema.index({ sourceUrls: 1 });
 
 export const Programme = mongoose.models.Programme || mongoose.model('Programme', programmeSchema);
 export default Programme;

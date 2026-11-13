@@ -11,10 +11,6 @@ export const getOne = asyncHandler(async (req, res) => {
   sendSuccess(res, await programmeService.getForViewer(req.params.id, req.user));
 });
 
-export const listCategories = asyncHandler(async (_req, res) => {
-  sendSuccess(res, await programmeService.listCategories());
-});
-
 /* Admin */
 export const adminList = asyncHandler(async (req, res) => {
   sendSuccess(res, await programmeService.adminList(req.validatedQuery));

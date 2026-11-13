@@ -40,7 +40,16 @@ function tokens(...values) {
 }
 
 const duration = (p) => (p.durationValue && p.durationUnit ? `${p.durationValue} ${p.durationUnit}` : undefined);
-const price = (p) => (p.price?.amount != null ? (p.price.amount === 0 ? 'free' : `${p.price.amount} ${p.price.currency || 'EUR'}`) : undefined);
+const price = (p) => {
+  if (p.subsidised) return 'subsidised (free for eligible learners)';
+  return p.price?.amount != null ? (p.price.amount === 0 ? 'free' : `${p.price.amount} ${p.price.currency || 'EUR'}`) : undefined;
+};
+/** Next upcoming intake (YYYY-MM-DD) for scheduled programmes. */
+const nextIntakeDate = (p) => {
+  const now = Date.now();
+  const next = (p.intakes ?? []).map((i) => new Date(i.startDate)).filter((d) => d.getTime() >= now).sort((a, b) => a - b)[0];
+  return next ? next.toISOString().slice(0, 10) : undefined;
+};
 
 /** Compact programme for the prompt; `custom` holds only useInAI fields (docs/06 §3). */
 function compactProgramme(p, aiFieldKeys, codeById) {
@@ -53,10 +62,13 @@ function compactProgramme(p, aiFieldKeys, codeById) {
     id: String(p._id),
     code: p.code || undefined,
     title: p.title?.en || p.title?.es,
-    category: p.category,
+    catalogue: p.catalogue === 'general' ? 'scheduled (fixed dates)' : 'self-paced eLearning (start any time)',
+    categories: p.categories,
     level: p.level,
     duration: duration(p),
     mode: p.deliveryMode,
+    topics: p.topics?.en?.length ? p.topics.en.slice(0, 8) : undefined,
+    nextIntake: nextIntakeDate(p),
     languages: p.language,
     skillsGained: p.skillsGained,
     prerequisites: (p.prerequisites ?? []).map((id) => codeById.get(String(id)) ?? String(id)),
@@ -97,7 +109,7 @@ function selectCatalogue(programmes, { learnerType, excludeIds, learnerTokens })
 
   const scored = eligible
     .map((p) => {
-      const pt = tokens(p.skillsGained, p.tags, p.category?.replace(/_/g, ' '), p.targetDepartments, p.title?.en);
+      const pt = tokens(p.skillsGained, p.tags, (p.categories ?? []).map((c) => c.replace(/_/g, ' ')), p.targetDepartments, p.title?.en);
       let score = 0;
       pt.forEach((w) => learnerTokens.has(w) && (score += 1));
       return { p, score };

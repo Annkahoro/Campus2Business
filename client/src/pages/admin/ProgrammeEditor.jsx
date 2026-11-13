@@ -37,7 +37,7 @@ export default function ProgrammeEditor() {
   const programme = isNew ? null : programmeQuery.data?.programme;
   const fields = fieldsQuery.data ?? [];
 
-  const onSubmit = (payload, { setError }) => {
+  const onSubmit = (payload, { setError, clearDraft }) => {
     const handlers = {
       onError: (err) => {
         applyServerFieldErrors(err, setError);
@@ -48,12 +48,19 @@ export default function ProgrammeEditor() {
       create.mutate(payload, {
         ...handlers,
         onSuccess: (data) => {
+          clearDraft();
           toast.success(t('admin:programmes.created'));
           navigate(`/admin/programmes/${data.programme.id}/edit`, { replace: true });
         },
       });
     } else {
-      updateMutation.mutate({ id, body: payload }, { ...handlers, onSuccess: () => toast.success(t('admin:programmes.saved')) });
+      updateMutation.mutate({ id, body: payload }, {
+          ...handlers,
+          onSuccess: () => {
+            clearDraft();
+            toast.success(t('admin:programmes.saved'));
+          },
+        });
     }
   };
 

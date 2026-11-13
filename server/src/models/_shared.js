@@ -4,6 +4,12 @@ export const I18nText = {
   es: { type: String, trim: true, default: '' },
 };
 
+/** Bilingual list `{ en: [String], es: [String] }` (e.g. programme topics). */
+export const I18nList = {
+  en: { type: [{ type: String, trim: true }], default: [] },
+  es: { type: [{ type: String, trim: true }], default: [] },
+};
+
 export const ROLES = Object.freeze({
   C2B_ADMIN: 'c2b_admin',
   ORG_ADMIN: 'org_admin',

@@ -29,7 +29,8 @@
     "about": "About C2B",
     "forStudents": "For students",
     "forOrganizations": "For organizations",
-    "skipToContent": "Skip to main content"
+    "skipToContent": "Skip to main content",
+    "categories": "Categories"
   },
   "roles": {
     "c2b_admin": "C2B admin",
@@ -203,23 +204,14 @@
     "PATHWAY_EMPTY": "Add at least one programme.",
     "REASON_REQUIRED": "Please give a reason.",
     "NOTHING_TO_UPDATE": "There is nothing to update.",
-    "UNKNOWN_TYPE": "This field type is not supported."
+    "UNKNOWN_TYPE": "This field type is not supported.",
+    "INVALID_TIME": "Use the HH:MM format.",
+    "INVALID_CATEGORY": "Unknown category.",
+    "INVALID_IMPORT_URL": "Only campus2b.com course pages can be imported."
   },
   "programme": {
-    "catalogueTitle": "Programme catalogue",
-    "catalogueSubtitle": "Expert-designed C2B programmes for upskilling and reskilling.",
-    "categories": {
-      "digital_transformation": "Digital Transformation",
-      "data_ai": "Data & AI",
-      "cloud": "Cloud",
-      "cybersecurity": "Cybersecurity",
-      "agile_pm": "Agile & Project Management",
-      "leadership_change": "Leadership & Change",
-      "finance": "Finance & Digital Finance",
-      "hr_people": "HR & People Analytics",
-      "marketing_ecommerce": "Marketing & E-commerce",
-      "soft_skills": "Soft Skills"
-    },
+    "catalogueTitle": "Training catalogue",
+    "catalogueSubtitle": "Expert C2B training: self-paced online courses and scheduled courses with fixed dates.",
     "levels": {
       "beginner": "Beginner",
       "intermediate": "Intermediate",
@@ -292,6 +284,76 @@
       "audience": "For",
       "departments": "Departments",
       "intakes": "Upcoming intakes"
+    },
+    "catalogues": {
+      "elearning": "eLearning catalogue",
+      "general": "General catalogue"
+    },
+    "catalogueTabs": {
+      "label": "Catalogue",
+      "all": "All courses",
+      "elearning": "Online courses",
+      "general": "Training calendar"
+    },
+    "catalogueIntro": {
+      "all": "Explore every C2B course: online courses you can start whenever you want, and scheduled courses with fixed dates in a virtual classroom or in person.",
+      "elearning": "Flexible training: no schedules, no limits. Choose the course you need and access the platform whenever you want; you decide when to start.",
+      "general": "Scheduled courses with fixed dates and times, in a live virtual classroom or in person in Bilbao. Many of them are subsidised."
+    },
+    "calendar": {
+      "viewLabel": "View",
+      "grid": "Cards",
+      "list": "Calendar",
+      "emptyTitle": "No upcoming sessions",
+      "emptyText": "There are no scheduled dates for these filters right now. Check back soon or contact C2B."
+    },
+    "featured": "Featured",
+    "subsidised": "Subsidised",
+    "noUpcomingDates": "No upcoming dates",
+    "detail": {
+      "detailedInfo": "Detailed information",
+      "email": "Email",
+      "phone": "Phone",
+      "organizer": "Organizer",
+      "dates": "Dates",
+      "schedule": "Schedule",
+      "virtualPlatform": "Virtual platform",
+      "about": "About the training",
+      "content": "Content",
+      "topics": "Topics covered",
+      "howItWorks": "How it works",
+      "idealFor": "It's for you or your company if…",
+      "related": "You'll also be interested in",
+      "otherProgrammes": "Other courses",
+      "questions": "Do you have any questions?",
+      "contact": "Contact",
+      "information": "Information",
+      "format": "Format",
+      "level": "Level",
+      "noUpcoming": "No upcoming dates yet. Request enrollment and C2B will confirm the next run with you.",
+      "pastRuns": "Previous runs: {{dates}}",
+      "steps": {
+        "request": {
+          "title": "Request the course",
+          "text": "Choose the course that best suits you or your company and send an enrollment request."
+        },
+        "approval": {
+          "title": "Review and payment",
+          "text": "C2B reviews your request; once it's approved you confirm the payment."
+        },
+        "approvalFree": {
+          "title": "Review",
+          "text": "C2B reviews your request and confirms your place. This course is free for you."
+        },
+        "startElearning": {
+          "title": "Access the platform",
+          "text": "We'll send you the login details for the platform where the course takes place."
+        },
+        "startScheduled": {
+          "title": "Join the sessions",
+          "text": "We'll send you the access details or the venue for the scheduled dates."
+        }
+      }
     }
   },
   "footer": {

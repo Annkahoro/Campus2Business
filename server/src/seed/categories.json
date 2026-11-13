@@ -1,0 +1,121 @@
+[
+  {
+    "slug": "artificial_intelligence",
+    "name": {
+      "en": "Artificial intelligence",
+      "es": "Inteligencia artificial"
+    }
+  },
+  {
+    "slug": "cybersecurity",
+    "name": {
+      "en": "Cybersecurity",
+      "es": "Ciberseguridad"
+    }
+  },
+  {
+    "slug": "infrastructure_systems",
+    "name": {
+      "en": "Infrastructure and systems",
+      "es": "Infraestructuras y sistemas"
+    }
+  },
+  {
+    "slug": "user_technologies",
+    "name": {
+      "en": "User technologies",
+      "es": "Tecnologías usuario"
+    }
+  },
+  {
+    "slug": "project_management",
+    "name": {
+      "en": "Project management",
+      "es": "Gestión de proyectos"
+    }
+  },
+  {
+    "slug": "soft_skills",
+    "name": {
+      "en": "Soft skills",
+      "es": "Soft skills"
+    }
+  },
+  {
+    "slug": "digital_transformation",
+    "name": {
+      "en": "Digital transformation",
+      "es": "Transformación digital"
+    }
+  },
+  {
+    "slug": "personal_competencies",
+    "name": {
+      "en": "Personal competencies",
+      "es": "Competencias personales"
+    }
+  },
+  {
+    "slug": "office_tools",
+    "name": {
+      "en": "Office tools",
+      "es": "Ofimática"
+    }
+  },
+  {
+    "slug": "office_365",
+    "name": {
+      "en": "Office 365",
+      "es": "Office 365"
+    }
+  },
+  {
+    "slug": "microsoft",
+    "name": {
+      "en": "Microsoft",
+      "es": "Microsoft"
+    }
+  },
+  {
+    "slug": "itil",
+    "name": {
+      "en": "ITIL",
+      "es": "ITIL"
+    }
+  },
+  {
+    "slug": "istqb",
+    "name": {
+      "en": "ISTQB",
+      "es": "ISTQB"
+    }
+  },
+  {
+    "slug": "programming",
+    "name": {
+      "en": "Programming",
+      "es": "Programación"
+    }
+  },
+  {
+    "slug": "databases",
+    "name": {
+      "en": "Databases",
+      "es": "Bases de datos"
+    }
+  },
+  {
+    "slug": "automation",
+    "name": {
+      "en": "Automation",
+      "es": "Automatizaciones"
+    }
+  },
+  {
+    "slug": "social_media",
+    "name": {
+      "en": "Social media",
+      "es": "Redes sociales"
+    }
+  }
+]

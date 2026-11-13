@@ -26,7 +26,9 @@
     "confirm": "Send request",
     "sent": "Enrollment requested. We'll notify you when C2B approves it.",
     "sentOnBehalf": "Enrollment requested for this employee.",
-    "viewInLearning": "View in My learning"
+    "viewInLearning": "View in My learning",
+    "selfPaced": "This is a self-paced online course: you can start as soon as C2B approves your request.",
+    "subsidisedNote": "This course is subsidised: it is free for you once C2B approves the request."
   },
   "payment": {
     "title": "Complete payment",

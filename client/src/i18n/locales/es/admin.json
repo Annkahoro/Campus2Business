@@ -8,11 +8,12 @@
     "searchPlaceholder": "Título, código o etiqueta — pulsa Intro",
     "columns": {
       "programme": "Programa",
-      "category": "Categoría",
+      "category": "Categorías",
       "level": "Nivel",
       "price": "Precio",
       "status": "Estado",
-      "actions": "Acciones"
+      "actions": "Acciones",
+      "catalogue": "Catálogo"
     },
     "emptyTitle": "Ningún programa coincide",
     "emptyText": "Crea un programa o cambia los filtros.",
@@ -63,7 +64,17 @@
       "location": "Lugar",
       "prerequisites": "Programas requeridos",
       "prerequisiteText": "Otros requisitos",
-      "skillsGained": "Competencias adquiridas"
+      "skillsGained": "Competencias adquiridas",
+      "catalogue": "Catálogo",
+      "categories": "Categorías",
+      "featured": "Destacado",
+      "subsidised": "Subvencionado",
+      "organizer": "Organizador",
+      "topics": "Temas que se van a tratar",
+      "idealFor": "«Es para ti o tu empresa si…»",
+      "startTime": "Hora de inicio",
+      "endTime": "Hora de fin",
+      "intakeNote": "Días / nota"
     },
     "hints": {
       "code": "Opcional, p. ej. C2B-DT-101.",
@@ -74,18 +85,33 @@
       "prerequisites_one": "{{count}} seleccionado",
       "prerequisites_other": "{{count}} seleccionados",
       "cover": "Se muestra en el catálogo y en la página del programa. Si no hay, se usa una imagen de la categoría.",
-      "coverAfterCreate": "Podrás subir una imagen de portada después de crear el programa."
+      "coverAfterCreate": "Podrás subir una imagen de portada después de crear el programa.",
+      "catalogue": "eLearning = online a tu ritmo, se empieza cuando quieras. General = fechas programadas (calendario formativo).",
+      "categories": "Marca una o varias; la primera marcada se muestra primero.",
+      "featured": "Se muestra primero en el catálogo y en la página de inicio.",
+      "subsidised": "Se muestra «Subvencionado» en lugar del precio; la inscripción es gratuita para el participante.",
+      "onePerLine": "Un elemento por línea.",
+      "location": "Dirección para las sesiones presenciales, u «Online»."
     },
     "errors": {
       "titleRequired": "Introduce un título en al menos un idioma.",
       "languageRequired": "Elige al menos un idioma.",
-      "audienceRequired": "Elige al menos un público."
+      "audienceRequired": "Elige al menos un público.",
+      "categoryRequired": "Elige al menos una categoría."
     },
     "addIntake": "Añadir convocatoria",
     "removeIntake": "Quitar convocatoria {{n}}",
     "manageFields": "Gestionar campos",
     "noCustomFields": "Todavía no hay campos personalizados. Créalos en Campos de programa.",
-    "coverUploaded": "Imagen de portada actualizada."
+    "coverUploaded": "Imagen de portada actualizada.",
+    "manageCategories": "Gestionar categorías",
+    "draft": {
+      "restoredTitle": "Se recuperaron tus cambios sin guardar",
+      "restoredText": "Guardamos lo que escribiste el {{time}} para que sigas donde lo dejaste.",
+      "stale": "Este programa se ha guardado después, así que revisa los cambios antes de guardar.",
+      "discard": "Descartar estos cambios",
+      "savedLocally": "Cambios guardados en este dispositivo · {{time}}"
+    }
   },
   "fields": {
     "title": "Campos de programa",
@@ -209,5 +235,87 @@
       "created": "Se ha creado y aprobado {{name}}.",
       "saved": "Se ha guardado {{name}}."
     }
+  },
+  "categories": {
+    "title": "Categorías de programas",
+    "subtitle": "Las categorías agrupan los programas en los filtros del catálogo (p. ej., Inteligencia artificial, ITIL). Un programa puede tener varias; la primera es la principal.",
+    "new": "Nueva categoría",
+    "newTitle": "Nueva categoría",
+    "editTitle": "Editar categoría",
+    "name": "Nombre",
+    "slug": "Identificador",
+    "slugHint": "Minúsculas, números y guiones bajos. Se usa en los enlaces y en la IA. No se puede cambiar después.",
+    "slugLocked": "El identificador no se puede cambiar.",
+    "saved": "Categoría guardada.",
+    "deleted": "Categoría eliminada.",
+    "deactivated": "Categoría desactivada. Los programas la conservan, pero ya no aparece en los filtros.",
+    "reactivated": "Categoría reactivada.",
+    "reactivate": "Reactivar",
+    "deactivate": "Desactivar",
+    "inactive": "Inactiva",
+    "inactiveTitle": "Categorías inactivas",
+    "countElearning_one": "{{count}} eLearning",
+    "countElearning_other": "{{count}} eLearning",
+    "countGeneral_one": "{{count}} programado",
+    "countGeneral_other": "{{count}} programados",
+    "reorderHint": "Arrastra para cambiar el orden de los filtros.",
+    "dragHandle": "Reordenar {{name}}",
+    "emptyTitle": "Aún no hay categorías",
+    "emptyText": "Crea categorías para organizar el catálogo.",
+    "loadError": "No hemos podido cargar las categorías.",
+    "deleteTitle": "¿Eliminar la categoría?",
+    "deleteText": "Se eliminará «{{name}}».",
+    "deleteInUse_one": "«{{name}}» se usa en {{count}} programa, así que se desactivará en lugar de eliminarse.",
+    "deleteInUse_other": "«{{name}}» se usa en {{count}} programas, así que se desactivará en lugar de eliminarse.",
+    "errors": {
+      "slug": "Usa entre 2 y 60 minúsculas, números o guiones bajos, empezando por una letra.",
+      "name": "Escribe un nombre al menos en un idioma."
+    }
+  },
+  "import": {
+    "button": "Importar desde campus2b.com",
+    "title": "Importar desde campus2b.com",
+    "subtitle": "Cursos de la web de C2B que aún no están en la plataforma.",
+    "checking": "Revisando campus2b.com…",
+    "checkingHint": "Leyendo todas las páginas de cursos de la web. Puede tardar hasta un minuto.",
+    "loadError": "No se pudo revisar campus2b.com",
+    "summary_one": "{{total}} cursos en campus2b.com · {{imported}} ya en la plataforma · {{count}} nuevo",
+    "summary_other": "{{total}} cursos en campus2b.com · {{imported}} ya en la plataforma · {{count}} nuevos",
+    "checkedAt": "revisado a las {{time}}",
+    "checkAgain": "Volver a revisar",
+    "upToDate": "Todo está al día",
+    "upToDateText": "Todos los cursos de campus2b.com ya están en la plataforma (o en tu lista de ignorados).",
+    "draftNote": "Los cursos importados se guardan como borradores con el texto en español de la web. Añade la traducción al inglés, revisa las categorías y el nivel y publícalos.",
+    "truncated": "Se muestran los primeros {{count}} cursos nuevos. Impórtalos o ignóralos y vuelve a revisar para ver el resto.",
+    "pageFailed": "No se pudo leer la página de este curso.",
+    "unmatchedCategories": "Categorías de la web que no existen en la plataforma: {{names}}. Créalas en Categorías o elige categorías al editar el borrador.",
+    "noCategories": "Sin categoría en la web: elige una al editar el borrador.",
+    "matchHint": "Parece otra edición de «{{title}}» ({{code}}), así que sus fechas se añadirán allí.",
+    "viewOnSite": "Ver en campus2b.com",
+    "actionLabel": "Acción",
+    "actionFor": "Acción para {{title}}",
+    "actions": {
+      "create": "Importar como borrador nuevo",
+      "merge": "Vincular a un programa existente (añade sus fechas)",
+      "ignore": "Ignorar (no volver a mostrar)",
+      "skip": "Omitir por ahora"
+    },
+    "apply_one": "Aplicar a {{count}} curso",
+    "apply_other": "Aplicar a {{count}} cursos",
+    "done": "Importación terminada",
+    "doneSummary": "{{created}} borrador(es) creado(s), {{merged}} programa(s) con fechas nuevas, {{ignored}} ignorado(s).",
+    "createdTitle": "Borradores nuevos",
+    "reviewDrafts": "Revisa cada borrador, añade el texto en inglés y publícalo cuando esté listo.",
+    "mergedTitle": "Fechas nuevas añadidas",
+    "intakesAdded_one": "{{count}} fecha nueva añadida",
+    "intakesAdded_other": "{{count}} fechas nuevas añadidas",
+    "failedTitle_one": "No se pudo importar {{count}} curso",
+    "failedTitle_other": "No se pudieron importar {{count}} cursos",
+    "ignoredToggle_one": "Cursos ignorados ({{count}})",
+    "ignoredToggle_other": "Cursos ignorados ({{count}})",
+    "restore": "Volver a mostrar",
+    "restored": "El curso volverá a aparecer en la lista de importación",
+    "mergeTarget": "Elige el programa",
+    "mergeTargetRequired": "Elige a qué programa pertenece este curso."
   }
 }

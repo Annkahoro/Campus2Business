@@ -322,7 +322,7 @@ export async function createOrgAiSummary(org, { refresh = false } = {}) {
   const [overview, gaps, programmes] = await Promise.all([
     orgOverview(org),
     orgSkillGaps(org),
-    Programme.find({ status: 'published', $or: [{ targetAudience: 'employee' }, { targetAudience: { $size: 0 } }] }, 'title code category level skillsGained targetDepartments').lean(),
+    Programme.find({ status: 'published', $or: [{ targetAudience: 'employee' }, { targetAudience: { $size: 0 } }] }, 'title code catalogue categories level skillsGained targetDepartments').lean(),
   ]);
   const context = {
     organization: {
@@ -336,7 +336,7 @@ export async function createOrgAiSummary(org, { refresh = false } = {}) {
     departments: overview.byDepartment.map(({ department, headcount, employees, submitted, published }) => ({ department, headcount, employeesOnPlatform: employees, submitted, pathwaysPublished: published })),
     funnel: overview.funnel,
     skillGaps: gaps.byDepartment.map((d) => ({ department: d.department, analysedEmployees: d.learners, topGaps: d.skills.map((s) => ({ skill: s.skill.en, employees: s.count, highPriority: s.high })) })),
-    catalogue: programmes.map((p) => ({ id: String(p._id), code: p.code, title: p.title?.en, category: p.category, level: p.level, skillsGained: p.skillsGained, targetDepartments: p.targetDepartments?.length ? p.targetDepartments : undefined })),
+    catalogue: programmes.map((p) => ({ id: String(p._id), code: p.code, title: p.title?.en, catalogue: p.catalogue, categories: p.categories, level: p.level, skillsGained: p.skillsGained, targetDepartments: p.targetDepartments?.length ? p.targetDepartments : undefined })),
   };
 
   const { result, meta } = await generateOrgSummary(context);

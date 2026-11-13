@@ -88,6 +88,15 @@ Ask Claude Code: *"Read CLAUDE.md and docs/12-BUILD-PHASES.md, then implement Ph
 - [ ] Seed production demo data; run the full demo story from 00 §5
 - **Test:** full demo on production URLs in both languages.
 
+## Catalogue restructure — campus2b.com structure and content
+- [x] Two catalogues (`elearning` / `general`), several categories per programme, admin-managed `Category` model
+- [x] Featured and subsidised flags, topics, "ideal for" lists, intake times and notes
+- [x] Catalogue page with catalogue tabs, category chips and training-calendar view; programme page sections as on campus2b.com
+- [x] Real catalogue imported (18 eLearning + 34 scheduled courses) with English translations; demo seed uses the real codes
+- [x] "Import from campus2b.com" on Admin → Programmes: finds site courses not on the platform (by `sourceUrls` + ignore list), imports them as drafts, adds new runs’ dates to an existing programme, or ignores them
+- [x] Programme form auto-saves unsaved input in the browser and restores it on return (`client/src/lib/useFormDraft.js`)
+- [ ] Run `npm run catalogue:sync` against production (archives the old demo programmes, imports covers to Cloudinary)
+
 ---
 
 ## Demo seed data (Phase 7+)

@@ -29,3 +29,13 @@ export const booleanQuery = z
   .enum(['true', 'false'])
   .optional()
   .transform((v) => (v === undefined ? undefined : v === 'true'));
+
+/** Bilingual list `{ en: [String], es: [String] }`; blank items removed. */
+export const i18nList = (maxItems = 50, maxLen = 500) => {
+  const list = z
+    .array(z.string().trim().max(maxLen))
+    .max(maxItems)
+    .optional()
+    .transform((arr) => (arr ?? []).filter(Boolean));
+  return z.object({ en: list, es: list });
+};

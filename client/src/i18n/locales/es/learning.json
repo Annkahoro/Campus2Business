@@ -26,7 +26,9 @@
     "confirm": "Enviar solicitud",
     "sent": "Inscripción solicitada. Te avisaremos cuando C2B la apruebe.",
     "sentOnBehalf": "Inscripción solicitada para esta persona.",
-    "viewInLearning": "Ver en Mi aprendizaje"
+    "viewInLearning": "Ver en Mi aprendizaje",
+    "selfPaced": "Es un curso online a tu ritmo: podrás empezar en cuanto C2B apruebe tu solicitud.",
+    "subsidisedNote": "Este curso está subvencionado: es gratuito para ti una vez que C2B apruebe la solicitud."
   },
   "payment": {
     "title": "Completar el pago",

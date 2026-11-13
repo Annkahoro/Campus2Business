@@ -22,7 +22,7 @@ const EDITABLE = ['pending_review', 'approved'];
 const BULK_CONCURRENCY = 2;
 
 const PROGRAMME_FIELDS =
-  'title code category level durationValue durationUnit deliveryMode coverImage price prerequisites status language';
+  'title code catalogue categories subsidised level durationValue durationUnit deliveryMode coverImage price prerequisites status language';
 const POPULATE_FINAL = [
   { path: 'final.pathway.programme', select: PROGRAMME_FIELDS },
   { path: 'final.alternatives.programme', select: PROGRAMME_FIELDS },
@@ -49,7 +49,9 @@ function programmeSummary(p) {
     id: String(p._id),
     code: p.code ?? null,
     title: p.title,
-    category: p.category,
+    catalogue: p.catalogue ?? 'elearning',
+    categories: p.categories ?? [],
+    subsidised: !!p.subsidised,
     level: p.level,
     durationValue: p.durationValue ?? null,
     durationUnit: p.durationUnit ?? null,

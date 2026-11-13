@@ -18,7 +18,7 @@ import { emitEnrollmentStatus } from '../sockets/events.js';
  */
 
 const LEARNER_ROLES = [ROLES.STUDENT, ROLES.EMPLOYEE];
-const PROGRAMME_FIELDS = 'title code category level durationValue durationUnit deliveryMode coverImage price intakes status';
+const PROGRAMME_FIELDS = 'title code catalogue categories subsidised level durationValue durationUnit deliveryMode coverImage price intakes status';
 const escapeRegex = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 
 /* ─────────────────────────── DTO ─────────────────────────── */
@@ -34,7 +34,9 @@ export function toEnrollmentDTO(e, { withAdminNotes = false } = {}) {
             id: String(p._id),
             code: p.code ?? null,
             title: p.title,
-            category: p.category,
+            catalogue: p.catalogue ?? 'elearning',
+            categories: p.categories ?? [],
+            subsidised: !!p.subsidised,
             level: p.level,
             durationValue: p.durationValue ?? null,
             durationUnit: p.durationUnit ?? null,
@@ -175,7 +177,7 @@ export async function requestEnrollment(user, { programmeId, intakeStartDate, re
       requestedBy: user._id,
       payment: {
         simulated: true,
-        amount: programme.price?.amount ?? 0,
+        amount: programme.subsidised ? 0 : (programme.price?.amount ?? 0), // subsidised = free for the learner
         currency: programme.price?.currency ?? 'EUR',
         method: isEmployee ? 'employer_invoice' : undefined, // docs/07 §5
         status: 'unpaid',

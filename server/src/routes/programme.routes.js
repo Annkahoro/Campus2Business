@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import * as ctrl from '../controllers/programme.controller.js';
+import * as categoryCtrl from '../controllers/category.controller.js';
 import { optionalAuth } from '../middleware/protect.js';
 import { validate } from '../middleware/validate.js';
 import { listProgrammesQuery } from '../validators/programme.validator.js';
@@ -14,7 +15,7 @@ const router = Router();
 router.use(optionalAuth);
 
 router.get('/', validate(listProgrammesQuery, 'query'), ctrl.listPublished);
-router.get('/meta/categories', ctrl.listCategories);
+router.get('/meta/categories', categoryCtrl.listPublic);
 router.get('/:id', ctrl.getOne);
 
 export default router;

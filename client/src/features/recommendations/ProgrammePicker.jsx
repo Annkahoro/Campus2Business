@@ -3,12 +3,13 @@ import { useTranslation } from 'react-i18next';
 import { Plus, Search } from 'lucide-react';
 import { Button, EmptyState, Input, Modal, Spinner } from '../../components/ui/index.js';
 import { useProgrammes } from '../programmes/hooks.js';
-import { categoryLabel } from '../programmes/format.js';
+import { useCategoryLabel } from '../programmes/hooks.js';
 import { loc } from '../../lib/localized.js';
 
 /** Searchable picker over published programmes (docs/06 §9). `excludeIds` are already used. */
 export default function ProgrammePicker({ open, onClose, onPick, excludeIds = [], title }) {
   const { t, i18n } = useTranslation('pathway');
+  const categoryLabel = useCategoryLabel();
   const [search, setSearch] = useState('');
   const query = useProgrammes({ search: search || undefined, limit: 50 });
   const excluded = new Set(excludeIds);
@@ -37,7 +38,7 @@ export default function ProgrammePicker({ open, onClose, onPick, excludeIds = []
                 <div className="min-w-0">
                   <p className="font-medium text-ink">{loc(p.title, i18n.resolvedLanguage)}</p>
                   <p className="text-xs text-ink-muted">
-                    {[p.code, categoryLabel(t, p.category), t(`programme.levels.${p.level}`, { ns: 'common' })]
+                    {[p.code, (p.categories ?? []).map(categoryLabel).join(', '), t(`programme.levels.${p.level}`, { ns: 'common' })]
                       .filter(Boolean)
                       .join(' · ')}
                   </p>

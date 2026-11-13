@@ -92,15 +92,27 @@ All deletes are hard deletes, done in `services/account.service.js`, and written
 ## Programmes
 | Method | Path | Access | Notes |
 |---|---|---|---|
-| GET | `/programmes` | 🔐 | published only; `?category=&level=&mode=&lang=&search=&page=` |
+| GET | `/programmes` | 🔐 | published only; `?catalogue=elearning|general&category=&featured=&subsidised=&exclude=&level=&mode=&lang=&search=&page=` |
 | GET | `/programmes/:id` | 🔐 | custom fields with `showToLearners` only |
-| GET | `/programmes/meta/categories` | 🔐 | distinct categories |
+| GET | `/programmes/meta/categories` | 🔐 | active categories in order, with published counts per catalogue `{ elearning, general, total }` |
 | GET | `/admin/programmes` | 🅰️ | all statuses |
 | POST | `/admin/programmes` | 🅰️ | validates `customFields` against definitions |
 | PATCH | `/admin/programmes/:id` | 🅰️ | |
 | PATCH | `/admin/programmes/:id/status` | 🅰️ | `{ status }` |
 | POST | `/admin/programmes/:id/cover` | 🅰️ | multipart image |
 | DELETE | `/admin/programmes/:id` | 🅰️ | soft delete → `archived` if it has enrollments |
+| GET | `/admin/programmes/import/preview` | 🅰️ | `?fresh=true` re-reads campus2b.com (otherwise 10-min cache) → `{ totalOnSite, alreadyImported, truncated, items: [{ url, title, catalogue, categories, unmatchedCategories, subsidised, price, featured, intakes, match }], ignored: [] }` |
+| POST | `/admin/programmes/import` | 🅰️ | `{ items: [{ url, action: 'create' | 'merge' | 'ignore', programmeId? }] }` (max 60, campus2b.com course URLs only) → `{ created, merged, ignored, failed }`; `create` = new `draft`, `merge` = add its dates + link to `programmeId` |
+| DELETE | `/admin/programmes/import/ignored/:id` | 🅰️ | show an ignored site course in the import list again |
+
+## Programme categories `/admin/categories` (🅰️)
+| Method | Path | Notes |
+|---|---|---|
+| GET | `/admin/categories` | all categories (active first) with counts |
+| POST | `/admin/categories` | `{ slug, name: { en, es } }` — `slug` is immutable |
+| PATCH | `/admin/categories/:id` | `{ name?, isActive? }` |
+| PATCH | `/admin/categories/reorder` | `{ ids: [] }` |
+| DELETE | `/admin/categories/:id` | deleted if unused, otherwise `isActive:false` |
 
 ## Programme custom fields `/admin/programme-fields` (🅰️)
 | Method | Path | Notes |

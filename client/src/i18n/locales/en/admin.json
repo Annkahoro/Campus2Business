@@ -8,11 +8,12 @@
     "searchPlaceholder": "Title, code or tag — press Enter",
     "columns": {
       "programme": "Programme",
-      "category": "Category",
+      "category": "Categories",
       "level": "Level",
       "price": "Price",
       "status": "Status",
-      "actions": "Actions"
+      "actions": "Actions",
+      "catalogue": "Catalogue"
     },
     "emptyTitle": "No programmes match",
     "emptyText": "Create a programme or change the filters.",
@@ -63,7 +64,17 @@
       "location": "Location",
       "prerequisites": "Prerequisite programmes",
       "prerequisiteText": "Other prerequisites",
-      "skillsGained": "Skills gained"
+      "skillsGained": "Skills gained",
+      "catalogue": "Catalogue",
+      "categories": "Categories",
+      "featured": "Featured",
+      "subsidised": "Subsidised",
+      "organizer": "Organizer",
+      "topics": "Topics covered",
+      "idealFor": "“It’s for you or your company if…”",
+      "startTime": "Start time",
+      "endTime": "End time",
+      "intakeNote": "Days / note"
     },
     "hints": {
       "code": "Optional, e.g. C2B-DT-101.",
@@ -74,18 +85,33 @@
       "prerequisites_one": "{{count}} selected",
       "prerequisites_other": "{{count}} selected",
       "cover": "Shown on the catalogue and programme page. Without one, a category image is used.",
-      "coverAfterCreate": "You can upload a cover image after creating the programme."
+      "coverAfterCreate": "You can upload a cover image after creating the programme.",
+      "catalogue": "eLearning = self-paced online, start any time. General = scheduled dates (training calendar).",
+      "categories": "Tick one or more; the first ticked is shown first.",
+      "featured": "Shown first in the catalogue and on the home page.",
+      "subsidised": "Shown as “Subsidised” instead of a price; enrollment is free for the learner.",
+      "onePerLine": "One item per line.",
+      "location": "Address for in-person sessions, or “Online”."
     },
     "errors": {
       "titleRequired": "Enter a title in at least one language.",
       "languageRequired": "Choose at least one language.",
-      "audienceRequired": "Choose at least one audience."
+      "audienceRequired": "Choose at least one audience.",
+      "categoryRequired": "Choose at least one category."
     },
     "addIntake": "Add intake",
     "removeIntake": "Remove intake {{n}}",
     "manageFields": "Manage fields",
     "noCustomFields": "No custom fields yet. Create them in Programme fields.",
-    "coverUploaded": "Cover image updated."
+    "coverUploaded": "Cover image updated.",
+    "manageCategories": "Manage categories",
+    "draft": {
+      "restoredTitle": "Your unsaved changes were restored",
+      "restoredText": "We kept what you typed on {{time}} so you can carry on where you left off.",
+      "stale": "This programme has been saved since then, so check the changes before saving.",
+      "discard": "Discard these changes",
+      "savedLocally": "Changes kept on this device · {{time}}"
+    }
   },
   "fields": {
     "title": "Programme fields",
@@ -209,5 +235,87 @@
       "created": "{{name}} has been created and approved.",
       "saved": "{{name}} has been saved."
     }
+  },
+  "categories": {
+    "title": "Programme categories",
+    "subtitle": "Categories group programmes in the catalogue filters (e.g. Artificial intelligence, ITIL). A programme can have several; the first one is its main category.",
+    "new": "New category",
+    "newTitle": "New category",
+    "editTitle": "Edit category",
+    "name": "Name",
+    "slug": "Identifier",
+    "slugHint": "Lowercase letters, numbers and underscores. Used in links and by the AI. It cannot be changed later.",
+    "slugLocked": "The identifier cannot be changed.",
+    "saved": "Category saved.",
+    "deleted": "Category deleted.",
+    "deactivated": "Category deactivated. Programmes keep it, but it no longer appears in filters.",
+    "reactivated": "Category reactivated.",
+    "reactivate": "Reactivate",
+    "deactivate": "Deactivate",
+    "inactive": "Inactive",
+    "inactiveTitle": "Inactive categories",
+    "countElearning_one": "{{count}} eLearning",
+    "countElearning_other": "{{count}} eLearning",
+    "countGeneral_one": "{{count}} scheduled",
+    "countGeneral_other": "{{count}} scheduled",
+    "reorderHint": "Drag to change the order of the filter chips.",
+    "dragHandle": "Reorder {{name}}",
+    "emptyTitle": "No categories yet",
+    "emptyText": "Create categories to organise the catalogue.",
+    "loadError": "We couldn't load the categories.",
+    "deleteTitle": "Delete category?",
+    "deleteText": "“{{name}}” will be deleted.",
+    "deleteInUse_one": "“{{name}}” is used by {{count}} programme, so it will be deactivated instead of deleted.",
+    "deleteInUse_other": "“{{name}}” is used by {{count}} programmes, so it will be deactivated instead of deleted.",
+    "errors": {
+      "slug": "Use 2–60 lowercase letters, numbers or underscores, starting with a letter.",
+      "name": "Enter a name in at least one language."
+    }
+  },
+  "import": {
+    "button": "Import from campus2b.com",
+    "title": "Import from campus2b.com",
+    "subtitle": "Courses on the C2B website that are not on the platform yet.",
+    "checking": "Checking campus2b.com…",
+    "checkingHint": "Reading every course page on the website. This can take up to a minute.",
+    "loadError": "campus2b.com could not be checked",
+    "summary_one": "{{total}} courses on campus2b.com · {{imported}} already on the platform · {{count}} new",
+    "summary_other": "{{total}} courses on campus2b.com · {{imported}} already on the platform · {{count}} new",
+    "checkedAt": "checked at {{time}}",
+    "checkAgain": "Check again",
+    "upToDate": "Everything is up to date",
+    "upToDateText": "Every course on campus2b.com is already on the platform (or on your ignored list).",
+    "draftNote": "Imported courses are saved as drafts with the Spanish text from the website. Add the English translation, check the categories and level, then publish.",
+    "truncated": "Showing the first {{count}} new courses. Import or ignore them, then check again for the rest.",
+    "pageFailed": "This course page could not be read.",
+    "unmatchedCategories": "Website categories not found on the platform: {{names}}. Create them in Categories, or choose categories when you edit the draft.",
+    "noCategories": "No category on the website — choose one when you edit the draft.",
+    "matchHint": "Looks like another run of “{{title}}” ({{code}}), so its dates will be added there.",
+    "viewOnSite": "View on campus2b.com",
+    "actionLabel": "Action",
+    "actionFor": "Action for {{title}}",
+    "actions": {
+      "create": "Import as a new draft",
+      "merge": "Link to an existing programme (adds its dates)",
+      "ignore": "Ignore (don’t show again)",
+      "skip": "Skip for now"
+    },
+    "apply_one": "Apply to {{count}} course",
+    "apply_other": "Apply to {{count}} courses",
+    "done": "Import finished",
+    "doneSummary": "{{created}} draft(s) created, {{merged}} programme(s) got new dates, {{ignored}} ignored.",
+    "createdTitle": "New drafts",
+    "reviewDrafts": "Review each draft, add the English text and publish it when it is ready.",
+    "mergedTitle": "New dates added",
+    "intakesAdded_one": "{{count}} new date added",
+    "intakesAdded_other": "{{count}} new dates added",
+    "failedTitle_one": "{{count}} course could not be imported",
+    "failedTitle_other": "{{count}} courses could not be imported",
+    "ignoredToggle_one": "Ignored courses ({{count}})",
+    "ignoredToggle_other": "Ignored courses ({{count}})",
+    "restore": "Show again",
+    "restored": "The course will show in the import list again",
+    "mergeTarget": "Choose the programme",
+    "mergeTargetRequired": "Choose which programme this course belongs to."
   }
 }
