@@ -35,6 +35,20 @@ export const uploadImage = (buffer, subfolder, maxWidth = 1600) =>
     transformation: [{ width: maxWidth, crop: 'limit' }, { quality: 'auto', fetch_format: 'auto' }],
   });
 
+/**
+ * Short-lived signed download link for a private raw asset (CV PDFs).
+ * Cloudinary blocks public CDN delivery of PDFs by default (401 "deny or ACL failure"), and CVs should not
+ * have permanent public links anyway — so the DTO hands out an authenticated API URL that expires.
+ */
+export function signedRawUrl(publicId, ttlSeconds = 60 * 60) {
+  if (!publicId || !isCloudinaryConfigured) return null;
+  return cloudinary.utils.private_download_url(publicId, '', {
+    resource_type: 'raw',
+    type: 'upload',
+    expires_at: Math.floor(Date.now() / 1000) + ttlSeconds,
+  });
+}
+
 /** Best-effort delete; never throws (a stale asset must not break the request). */
 export async function deleteAsset(publicId, resourceType = 'image') {
   if (!publicId || !isCloudinaryConfigured) return;

@@ -4,7 +4,7 @@ import { ROLES } from '../models/_shared.js';
 import { ApiError } from '../utils/ApiError.js';
 import { randomToken } from '../utils/tokens.js';
 import { PROFILE, assertTransition } from '../utils/transitions.js';
-import { deleteAsset, uploadBuffer } from './upload.service.js';
+import { deleteAsset, signedRawUrl, uploadBuffer } from './upload.service.js';
 import { extractPdfText, looksLikePdf } from './cv.service.js';
 import { notifyAdmins, notifyUser } from './notification.service.js';
 import { Organization } from '../models/Organization.js';
@@ -114,7 +114,7 @@ export function toLearnerProfileDTO(doc) {
       careerGoals: { shortTerm: '', longTerm: '', targetRoles: [], ...p.careerGoals },
       learningPreferences: { mode: 'any', preferredLanguage: 'any', ...p.learningPreferences },
     },
-    cv: p.cv?.url ? { url: p.cv.url, fileName: p.cv.fileName, uploadedAt: p.cv.uploadedAt } : null,
+    cv: p.cv?.url ? { url: signedRawUrl(p.cv.publicId) ?? p.cv.url, fileName: p.cv.fileName, uploadedAt: p.cv.uploadedAt } : null,
     orgRemarks: (p.orgRemarks ?? []).map((r) => ({
       id: String(r._id),
       text: r.text,
