@@ -42,6 +42,7 @@ Legend: 🌐 public · 🔐 any logged-in user · 🅰️ c2b_admin · 🏢 org_
 | POST | `/organizations/mine/logo` | 🏢 | multipart image |
 | GET | `/admin/organizations` | 🅰️ | `?status=&search=&page=` |
 | POST | `/admin/organizations` | 🅰️ | `{ ...org, owner: { name, email, password } }` → creates the org admin account + the org, already `approved` (+ default invite link) |
+| POST | `/admin/organizations/bulk` | 🅰️ | `{ action: 'approve' | 'suspend' | 'delete', ids }` or `{ action, filter: { status, search } }` ("select all", max 500) → `{ done, failed: [{ id, name, code }], convertedEmployees }`; each org goes through the single-action logic |
 | GET | `/admin/organizations/:id` | 🅰️ | org + stats + employees |
 | PATCH | `/admin/organizations/:id` | 🅰️ | edit details (same body as `PATCH /organizations/mine`); status only via approve/reject/suspend |
 | DELETE | `/admin/organizations/:id` | 🅰️ | hard delete; employees become students, owner keeps an account without org |

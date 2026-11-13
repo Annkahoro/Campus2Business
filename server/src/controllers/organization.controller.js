@@ -51,3 +51,7 @@ export const adminUpdate = asyncHandler(async (req, res) => {
 export const adminDelete = asyncHandler(async (req, res) => {
   sendSuccess(res, await orgService.adminDelete(req.user, req.params.id), { message: 'Organization deleted' });
 });
+
+export const bulkAction = asyncHandler(async (req, res) => {
+  sendSuccess(res, await orgService.bulkAction(req.user, req.body));
+});

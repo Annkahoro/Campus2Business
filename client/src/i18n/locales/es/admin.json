@@ -234,6 +234,53 @@
       "create": "Crear organización",
       "created": "Se ha creado y aprobado {{name}}.",
       "saved": "Se ha guardado {{name}}."
+    },
+    "bulk": {
+      "region": "Acciones en bloque",
+      "selected_one": "{{count}} organización seleccionada",
+      "selected_other": "{{count}} organizaciones seleccionadas",
+      "selectAllMatching": "Seleccionar las {{count}} organizaciones ({{status}})",
+      "selectPage": "Seleccionar todas en esta página",
+      "selectOne": "Seleccionar {{name}}",
+      "clear": "Quitar selección",
+      "actions": {
+        "approve": "Aprobar",
+        "reactivate": "Reactivar",
+        "suspend": "Suspender",
+        "delete": "Eliminar"
+      },
+      "confirm": {
+        "approve": {
+          "title_one": "¿Aprobar {{count}} organización?",
+          "title_other": "¿Aprobar {{count}} organizaciones?",
+          "text_one": "Recibe un enlace de invitación y se avisa a su administrador.",
+          "text_other": "Cada una recibe un enlace de invitación y se avisa a su administrador."
+        },
+        "suspend": {
+          "title_one": "¿Suspender {{count}} organización?",
+          "title_other": "¿Suspender {{count}} organizaciones?",
+          "text_one": "Sus enlaces de invitación dejan de funcionar. Los empleados pueden seguir entrando.",
+          "text_other": "Sus enlaces de invitación dejan de funcionar. Los empleados pueden seguir entrando."
+        },
+        "delete": {
+          "title_one": "¿Eliminar {{count}} organización?",
+          "title_other": "¿Eliminar {{count}} organizaciones?",
+          "text_one": "Se eliminarán de forma permanente junto con sus enlaces de invitación. Sus empleados conservan su cuenta como alumnos individuales. No se puede deshacer.",
+          "text_other": "Se eliminarán de forma permanente junto con sus enlaces de invitación. Sus empleados conservan su cuenta como alumnos individuales. No se puede deshacer."
+        }
+      },
+      "done": {
+        "approve_one": "{{count}} organización aprobada.",
+        "approve_other": "{{count}} organizaciones aprobadas.",
+        "suspend_one": "{{count}} organización suspendida.",
+        "suspend_other": "{{count}} organizaciones suspendidas.",
+        "delete_one": "{{count}} organización eliminada.",
+        "delete_other": "{{count}} organizaciones eliminadas."
+      },
+      "converted_one": "{{count}} empleado ahora es alumno individual.",
+      "converted_other": "{{count}} empleados ahora son alumnos individuales.",
+      "failed_one": "No se pudo cambiar {{count}} organización: {{names}}",
+      "failed_other": "No se pudieron cambiar {{count}} organizaciones: {{names}}"
     }
   },
   "categories": {

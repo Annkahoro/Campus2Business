@@ -135,13 +135,18 @@ async function employeeCounts(orgIds) {
 }
 
 /** GET /admin/organizations?status=&search=&page= */
-export async function adminList({ status, search, page, limit }) {
+function listFilter({ status, search }) {
   const filter = {};
   if (status) filter.status = status;
   if (search) {
     const rx = new RegExp(escapeRegex(search), 'i');
     filter.$or = [{ name: rx }, { industry: rx }, { country: rx }, { city: rx }];
   }
+  return filter;
+}
+
+export async function adminList({ status, search, page, limit }) {
+  const filter = listFilter({ status, search });
   const [orgs, total, statusCounts] = await Promise.all([
     Organization.find(filter).sort({ createdAt: -1 }).skip((page - 1) * limit).limit(limit).populate('owner', 'name email').lean(),
     Organization.countDocuments(filter),
@@ -292,4 +297,39 @@ export async function adminDelete(admin, id) {
   if (!org) throw ApiError.notFound('ORG_NOT_FOUND', 'Organization not found');
   await notifyUser(org.owner, 'org.deleted', { name: org.name, forOwner: true });
   return removeOrganization(org, admin);
+}
+
+/* ─────────────────────────── bulk actions ─────────────────────────── */
+
+const BULK_MAX = 500;
+const BULK_ACTIONS = {
+  approve: (id, admin) => approve(id, admin),
+  suspend: (id, admin) => suspend(id, admin),
+  delete: (id, admin) => adminDelete(admin, id),
+};
+
+/**
+ * POST /admin/organizations/bulk { action, ids } or { action, filter: { status, search } } ("select all").
+ * Each organization goes through the same code as the single action (notifications, audit, employees kept as
+ * individual learners on delete). One failure doesn't stop the rest: → { done: [ids], failed: [{ id, name, code }] }.
+ */
+export async function bulkAction(admin, { action, ids, filter }) {
+  const targets = ids
+    ? await Organization.find({ _id: { $in: ids } }, 'name').lean()
+    : await Organization.find(listFilter(filter), 'name').sort({ createdAt: -1 }).limit(BULK_MAX + 1).lean();
+  if (targets.length > BULK_MAX) throw ApiError.badRequest('BULK_TOO_MANY', `At most ${BULK_MAX} organizations at once`);
+
+  const done = [];
+  const failed = [];
+  let convertedEmployees = 0;
+  for (const org of targets) {
+    try {
+      const res = await BULK_ACTIONS[action](org._id, admin);
+      if (action === 'delete') convertedEmployees += res?.convertedEmployees ?? 0;
+      done.push(String(org._id));
+    } catch (err) {
+      failed.push({ id: String(org._id), name: org.name, code: err instanceof ApiError ? err.code : 'INTERNAL_ERROR' });
+    }
+  }
+  return { action, done, failed, convertedEmployees };
 }

@@ -23,6 +23,8 @@ export const orgApi = {
   adminCreate: (body) => unwrap(api.post('/admin/organizations', body)),
   adminUpdate: (id, body) => unwrap(api.patch(`/admin/organizations/${id}`, body)),
   adminDelete: (id) => unwrap(api.delete(`/admin/organizations/${id}`)),
+  // { action: 'approve'|'suspend'|'delete', ids } or { action, filter: { status, search } }
+  bulk: (body) => unwrap(api.post('/admin/organizations/bulk', body, { timeout: 120000 })),
 
   // Invites
   validateInvite: (token) => unwrap(api.get(`/invites/${token}/validate`)),

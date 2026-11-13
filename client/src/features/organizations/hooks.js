@@ -110,6 +110,17 @@ export const useAdminDeleteOrg = () => {
 
 /* ── Employees: edit / delete ── */
 export const useUpdateEmployee = () => useEmployeeWrite(({ id, body }) => orgApi.updateEmployee(id, body));
+export const useBulkOrgAction = () => {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: orgApi.bulk,
+    onSettled: () => {
+      qc.invalidateQueries({ queryKey: ['orgs'] });
+      qc.invalidateQueries({ queryKey: ['learners'] });
+    },
+  });
+};
+
 export const useDeleteEmployee = () => {
   const qc = useQueryClient();
   return useMutation({

@@ -96,7 +96,8 @@ Ask Claude Code: *"Read CLAUDE.md and docs/12-BUILD-PHASES.md, then implement Ph
 - [x] "Import from campus2b.com" on Admin → Programmes: finds site courses not on the platform (by `sourceUrls` + ignore list), imports them as drafts, adds new runs’ dates to an existing programme, or ignores them
 - [x] Programme form auto-saves unsaved input in the browser and restores it on return (`client/src/lib/useFormDraft.js`)
 - [x] Run `npm run catalogue:sync` against production
-- [x] Main C2B admin (Render `SEED_ADMIN_*`) synced on start-up, protected from deletion; other admins can delete themselves (archives the old demo programmes, imports covers to Cloudinary)
+- [x] Main C2B admin (Render `SEED_ADMIN_*`) synced on start-up, protected from deletion; other admins can delete themselves
+- [x] Organizations list: select rows / select all in a tab, bulk approve, suspend/reactivate and delete (archives the old demo programmes, imports covers to Cloudinary)
 
 ---
 

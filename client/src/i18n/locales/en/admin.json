@@ -234,6 +234,53 @@
       "create": "Create organization",
       "created": "{{name}} has been created and approved.",
       "saved": "{{name}} has been saved."
+    },
+    "bulk": {
+      "region": "Bulk actions",
+      "selected_one": "{{count}} organization selected",
+      "selected_other": "{{count}} organizations selected",
+      "selectAllMatching": "Select all {{count}} {{status}} organizations",
+      "selectPage": "Select all on this page",
+      "selectOne": "Select {{name}}",
+      "clear": "Clear selection",
+      "actions": {
+        "approve": "Approve",
+        "reactivate": "Reactivate",
+        "suspend": "Suspend",
+        "delete": "Delete"
+      },
+      "confirm": {
+        "approve": {
+          "title_one": "Approve {{count}} organization?",
+          "title_other": "Approve {{count}} organizations?",
+          "text_one": "It gets an invite link and its admin is notified.",
+          "text_other": "Each one gets an invite link and its admin is notified."
+        },
+        "suspend": {
+          "title_one": "Suspend {{count}} organization?",
+          "title_other": "Suspend {{count}} organizations?",
+          "text_one": "Its invite links stop working. Employees can still log in.",
+          "text_other": "Their invite links stop working. Employees can still log in."
+        },
+        "delete": {
+          "title_one": "Delete {{count}} organization?",
+          "title_other": "Delete {{count}} organizations?",
+          "text_one": "It and its invite links will be permanently deleted. Its employees keep their accounts as individual learners. This can’t be undone.",
+          "text_other": "They and their invite links will be permanently deleted. Their employees keep their accounts as individual learners. This can’t be undone."
+        }
+      },
+      "done": {
+        "approve_one": "{{count}} organization approved.",
+        "approve_other": "{{count}} organizations approved.",
+        "suspend_one": "{{count}} organization suspended.",
+        "suspend_other": "{{count}} organizations suspended.",
+        "delete_one": "{{count}} organization deleted.",
+        "delete_other": "{{count}} organizations deleted."
+      },
+      "converted_one": "{{count}} employee is now an individual learner.",
+      "converted_other": "{{count}} employees are now individual learners.",
+      "failed_one": "{{count}} organization could not be changed: {{names}}",
+      "failed_other": "{{count}} organizations could not be changed: {{names}}"
     }
   },
   "categories": {

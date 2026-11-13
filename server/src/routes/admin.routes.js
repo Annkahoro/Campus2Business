@@ -20,7 +20,7 @@ import {
 } from '../validators/programme.validator.js';
 import { createFieldSchema, reorderFieldsSchema, updateFieldSchema } from '../validators/programmeField.validator.js';
 import * as orgCtrl from '../controllers/organization.controller.js';
-import { adminCreateOrgSchema, adminListOrgsQuery, rejectOrgSchema, updateOrgSchema } from '../validators/organization.validator.js';
+import { adminCreateOrgSchema, adminListOrgsQuery, bulkOrgSchema, rejectOrgSchema, updateOrgSchema } from '../validators/organization.validator.js';
 import * as learnerCtrl from '../controllers/learner.controller.js';
 import * as recCtrl from '../controllers/recommendation.controller.js';
 import { aiLimiter } from '../middleware/rateLimit.js';
@@ -75,6 +75,7 @@ router.delete('/categories/:id', categoryCtrl.remove);
 /* Organizations */
 router.get('/organizations', validate(adminListOrgsQuery, 'query'), orgCtrl.adminList);
 router.post('/organizations', validate(adminCreateOrgSchema), orgCtrl.adminCreate);
+router.post('/organizations/bulk', validate(bulkOrgSchema), orgCtrl.bulkAction);
 router.get('/organizations/:id', orgCtrl.adminGet);
 router.patch('/organizations/:id', validate(updateOrgSchema), orgCtrl.adminUpdate);
 router.delete('/organizations/:id', orgCtrl.adminDelete);

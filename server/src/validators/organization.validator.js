@@ -55,6 +55,14 @@ export const updateOrgSchema = z
 
 export const rejectOrgSchema = z.object({ reason: z.string().trim().min(3, 'REQUIRED').max(1000) });
 
+export const bulkOrgSchema = z
+  .object({
+    action: z.enum(['approve', 'suspend', 'delete']),
+    ids: z.array(objectId).min(1).max(500).optional(),
+    filter: z.object({ status: z.enum(ORG_STATUSES).optional(), search: z.string().trim().max(100).optional() }).optional(),
+  })
+  .refine((v) => !!v.ids !== !!v.filter, { message: 'IDS_OR_FILTER', path: ['ids'] });
+
 export const adminListOrgsQuery = z.object({
   status: z.enum(ORG_STATUSES).optional(),
   search: z.string().trim().max(100).optional(),

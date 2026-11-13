@@ -81,5 +81,6 @@
   "IMPORT_PAGE_FAILED": "The course page could not be read.",
   "IMPORT_ALREADY_IMPORTED": "This course is already on the platform.",
   "SUPER_ADMIN_PROTECTED": "The main C2B admin can’t be deleted or deactivated.",
-  "SUPER_ADMIN_MANAGED": "The main C2B admin’s email and password are managed in the server settings."
+  "SUPER_ADMIN_MANAGED": "The main C2B admin’s email and password are managed in the server settings.",
+  "BULK_TOO_MANY": "Too many organizations at once (500 maximum). Narrow the list with search first."
 }
