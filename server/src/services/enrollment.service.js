@@ -11,9 +11,12 @@ import { ENROLLMENT, assertTransition } from '../utils/transitions.js';
 import { randomToken } from '../utils/tokens.js';
 import { notify, notifyAdmins } from './notification.service.js';
 import { emitEnrollmentStatus } from '../sockets/events.js';
+import { checkoutUrlFor, isPaidProgramme, resolveShopProduct } from './shop/shop.utils.js';
 
 /**
- * Enrollments with SIMULATED payment (docs/07 §4). Completed and dropped enrollments are the learning
+ * Enrollments (docs/07 §4). Paid programmes with a campus2b.com shop product are bought on the C2B website
+ * (checkout → payment_pending → the WooCommerce webhook activates them); the others use the request →
+ * approval flow with the simulated payment screen. Completed and dropped enrollments are the learning
  * history the AI uses for the next pathway.
  */
 
@@ -51,7 +54,10 @@ export function toEnrollmentDTO(e, { withAdminNotes = false } = {}) {
     intakeStartDate: e.intakeStartDate ?? null,
     status: e.status,
     payment: {
-      simulated: true,
+      simulated: e.payment?.simulated ?? true,
+      provider: e.payment?.provider ?? 'simulated',
+      checkoutUrl: e.payment?.provider === 'shop' && e.status === 'payment_pending' ? (e.payment?.checkoutUrl ?? null) : null,
+      shopOrderId: e.payment?.shopOrderId ?? null,
       amount: e.payment?.amount ?? 0,
       currency: e.payment?.currency ?? 'EUR',
       method: e.payment?.method ?? null,
@@ -201,6 +207,135 @@ export async function requestEnrollment(user, { programmeId, intakeStartDate, re
   }
 }
 
+/**
+ * POST /enrollments/checkout { programmeId, intakeStartDate?, recommendationId? } — "Buy on campus2b.com".
+ * Records a payment_pending enrollment and returns the shop checkout URL the browser goes to.
+ * Calling it again for the same programme returns the same pending purchase (the learner left the shop).
+ */
+export async function startCheckout(user, { programmeId, intakeStartDate, recommendationId }) {
+  if (!LEARNER_ROLES.includes(user.role)) throw ApiError.forbidden();
+  if (!user.isActive) throw ApiError.conflict('EMPLOYEE_INACTIVE', 'This account is deactivated');
+
+  const programme = await Programme.findOne({ _id: programmeId, status: 'published' }).lean();
+  if (!programme) throw ApiError.notFound('PROGRAMME_NOT_FOUND', 'Programme not found');
+  const learnerType = user.role === ROLES.EMPLOYEE ? 'employee' : 'student';
+  if (programme.targetAudience?.length && !programme.targetAudience.includes(learnerType)) {
+    throw ApiError.badRequest('PROGRAMME_NOT_FOR_AUDIENCE', 'This programme is not offered to this learner type');
+  }
+  const product = isPaidProgramme(programme) ? resolveShopProduct(programme, intakeStartDate) : null;
+  if (!product) throw ApiError.conflict('CHECKOUT_UNAVAILABLE', 'This programme cannot be bought online');
+
+  const open = await Enrollment.findOne({ learner: user._id, programme: programme._id, status: { $in: ACTIVE_ENROLLMENT_STATUSES } });
+  if (open) {
+    if (open.status !== 'payment_pending' || open.payment?.provider !== 'shop') {
+      throw ApiError.conflict('ENROLLMENT_EXISTS', 'There is already an open enrollment for this programme');
+    }
+    // Resume the pending purchase (the learner may have picked another intake this time).
+    open.payment.shopProductId = product.productId;
+    open.payment.checkoutUrl = checkoutUrlFor(product.productId);
+    if (product.intakeStartDate) open.intakeStartDate = product.intakeStartDate;
+    await open.save();
+    return { enrollment: await loadDTO(open._id), checkoutUrl: open.payment.checkoutUrl };
+  }
+  if (await Enrollment.exists({ learner: user._id, programme: programme._id, status: 'completed' })) {
+    throw ApiError.conflict('ALREADY_COMPLETED', 'This programme has already been completed');
+  }
+
+  let recommendation;
+  if (recommendationId) {
+    const rec = await Recommendation.findOne({ _id: recommendationId, learner: user._id, status: 'published' }, '_id').lean();
+    recommendation = rec?._id;
+  }
+
+  const checkoutUrl = checkoutUrlFor(product.productId);
+  try {
+    // Buying replaces the request → approval steps: the pathway was already approved by C2B,
+    // so the enrollment starts at payment_pending and the shop payment activates it.
+    const enrollment = await Enrollment.create({
+      learner: user._id,
+      programme: programme._id,
+      organization: user.role === ROLES.EMPLOYEE ? user.organization : undefined,
+      recommendation,
+      intakeStartDate: product.intakeStartDate ?? undefined,
+      status: 'payment_pending',
+      requestedBy: user._id,
+      payment: {
+        simulated: false,
+        provider: 'shop',
+        amount: programme.price?.amount ?? 0,
+        currency: programme.price?.currency ?? 'EUR',
+        method: 'card',
+        status: 'unpaid',
+        shopProductId: product.productId,
+        checkoutUrl,
+      },
+    });
+    await audit(user._id, 'enrollment.checkout', 'Enrollment', enrollment._id, { productId: product.productId });
+    emitEnrollmentStatus(enrollment);
+    return { enrollment: await loadDTO(enrollment._id), checkoutUrl };
+  } catch (err) {
+    if (err?.code === 11000) throw ApiError.conflict('ENROLLMENT_EXISTS', 'There is already an open enrollment for this programme');
+    throw err;
+  }
+}
+
+/**
+ * A paid campus2b.com order line (WooCommerce webhook, services/shop/woocommerce.service.js).
+ * Activates the learner's open enrollment for the programme, or creates an active one when they bought on
+ * the website without starting from the platform. Never activates twice.
+ * → { enrollment, result: 'activated' | 'already_active' }
+ */
+export async function applyShopPayment({ learner, programme, intakeStartDate, order, line }) {
+  const findOpen = () =>
+    Enrollment.findOne({ learner: learner._id, programme: programme._id, status: { $in: ACTIVE_ENROLLMENT_STATUSES } });
+
+  let enrollment = await findOpen();
+  if (enrollment?.status === 'active') return { enrollment, result: 'already_active' };
+
+  const from = enrollment?.status ?? null;
+  if (!enrollment) {
+    enrollment = new Enrollment({
+      learner: learner._id,
+      programme: programme._id,
+      organization: learner.role === ROLES.EMPLOYEE ? learner.organization : undefined,
+      intakeStartDate: intakeStartDate ?? undefined,
+      requestedBy: learner._id,
+      payment: { provider: 'shop' },
+    });
+  }
+  // payment_pending → active is the normal path; a paid order also settles an older "requested"/"approved" one.
+  enrollment.status = 'active';
+  enrollment.startedAt = enrollment.startedAt ?? new Date();
+  Object.assign(enrollment.payment, {
+    simulated: false,
+    provider: 'shop',
+    method: 'card',
+    status: 'paid',
+    paidAt: order.paidAt ?? new Date(),
+    amount: line.total ?? enrollment.payment.amount ?? programme.price?.amount ?? 0,
+    currency: order.currency || enrollment.payment.currency || 'EUR',
+    reference: `C2B-WEB-${order.number ?? order.orderId}`,
+    shopOrderId: order.orderId,
+    shopProductId: line.productId,
+  });
+
+  try {
+    await enrollment.save();
+  } catch (err) {
+    // Two deliveries of the same order at once: the other one created it.
+    if (err?.code === 11000) {
+      const other = await findOpen();
+      if (other) return { enrollment: other, result: 'already_active' };
+    }
+    throw err;
+  }
+
+  await audit(null, 'enrollment.shopPaid', 'Enrollment', enrollment._id, { from, orderId: order.orderId, productId: line.productId });
+  await announce(enrollment, 'enrollment.statusChanged');
+  emitEnrollmentStatus(enrollment);
+  return { enrollment, result: 'activated' };
+}
+
 /** GET /enrollments/mine */
 export async function listMine(user) {
   const rows = await populateAll(Enrollment.find({ learner: user._id }).sort({ createdAt: -1 })).lean();
@@ -213,6 +348,9 @@ export async function pay(user, id, { method }) {
   await assertCanAct(user, enrollment);
   if (enrollment.status !== 'payment_pending') {
     throw ApiError.conflict('INVALID_STATUS_TRANSITION', `${enrollment.status} → active`);
+  }
+  if (enrollment.payment?.provider === 'shop') {
+    throw ApiError.conflict('PAY_ON_SHOP', 'This programme is paid on campus2b.com');
   }
   if (method === 'employer_invoice' && !enrollment.organization) {
     throw ApiError.badRequest('VALIDATION_ERROR', 'Employer invoice is only for employees', [{ path: 'method', message: 'INVALID_VALUE' }]);
@@ -301,7 +439,7 @@ export async function adminList({ status, programme, org, search, page = 1, limi
  * PATCH /admin/enrollments/:id/status { status, score?, adminNotes? } (docs/07 §4)
  * Approving moves straight on: free programmes become active (payment waived), paid ones wait for payment.
  */
-export async function adminSetStatus(admin, id, { status, score, adminNotes }) {
+export async function adminSetStatus(admin, id, { status, score, adminNotes, paymentReference }) {
   const enrollment = await findOr404(id, { select: '+adminNotes' });
   const from = enrollment.status;
 
@@ -319,6 +457,14 @@ export async function adminSetStatus(admin, id, { status, score, adminNotes }) {
     assertTransition(ENROLLMENT, from, status);
     enrollment.status = status;
     if (status === 'active') enrollment.startedAt = enrollment.startedAt ?? new Date();
+    // "Mark as paid": the admin checked the payment (e.g. the campus2b.com order) themselves.
+    if (from === 'payment_pending' && status === 'active') {
+      enrollment.payment.status = 'paid';
+      enrollment.payment.paidAt = new Date();
+      enrollment.payment.simulated = false;
+      if (enrollment.payment.provider !== 'shop') enrollment.payment.provider = 'manual';
+      enrollment.payment.reference = paymentReference || enrollment.payment.reference || 'MANUAL';
+    }
     if (status === 'completed') {
       enrollment.completedAt = new Date();
       enrollment.progressPercent = 100;

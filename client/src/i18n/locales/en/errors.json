@@ -82,5 +82,7 @@
   "IMPORT_ALREADY_IMPORTED": "This course is already on the platform.",
   "SUPER_ADMIN_PROTECTED": "The main C2B admin can’t be deleted or deactivated.",
   "SUPER_ADMIN_MANAGED": "The main C2B admin’s email and password are managed in the server settings.",
-  "BULK_TOO_MANY": "Too many at once (500 maximum). Narrow the list with filters or search first."
+  "BULK_TOO_MANY": "Too many at once (500 maximum). Narrow the list with filters or search first.",
+  "CHECKOUT_UNAVAILABLE": "This course cannot be bought online. Request enrollment instead.",
+  "PAY_ON_SHOP": "This course is paid on campus2b.com. Use \"Continue to checkout\"."
 }

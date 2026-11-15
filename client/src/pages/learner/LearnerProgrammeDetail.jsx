@@ -16,7 +16,7 @@ export default function LearnerProgrammeDetail() {
       prereqBasePath="/learner/programmes"
       actions={
         programme.data && (
-          <RequestEnrollmentButton programme={programme.data} enrollments={enrollments.data ?? []} size="md" />
+          <RequestEnrollmentButton programme={programme.data.programme} enrollments={enrollments.data ?? []} size="md" />
         )
       }
     />

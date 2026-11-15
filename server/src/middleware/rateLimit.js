@@ -32,3 +32,12 @@ export const aiLimiter = rateLimit({
   legacyHeaders: false,
   handler,
 });
+
+/** Shop webhooks (campus2b.com WooCommerce): one store sending order updates. */
+export const webhookLimiter = rateLimit({
+  windowMs: 60 * 1000,
+  limit: 120,
+  standardHeaders: 'draft-8',
+  legacyHeaders: false,
+  handler,
+});

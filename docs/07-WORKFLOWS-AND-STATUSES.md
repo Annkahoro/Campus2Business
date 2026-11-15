@@ -58,7 +58,7 @@ export const RECOMMENDATION = {
 };
 ```
 
-## 4. Enrollment (simulated payment)
+## 4. Enrollment (simulated payment, or real payment on campus2b.com — §4a)
 ```
 requested ──approve──▶ approved ──(price > 0)──▶ payment_pending ──pay (simulated)──▶ active ──▶ completed
     │                     └──(price = 0 or employer pays)──────────────────────────▶ active ──▶ dropped
@@ -67,6 +67,27 @@ requested ──approve──▶ approved ──(price > 0)──▶ payment_pen
 - Payment is **simulated**: `PaymentSimulator` shows card / M-Pesa / employer invoice options and a fake
   processing delay (1.5 s), then calls `/enrollments/:id/pay`. A clear "Demo payment — no real money" banner is shown.
 - `active` sets `startedAt`. `completed` sets `completedAt`, `progressPercent=100` and an optional `score`.
+
+### 4a. Buying on campus2b.com (real payment, WooCommerce)
+```
+"Buy on campus2b.com" ──▶ payment_pending (payment.provider = 'shop') ──paid on campus2b.com──▶ active
+                                │                                          (webhook, or admin "Mark as paid")
+                                └── learner leaves the shop: "Continue to checkout" reopens the same checkout
+```
+- Offered when the programme is **paid** (`!subsidised && price.amount > 0`) **and** has a campus2b.com shop product
+  (`Programme.shopProductId` or an intake's `shopProductId`). The DTO flag is `programme.shopCheckout`.
+- The learner acts for themselves (students and employees). The pathway was already approved by C2B, so buying
+  skips `requested → approved` and the enrollment is created directly in `payment_pending`.
+- `POST /enrollments/checkout` returns `checkoutUrl` = `SHOP_CHECKOUT_URL?add-to-cart=<productId>&quantity=1`
+  and the browser goes there (same tab).
+- The WooCommerce webhook (`POST /api/webhooks/woocommerce`, topic *Order updated*) applies an order once it is
+  `processing` or `completed`. It matches the **billing email** to a learner account and the **line product** to a
+  programme, then activates the open enrollment (or creates an active one if they bought directly on the website).
+  `payment.reference = C2B-WEB-<order number>`. Each order is applied once (`ShopOrder.processedAt`).
+- Unmatched paid orders (other email) notify admins only when a platform learner is waiting to pay for that course.
+  The admin uses **Mark as paid** (`payment_pending → active`). Refunds and cancellations notify admins; nothing changes automatically.
+- Subsidised, free, or no-shop-product programmes and org-admin "enroll on behalf" keep the request → approval
+  flow above, with the simulated payment.
 - `completed` and `dropped` enrollments are what the AI uses as **learning history**.
 
 ```js

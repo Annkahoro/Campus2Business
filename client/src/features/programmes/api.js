@@ -18,6 +18,8 @@ export const programmesApi = {
   // Import from campus2b.com (reading the site can take a while)
   importPreview: (params) => unwrap(api.get('/admin/programmes/import/preview', { params: clean(params), timeout: 120000 })),
   importApply: (items) => unwrap(api.post('/admin/programmes/import', { items }, { timeout: 180000 })),
+  // Fill in missing campus2b.com shop product IDs from the course pages (≈1 request per page)
+  syncShopProducts: () => unwrap(api.post('/admin/programmes/import/shop-products', {}, { timeout: 180000 })),
   restoreIgnored: (id) => unwrap(api.delete(`/admin/programmes/import/ignored/${id}`)),
   uploadCover: (id, file) => {
     const form = new FormData();

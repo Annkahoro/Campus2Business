@@ -176,6 +176,7 @@ async function mergeInto(url, page, categories, programmeId) {
   programme.intakes.push(...added);
   programme.intakes.sort((a, b) => new Date(a.startDate) - new Date(b.startDate));
   programme.sourceUrls = [...new Set([...(programme.sourceUrls ?? []), url])];
+  if (data.shopProductId) programme.shopProductId = data.shopProductId; // the newest run is the one on sale
   await programme.save();
   return { url, programme: programmeRef(programme), intakesAdded: added.length };
 }
@@ -221,4 +222,54 @@ export async function restoreIgnored(id) {
   const doc = await CatalogueImportIgnore.findByIdAndDelete(id);
   if (!doc) throw ApiError.notFound('NOT_FOUND', 'Not found');
   return { id: String(doc._id) };
+}
+
+/* ───────────── shop products ───────────── */
+
+/**
+ * POST /admin/programmes/import/shop-products — fills in missing campus2b.com shop product IDs
+ * (the "Comprar" button of each course page) for programmes imported from campus2b.com.
+ * IDs an admin already set are never overwritten.
+ */
+export async function syncShopProducts() {
+  const programmes = await Programme.find({ sourceUrls: { $exists: true, $ne: [] } });
+  const categories = await Category.find({}, 'slug name').lean();
+  const urls = [...new Set(programmes.flatMap((p) => p.sourceUrls))];
+  const results = await mapLimit(urls, (url) => getPage(url, null));
+  const pages = new Map(urls.map((url, i) => [url, results[i].ok ? results[i].value : null]));
+
+  const summary = { checked: programmes.length, updated: 0, alreadySet: 0, noProduct: 0, failedPages: 0 };
+  for (const programme of programmes) {
+    let latest = null;
+    let changed = false;
+    for (const url of programme.sourceUrls) {
+      const page = pages.get(url);
+      if (!page) {
+        summary.failedPages += 1;
+        continue;
+      }
+      const { data } = toProgrammeData(page, categories);
+      if (!data.shopProductId) continue;
+      latest = data.shopProductId;
+      for (const run of data.intakes) {
+        const mine = programme.intakes.find((i) => sameIntake(i, run));
+        if (mine && !mine.shopProductId) {
+          mine.shopProductId = data.shopProductId;
+          changed = true;
+        }
+      }
+    }
+    if (latest && !programme.shopProductId) {
+      programme.shopProductId = latest; // the last merged run is the newest one on sale
+      changed = true;
+    }
+    if (changed) {
+      await programme.save();
+      summary.updated += 1;
+    } else if (programme.shopProductId) summary.alreadySet += 1;
+    else summary.noProduct += 1;
+  }
+
+  if (summary.updated) emitProgrammesChanged(null);
+  return summary;
 }

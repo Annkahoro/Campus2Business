@@ -41,6 +41,9 @@ const programmeSchema = new Schema(
     targetAudience: [{ type: String, enum: AUDIENCES }],
     targetDepartments: [String], // empty = all
     price: { amount: Number, currency: { type: String, default: 'EUR' } },
+    // campus2b.com shop (WooCommerce) product the learner buys; checkout is
+    // https://www.campus2b.com/finalizar-compra/?add-to-cart=<id>&quantity=1. Scheduled runs can have their own (intakes[]).
+    shopProductId: Number,
     intakes: [
       {
         startDate: Date,
@@ -50,6 +53,7 @@ const programmeSchema = new Schema(
         note: I18nText, // e.g. 'Tuesdays and Thursdays'
         seats: Number,
         location: String,
+        shopProductId: Number, // this run's own shop product (falls back to the programme's)
       },
     ],
     tags: [String],
@@ -74,6 +78,8 @@ programmeSchema.index(
 );
 programmeSchema.index({ status: 1, catalogue: 1, categories: 1 });
 programmeSchema.index({ sourceUrls: 1 });
+programmeSchema.index({ shopProductId: 1 }, { sparse: true });
+programmeSchema.index({ 'intakes.shopProductId': 1 }, { sparse: true });
 
 export const Programme = mongoose.models.Programme || mongoose.model('Programme', programmeSchema);
 export default Programme;

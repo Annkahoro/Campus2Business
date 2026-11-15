@@ -13,6 +13,7 @@ import {
   Mail,
   MapPin,
   Phone,
+  ShoppingCart,
   Star,
 } from 'lucide-react';
 import { Alert, Button, Card, EmptyState, PageSpinner } from '../../components/ui/index.js';
@@ -161,11 +162,18 @@ export default function ProgrammeDetailView({ id, backTo, prereqBasePath, action
     .filter((r) => r.value !== null);
   const modeLabel = scheduled ? t(`programme.modes.${p.deliveryMode ?? 'online'}`) : t('programme.detail.virtualPlatform');
 
-  const steps = [
-    { icon: ClipboardCheck, key: 'request' },
-    { icon: BadgeCheck, key: p.subsidised || p.price?.amount === 0 ? 'approvalFree' : 'approval' },
-    { icon: KeyRound, key: scheduled ? 'startScheduled' : 'startElearning' },
-  ];
+  // Paid courses on sale in the campus2b.com shop are bought there; the others go through a C2B review.
+  const steps = p.shopCheckout
+    ? [
+        { icon: ShoppingCart, key: 'buy' },
+        { icon: BadgeCheck, key: 'paidShop' },
+        { icon: KeyRound, key: scheduled ? 'startScheduled' : 'startElearning' },
+      ]
+    : [
+        { icon: ClipboardCheck, key: 'request' },
+        { icon: BadgeCheck, key: p.subsidised || p.price?.amount === 0 ? 'approvalFree' : 'approval' },
+        { icon: KeyRound, key: scheduled ? 'startScheduled' : 'startElearning' },
+      ];
 
   return (
     <div className="space-y-8">

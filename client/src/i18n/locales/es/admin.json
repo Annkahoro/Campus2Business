@@ -25,7 +25,10 @@
     "deleteTitle": "¿Eliminar programa?",
     "deleteText": "Se eliminará «{{title}}». Si alguien se ha inscrito, se archivará en su lugar.",
     "deleted": "Programa eliminado.",
-    "archivedInstead": "El programa tiene inscripciones, por lo que se ha archivado."
+    "archivedInstead": "El programa tiene inscripciones, por lo que se ha archivado.",
+    "shopSync": "Rellenar IDs de la tienda",
+    "shopSyncHint": "Lee el botón «Comprar» de cada curso importado de campus2b.com y rellena los IDs de producto que faltan.",
+    "shopSyncDone": "IDs de la tienda: {{updated}} programas actualizados, {{alreadySet}} ya tenían ID y {{noProduct}} sin producto en campus2b.com."
   },
   "programmeForm": {
     "create": "Crear programa",
@@ -74,7 +77,9 @@
       "idealFor": "«Es para ti o tu empresa si…»",
       "startTime": "Hora de inicio",
       "endTime": "Hora de fin",
-      "intakeNote": "Días / nota"
+      "intakeNote": "Días / nota",
+      "shopProductId": "ID de producto en campus2b.com",
+      "intakeShopProductId": "ID de producto de esta edición"
     },
     "hints": {
       "code": "Opcional, p. ej. C2B-DT-101.",
@@ -91,13 +96,16 @@
       "featured": "Se muestra primero en el catálogo y en la página de inicio.",
       "subsidised": "Se muestra «Subvencionado» en lugar del precio; la inscripción es gratuita para el participante.",
       "onePerLine": "Un elemento por línea.",
-      "location": "Dirección para las sesiones presenciales, u «Online»."
+      "location": "Dirección para las sesiones presenciales, u «Online».",
+      "shopProductId": "Número del enlace «Comprar» en campus2b.com (…?add-to-cart=21983). Puedes pegar el enlace entero. Así el curso se compra en campus2b.com.",
+      "intakeShopProductId": "Opcional: si esta edición tiene su propio producto en campus2b.com."
     },
     "errors": {
       "titleRequired": "Introduce un título en al menos un idioma.",
       "languageRequired": "Elige al menos un idioma.",
       "audienceRequired": "Elige al menos un público.",
-      "categoryRequired": "Elige al menos una categoría."
+      "categoryRequired": "Elige al menos una categoría.",
+      "shopProduct": "Escribe el número de producto o pega el enlace de compra de campus2b.com."
     },
     "addIntake": "Añadir convocatoria",
     "removeIntake": "Quitar convocatoria {{n}}",

@@ -51,6 +51,7 @@ router.delete('/users/:id', userCtrl.deleteAdmin);
 router.get('/programmes/import/preview', validate(importPreviewQuery, 'query'), importCtrl.preview);
 router.post('/programmes/import', validate(applyImportSchema), importCtrl.apply);
 router.delete('/programmes/import/ignored/:id', importCtrl.restoreIgnored);
+router.post('/programmes/import/shop-products', importCtrl.syncShopProducts);
 router.get('/programmes', validate(adminListProgrammesQuery, 'query'), programmeCtrl.adminList);
 router.post('/programmes', validate(createProgrammeSchema), programmeCtrl.create);
 router.patch('/programmes/:id', validate(updateProgrammeSchema), programmeCtrl.update);

@@ -13,6 +13,7 @@ import { AUDIENCES, CATALOGUES, CONTENT_LANGS, DURATION_UNITS, LEVELS, MODES, PR
 import { useAdminProgrammes, useCategoryLabel } from './hooks.js';
 import { useAdminCategories } from '../categories/hooks.js';
 import { useFormDraft } from '../../lib/useFormDraft.js';
+import { parseShopProductId } from './shop.js';
 
 /* ─────────────── schema (messages are i18n keys) ─────────────── */
 
@@ -22,6 +23,8 @@ const optionalNumber = z
   .refine((v) => v === '' || (Number.isFinite(Number(v)) && Number(v) >= 0), 'fieldErrors.INVALID_NUMBER');
 
 const i18nPair = z.object({ en: z.string(), es: z.string() });
+/** Empty, a product number or a pasted campus2b.com checkout URL. */
+const shopProduct = z.string().trim().refine((v) => v === '' || parseShopProductId(v) !== null, 'admin:programmeForm.errors.shopProduct');
 
 const schema = z
   .object({
@@ -52,6 +55,7 @@ const schema = z
     targetDepartments: z.array(z.string()),
     tags: z.array(z.string()),
     price: z.object({ amount: optionalNumber, currency: z.string().trim() }),
+    shopProductId: shopProduct,
     intakes: z.array(
       z
         .object({
@@ -62,6 +66,7 @@ const schema = z
           note: i18nPair,
           seats: optionalNumber,
           location: z.string(),
+          shopProductId: shopProduct,
         })
         .refine((i) => !i.endDate || i.endDate >= i.startDate, { message: 'fieldErrors.END_BEFORE_START', path: ['endDate'] }),
     ),
@@ -112,6 +117,7 @@ function toFormValues(p, fields) {
     targetDepartments: p?.targetDepartments ?? [],
     tags: p?.tags ?? [],
     price: { amount: numStr(p?.price?.amount), currency: p?.price?.currency ?? 'EUR' },
+    shopProductId: numStr(p?.shopProductId),
     intakes: (p?.intakes ?? []).map((i) => ({
       startDate: dateOnly(i.startDate),
       endDate: dateOnly(i.endDate),
@@ -120,6 +126,7 @@ function toFormValues(p, fields) {
       note: pair(i.note),
       seats: numStr(i.seats),
       location: i.location ?? '',
+      shopProductId: numStr(i.shopProductId),
     })),
     customFields: custom,
   };
@@ -152,6 +159,7 @@ function toPayload(v) {
     targetDepartments: v.targetDepartments,
     tags: v.tags,
     price: { amount: toNum(v.price.amount), currency: (v.price.currency || 'EUR').toUpperCase() },
+    shopProductId: parseShopProductId(v.shopProductId),
     intakes: v.intakes.map((i) => ({
       startDate: i.startDate,
       endDate: i.endDate || null,
@@ -160,6 +168,7 @@ function toPayload(v) {
       note: i.note,
       seats: i.seats === '' ? null : Math.round(Number(i.seats)),
       location: i.location,
+      shopProductId: parseShopProductId(i.shopProductId),
     })),
     customFields: v.customFields,
   };
@@ -519,6 +528,14 @@ export default function ProgrammeForm({ programme, fields, onSubmit, submitting 
               error={errors.price?.amount?.message}
             />
             <Input {...register('price.currency')} label={t('admin:programmeForm.fields.currency')} maxLength={3} />
+            <Input
+              {...register('shopProductId')}
+              inputMode="numeric"
+              label={t('admin:programmeForm.fields.shopProductId')}
+              hint={t('admin:programmeForm.hints.shopProductId')}
+              placeholder="21983"
+              error={errors.shopProductId?.message}
+            />
           </div>
 
           <fieldset className="space-y-3">
@@ -556,17 +573,24 @@ export default function ProgrammeForm({ programme, fields, onSubmit, submitting 
                 >
                   <Trash2 size={18} strokeWidth={1.75} aria-hidden="true" />
                 </Button>
-                <div className="grid gap-3 sm:col-span-2 lg:col-span-6 lg:grid-cols-3">
+                <div className="grid gap-3 sm:col-span-2 lg:col-span-6 lg:grid-cols-4">
                   <Input {...register(`intakes.${index}.location`)} label={t('admin:programmeForm.fields.location')} hint={t('admin:programmeForm.hints.location')} />
                   <Input {...register(`intakes.${index}.note.en`)} label={`${t('admin:programmeForm.fields.intakeNote')} (EN)`} placeholder="Tuesdays and Thursdays" />
                   <Input {...register(`intakes.${index}.note.es`)} label={`${t('admin:programmeForm.fields.intakeNote')} (ES)`} placeholder="Martes y jueves" />
+                  <Input
+                    {...register(`intakes.${index}.shopProductId`)}
+                    inputMode="numeric"
+                    label={t('admin:programmeForm.fields.intakeShopProductId')}
+                    hint={t('admin:programmeForm.hints.intakeShopProductId')}
+                    error={errors.intakes?.[index]?.shopProductId?.message}
+                  />
                 </div>
               </div>
             ))}
             <Button
               variant="outline"
               size="sm"
-              onClick={() => intakes.append({ startDate: '', endDate: '', startTime: '', endTime: '', note: { en: '', es: '' }, seats: '', location: '' })}
+              onClick={() => intakes.append({ startDate: '', endDate: '', startTime: '', endTime: '', note: { en: '', es: '' }, seats: '', location: '', shopProductId: '' })}
               leftIcon={<Plus size={16} strokeWidth={1.75} aria-hidden="true" />}
             >
               {t('admin:programmeForm.addIntake')}

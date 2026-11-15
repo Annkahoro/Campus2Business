@@ -76,4 +76,5 @@ export const useImportPreview = (nonce, enabled) =>
   });
 
 export const useApplyImport = () => useProgrammeMutation(programmesApi.importApply);
+export const useSyncShopProducts = () => useProgrammeMutation(programmesApi.syncShopProducts);
 export const useRestoreIgnored = () => useProgrammeMutation(programmesApi.restoreIgnored);

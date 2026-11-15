@@ -30,6 +30,8 @@ function useEnrollmentWrite(mutationFn) {
 }
 
 export const useRequestEnrollment = () => useEnrollmentWrite(enrollmentsApi.request);
+/** "Buy on campus2b.com": records the purchase, then the page goes to the returned checkoutUrl. */
+export const useStartCheckout = () => useEnrollmentWrite(enrollmentsApi.checkout);
 export const usePayEnrollment = () => useEnrollmentWrite(({ id, method }) => enrollmentsApi.pay(id, method));
 export const useRateEnrollment = () => useEnrollmentWrite(({ id, body }) => enrollmentsApi.rate(id, body));
 export const useSetEnrollmentStatus = () => useEnrollmentWrite(({ id, body }) => enrollmentsApi.setStatus(id, body));

@@ -25,7 +25,10 @@
     "deleteTitle": "Delete programme?",
     "deleteText": "\"{{title}}\" will be deleted. If anyone has enrolled, it will be archived instead.",
     "deleted": "Programme deleted.",
-    "archivedInstead": "The programme has enrollments, so it was archived instead."
+    "archivedInstead": "The programme has enrollments, so it was archived instead.",
+    "shopSync": "Fill shop product IDs",
+    "shopSyncHint": "Reads the \"Comprar\" button of each imported course page on campus2b.com and fills in the missing product IDs.",
+    "shopSyncDone": "Shop product IDs: {{updated}} programmes updated, {{alreadySet}} already set, {{noProduct}} without a product on campus2b.com."
   },
   "programmeForm": {
     "create": "Create programme",
@@ -74,7 +77,9 @@
       "idealFor": "“It’s for you or your company if…”",
       "startTime": "Start time",
       "endTime": "End time",
-      "intakeNote": "Days / note"
+      "intakeNote": "Days / note",
+      "shopProductId": "campus2b.com product ID",
+      "intakeShopProductId": "Product ID for this run"
     },
     "hints": {
       "code": "Optional, e.g. C2B-DT-101.",
@@ -91,13 +96,16 @@
       "featured": "Shown first in the catalogue and on the home page.",
       "subsidised": "Shown as “Subsidised” instead of a price; enrollment is free for the learner.",
       "onePerLine": "One item per line.",
-      "location": "Address for in-person sessions, or “Online”."
+      "location": "Address for in-person sessions, or “Online”.",
+      "shopProductId": "Number from the \"Comprar\" link on campus2b.com (…?add-to-cart=21983). You can paste the whole link. Learners then buy this course on campus2b.com.",
+      "intakeShopProductId": "Optional: when this run has its own product on campus2b.com."
     },
     "errors": {
       "titleRequired": "Enter a title in at least one language.",
       "languageRequired": "Choose at least one language.",
       "audienceRequired": "Choose at least one audience.",
-      "categoryRequired": "Choose at least one category."
+      "categoryRequired": "Choose at least one category.",
+      "shopProduct": "Enter the product number or paste the campus2b.com checkout link."
     },
     "addIntake": "Add intake",
     "removeIntake": "Remove intake {{n}}",

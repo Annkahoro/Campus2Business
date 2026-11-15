@@ -67,6 +67,7 @@ export default function MyLearning() {
                     enrollment={e}
                     onPay={setPaying}
                     canRate
+                    canCheckout
                     programmeHref={(id) => `/learner/programmes/${id}`}
                   />
                 ))}

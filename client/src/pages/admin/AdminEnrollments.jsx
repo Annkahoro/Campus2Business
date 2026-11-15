@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { AlertCircle, Check, ClipboardList, Flag, Gauge, Trash2, X } from 'lucide-react';
+import { AlertCircle, BadgeCheck, Check, ClipboardList, Flag, Gauge, Trash2, X } from 'lucide-react';
 import { Badge, Button, Card, EmptyState, Input, Modal, Pagination, ProgressBar, Spinner, Tabs, toast } from '../../components/ui/index.js';
 import StatusBadge from '../../components/shared/StatusBadge.jsx';
 import ConfirmDialog from '../../components/shared/ConfirmDialog.jsx';
@@ -10,6 +10,12 @@ import { formatDate, formatPrice } from '../../features/programmes/format.js';
 import { loc } from '../../lib/localized.js';
 
 const TABS = ['requested', 'payment_pending', 'active', 'completed', 'rejected', 'dropped'];
+/** Confirmed moves: reject a request, drop an enrollment, or mark a pending payment as paid (e.g. checked on campus2b.com). */
+const CONFIRM = {
+  rejected: { title: 'admin.rejectTitle', label: 'admin.reject' },
+  dropped: { title: 'admin.dropTitle', label: 'admin.drop' },
+  active: { title: 'admin.markPaidTitle', label: 'admin.markPaid' },
+};
 
 /** Progress slider + optional score; `complete` marks the enrollment completed. */
 function ProgressModal({ enrollment, mode, onClose }) {
@@ -212,8 +218,11 @@ export default function AdminEnrollments() {
                       {formatPrice({ amount: e.payment.amount, currency: e.payment.currency }, lang, t)}
                       <p className="text-xs text-ink-muted">
                         {t(`card.paymentStatus.${e.payment.status}`)}
-                        {e.payment.method && ` · ${t(`payment.methods.${e.payment.method}`)}`}
+                        {e.payment.provider === 'shop'
+                          ? ` · ${t('payment.providers.shop')}`
+                          : e.payment.method && ` · ${t(`payment.methods.${e.payment.method}`)}`}
                       </p>
+                      {e.payment.reference && <p className="text-xs text-ink-muted">{e.payment.reference}</p>}
                     </td>
                     <td className="w-40 px-4 py-3">
                       {['active', 'completed'].includes(e.status) ? (
@@ -251,6 +260,11 @@ export default function AdminEnrollments() {
                             </Button>
                           </>
                         )}
+                        {e.status === 'payment_pending' && (
+                          <Button size="sm" variant="outline" onClick={() => setConfirm({ enrollment: e, status: 'active' })} leftIcon={<BadgeCheck size={16} aria-hidden="true" />}>
+                            {t('admin.markPaid')}
+                          </Button>
+                        )}
                         {['active', 'payment_pending'].includes(e.status) && (
                           <Button size="sm" variant="ghost" className="text-danger" onClick={() => setConfirm({ enrollment: e, status: 'dropped' })}>
                             {t('admin.drop')}
@@ -283,6 +297,7 @@ export default function AdminEnrollments() {
                       <p className="text-sm">{loc(e.programme.title, lang)}</p>
                       <p className="text-xs text-ink-muted">
                         {formatPrice({ amount: e.payment.amount, currency: e.payment.currency }, lang, t)} · {t(`card.paymentStatus.${e.payment.status}`)}
+                        {e.payment.provider === 'shop' && ` · ${t('payment.providers.shop')}`}
                       </p>
                     </div>
                     <StatusBadge status={e.status} />
@@ -308,6 +323,11 @@ export default function AdminEnrollments() {
                           {t('admin.markCompleted')}
                         </Button>
                       </>
+                    )}
+                    {e.status === 'payment_pending' && (
+                      <Button size="sm" variant="outline" onClick={() => setConfirm({ enrollment: e, status: 'active' })}>
+                        {t('admin.markPaid')}
+                      </Button>
                     )}
                     {['active', 'payment_pending'].includes(e.status) && (
                       <Button size="sm" variant="ghost" className="text-danger" onClick={() => setConfirm({ enrollment: e, status: 'dropped' })}>
@@ -341,9 +361,17 @@ export default function AdminEnrollments() {
         onClose={() => setConfirm(null)}
         onConfirm={() => move(confirm.enrollment, confirm.status)}
         loading={setStatus.isPending}
-        title={confirm?.status === 'rejected' ? t('admin.rejectTitle') : t('admin.dropTitle')}
-        description={confirm ? t('admin.confirmText', { name: confirm.enrollment.learner.name, programme: loc(confirm.enrollment.programme.title, lang) }) : ''}
-        confirmLabel={confirm?.status === 'rejected' ? t('admin.reject') : t('admin.drop')}
+        title={confirm ? t(CONFIRM[confirm.status].title) : ''}
+        description={
+          confirm
+            ? t(confirm.status === 'active' ? 'admin.markPaidText' : 'admin.confirmText', {
+                name: confirm.enrollment.learner.name,
+                programme: loc(confirm.enrollment.programme.title, lang),
+              })
+            : ''
+        }
+        confirmLabel={confirm ? t(CONFIRM[confirm.status].label) : ''}
+        variant={confirm?.status === 'active' ? 'primary' : undefined}
       />
       <ConfirmDialog
         open={!!deleting}

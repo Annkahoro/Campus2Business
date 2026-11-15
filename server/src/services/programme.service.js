@@ -7,6 +7,7 @@ import { validateCustomFields } from './customFields.js';
 import { deleteAsset, uploadImage } from './upload.service.js';
 import { emitProgrammesChanged } from '../sockets/events.js';
 import { assertCategoriesExist } from './category.service.js';
+import { canBuyOnShop } from './shop/shop.utils.js';
 
 const escapeRegex = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 const isAdminUser = (user) => user?.role === ROLES.C2B_ADMIN;
@@ -56,6 +57,8 @@ export function toProgrammeDTO(p, { visibleKeys = null } = {}) {
     targetAudience: p.targetAudience ?? [],
     targetDepartments: p.targetDepartments ?? [],
     price: p.price ?? null,
+    shopCheckout: canBuyOnShop(p), // "Buy on campus2b.com" is offered
+    ...(visibleKeys ? {} : { shopProductId: p.shopProductId ?? null }), // admins only
     intakes: (p.intakes ?? []).map((i) => ({
       id: String(i._id),
       startDate: i.startDate,
@@ -65,6 +68,7 @@ export function toProgrammeDTO(p, { visibleKeys = null } = {}) {
       note: i18n(i.note),
       seats: i.seats ?? null,
       location: i.location ?? '',
+      ...(visibleKeys ? {} : { shopProductId: i.shopProductId ?? null }),
     })),
     tags: p.tags ?? [],
     customFields,

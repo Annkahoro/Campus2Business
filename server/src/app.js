@@ -5,6 +5,7 @@ import morgan from 'morgan';
 import compression from 'compression';
 import { corsOrigins, isProd } from './config/env.js';
 import routes from './routes/index.js';
+import webhookRoutes from './routes/webhook.routes.js';
 import { errorHandler, notFound } from './middleware/errorHandler.js';
 import { ApiError } from './utils/ApiError.js';
 import { apiLimiter } from './middleware/rateLimit.js';
@@ -26,9 +27,11 @@ app.use(
   }),
 );
 app.use(compression());
+app.use(morgan(isProd ? 'combined' : 'dev'));
+// Webhooks read the raw body (signature check), so they are mounted before the JSON parser.
+app.use('/api/webhooks', webhookRoutes);
 app.use(express.json({ limit: '1mb' }));
 app.use(express.urlencoded({ extended: true, limit: '1mb' }));
-app.use(morgan(isProd ? 'combined' : 'dev'));
 
 app.use('/api', apiLimiter, routes);
 

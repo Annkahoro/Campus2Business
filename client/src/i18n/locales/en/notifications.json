@@ -91,5 +91,17 @@
   "accountDeleted": {
     "title": "Account deleted",
     "body": "{{name}} deleted their account."
+  },
+  "shopOrderPaid": {
+    "title": "Course paid on campus2b.com",
+    "body": "{{name}} paid for {{programme}} (order #{{number}}). The course is now active."
+  },
+  "shopOrderUnmatched": {
+    "title": "Payment to check",
+    "body": "Order #{{number}} for {{programme}} was paid with {{email}}, which is not a learner account. If a learner is waiting to pay for this course, mark their enrollment as paid."
+  },
+  "shopOrderReversed": {
+    "title": "Order refunded or cancelled",
+    "body": "Order #{{number}} ({{email}}) is now \"{{status}}\" on campus2b.com. The course is still active: drop the enrollment if needed."
   }
 }

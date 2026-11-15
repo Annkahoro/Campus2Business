@@ -332,6 +332,8 @@ Also serves as the **historical learning path** data source.
   },
   payment: {
     simulated: { type: Boolean, default: true },
+    provider: { type: String, enum: ['simulated', 'shop', 'manual'], default: 'simulated' }, // shop = campus2b.com (07 §4a)
+    shopProductId: Number, checkoutUrl: String, shopOrderId: Number,                       // shop purchases only
     amount: Number, currency: String,
     method: { type: String, enum: ['card', 'mpesa', 'bank', 'employer_invoice'] },
     reference: String,           // e.g. SIM-8F3K2A
@@ -348,6 +350,15 @@ Also serves as the **historical learning path** data source.
 }
 ```
 - Unique index: `{ learner: 1, programme: 1, status: 1 }` partial on active statuses, to prevent duplicate active enrollments.
+
+### 8a. ShopOrder (campus2b.com WooCommerce orders)
+One document per WooCommerce order received by the webhook: `orderId` (unique), `number`, `status`, `email`,
+`customerName`, `currency`, `total`, `paidAt`, `learner`, `lines[] { productId, name, quantity, total, programme,
+enrollment, result: activated | already_active | unknown_product | unknown_learner }`, `processedAt` (set once, when
+the paid order is applied, so repeated deliveries never activate twice), `lastTopic`, `deliveries`.
+
+**Programme** also has `shopProductId: Number` (the campus2b.com product the learner buys) and
+`intakes[].shopProductId` (a run's own product). Filled by the importer and by "Fill shop product IDs".
 
 ---
 

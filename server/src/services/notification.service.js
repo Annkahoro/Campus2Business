@@ -39,6 +39,10 @@ const TYPES = {
     link: (p) => (p.forOrg ? '/org/enrollments' : '/learner/learning'),
   },
   'enrollment.progressUpdated': { key: 'enrollmentProgressUpdated', link: () => '/learner/learning' },
+  // campus2b.com shop orders (WooCommerce webhook) — admins only.
+  'shop.orderPaid': { key: 'shopOrderPaid', link: () => '/admin/enrollments?status=active' },
+  'shop.orderUnmatched': { key: 'shopOrderUnmatched', link: () => '/admin/enrollments?status=payment_pending' },
+  'shop.orderReversed': { key: 'shopOrderReversed', link: () => '/admin/enrollments?status=active' },
 };
 
 /** Only plain, small values go into params (they are interpolated into translated text). */

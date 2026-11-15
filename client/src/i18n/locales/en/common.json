@@ -207,7 +207,8 @@
     "UNKNOWN_TYPE": "This field type is not supported.",
     "INVALID_TIME": "Use the HH:MM format.",
     "INVALID_CATEGORY": "Unknown category.",
-    "INVALID_IMPORT_URL": "Only campus2b.com course pages can be imported."
+    "INVALID_IMPORT_URL": "Only campus2b.com course pages can be imported.",
+    "INVALID_SHOP_PRODUCT": "Enter the product number or paste the campus2b.com checkout link."
   },
   "programme": {
     "catalogueTitle": "Training catalogue",
@@ -352,6 +353,14 @@
         "startScheduled": {
           "title": "Join the sessions",
           "text": "We'll send you the access details or the venue for the scheduled dates."
+        },
+        "buy": {
+          "title": "Buy the course",
+          "text": "Click \"Buy on campus2b.com\" and pay securely by card on the C2B website."
+        },
+        "paidShop": {
+          "title": "Payment confirmed",
+          "text": "As soon as campus2b.com confirms your payment, your course is activated here and you are notified."
         }
       }
     }

@@ -31,10 +31,25 @@ AI_TEMPERATURE=0.3
 # max programmes sent to Claude per request after pre-filtering
 AI_MAX_CATALOGUE_ITEMS=40
 
+# ── campus2b.com shop (WooCommerce) ────
+SHOP_CHECKOUT_URL=https://www.campus2b.com/finalizar-compra/
+# Same value as the webhook "Secret" in WooCommerce → Settings → Advanced → Webhooks (empty = webhook off)
+WOOCOMMERCE_WEBHOOK_SECRET=replace_with_a_long_random_string
+
 # ── Seed ───────────────────────────────
 SEED_ADMIN_EMAIL=admin@c2b.local
 SEED_ADMIN_PASSWORD=ChangeMe123!
 ```
+
+### campus2b.com shop webhook (paid courses)
+Learners pay for paid programmes on campus2b.com (docs/07 §4a). To confirm payments automatically, a campus2b.com
+WordPress administrator adds **WooCommerce → Settings → Advanced → Webhooks → Add webhook**:
+- Name `C2B Learning Platform` · Status **Active** · Topic **Order updated** · API version **WP REST API Integration v3**
+- Delivery URL `https://<render-app>.onrender.com/api/webhooks/woocommerce`
+- Secret = the value of `WOOCOMMERCE_WEBHOOK_SECRET` on Render
+
+Generate a secret with `node -e "console.log(require('crypto').randomBytes(32).toString('base64url'))"`.
+Without the webhook, admins confirm payments with **Mark as paid** on the Enrollments page.
 
 ### Getting the Claude API key
 1. Go to **console.anthropic.com**, sign in, and add billing credit (a few dollars is plenty for a demo).

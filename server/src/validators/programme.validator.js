@@ -7,9 +7,15 @@ import {
   PROGRAMME_LEVELS,
   PROGRAMME_STATUSES,
 } from '../models/Programme.js';
+import { parseShopProductId } from '../services/shop/shop.utils.js';
 import { booleanQuery, i18nList, i18nText, i18nTextRequired, objectId, paginationQuery, stringList } from './common.js';
 
 const time = z.string().trim().regex(/^([01]\d|2[0-3]):[0-5]\d$/, 'INVALID_TIME');
+/** campus2b.com shop product: a number, or a pasted URL with ?add-to-cart=<id>; empty = none. */
+const shopProductId = z.preprocess(
+  (v) => (v === '' || v === null || v === undefined ? null : (parseShopProductId(v) ?? v)),
+  z.number({ error: 'INVALID_SHOP_PRODUCT' }).int().positive().max(2_147_483_647).nullable(),
+);
 const categorySlug = z.string().trim().regex(/^[a-z][a-z0-9_]{1,59}$/, 'INVALID_CATEGORY');
 
 const intake = z
@@ -21,6 +27,7 @@ const intake = z
     note: i18nText(200).optional(),
     seats: z.number().int().min(0).max(100000).optional().nullable(),
     location: z.string().trim().max(200).optional(),
+    shopProductId: shopProductId.optional(),
   })
   .refine((i) => !i.endDate || i.endDate >= i.startDate, { message: 'END_BEFORE_START', path: ['endDate'] });
 
@@ -62,6 +69,7 @@ const shape = {
     amount: z.number().min(0).max(1_000_000).nullable().optional(),
     currency: z.string().trim().toUpperCase().length(3).optional(),
   }),
+  shopProductId,
   intakes: z.array(intake).max(50),
   tags: stringList(40, 60),
   customFields: z.record(z.string(), z.unknown()),

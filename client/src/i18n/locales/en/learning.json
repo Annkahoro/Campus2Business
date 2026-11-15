@@ -53,7 +53,10 @@
     "notSent": "Demo only: this field is not sent anywhere.",
     "pay": "Pay {{amount}}",
     "processing": "Processing…",
-    "success": "Payment confirmed (reference {{reference}}). Your programme is now active."
+    "success": "Payment confirmed (reference {{reference}}). Your programme is now active.",
+    "providers": {
+      "shop": "campus2b.com"
+    }
   },
   "card": {
     "intake": "Intake {{date}}",
@@ -74,7 +77,9 @@
     "payPending": "Approved! Complete the payment to start.",
     "payPendingEmployee": "Approved! Your organization or you can complete the payment.",
     "payNow": "Pay now",
-    "rated": "Rated {{rating}}/5"
+    "rated": "Rated {{rating}}/5",
+    "payPendingShop": "Waiting for your payment on campus2b.com. Once you've paid, this course starts automatically.",
+    "payPendingShopOther": "Waiting for the payment on campus2b.com."
   },
   "rate": {
     "title": "Rate this programme",
@@ -128,10 +133,26 @@
       "rejected": "Request rejected.",
       "dropped": "Enrollment dropped.",
       "completed": "Marked as completed.",
-      "deleted": "Enrollment deleted."
+      "deleted": "Enrollment deleted.",
+      "active": "Marked as paid. The course is now active."
     },
     "deleteNamed": "Delete the enrollment of {{name}} in {{programme}}",
     "deleteTitle": "Delete enrollment?",
-    "deleteText": "The enrollment of {{name}} in {{programme}} will be permanently deleted, including from the learner's history."
+    "deleteText": "The enrollment of {{name}} in {{programme}} will be permanently deleted, including from the learner's history.",
+    "markPaid": "Mark as paid",
+    "markPaidTitle": "Mark as paid?",
+    "markPaidText": "{{name}} · {{programme}}. Check that the payment arrived (for example the order on campus2b.com) first. The course becomes active and the learner is notified."
+  },
+  "checkout": {
+    "button": "Buy on campus2b.com",
+    "title": "Buy this course",
+    "price": "Course fee",
+    "explain": "You'll go to the C2B website (campus2b.com) to pay securely by card. The course is already in your cart.",
+    "sameEmailTitle": "Use the same email at checkout",
+    "sameEmail": "Enter {{email}} as your email on campus2b.com. That is how we match your payment and start your course automatically.",
+    "cartNote": "If your campus2b.com cart already has other courses in it, check the cart before you pay.",
+    "selfPaced": "This is a self-paced online course: you can start as soon as your payment is confirmed.",
+    "confirm": "Continue to campus2b.com",
+    "continue": "Continue to checkout"
   }
 }

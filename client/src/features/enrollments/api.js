@@ -6,6 +6,7 @@ const clean = (params) =>
 export const enrollmentsApi = {
   // Learner (and org admin for request/pay)
   request: (body) => unwrap(api.post('/enrollments', body)),
+  checkout: (body) => unwrap(api.post('/enrollments/checkout', body)), // → { enrollment, checkoutUrl }
   mine: () => unwrap(api.get('/enrollments/mine')),
   pay: (id, method) => unwrap(api.post(`/enrollments/${id}/pay`, { method })),
   rate: (id, body) => unwrap(api.post(`/enrollments/${id}/rate`, body)),

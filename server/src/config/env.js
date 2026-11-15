@@ -21,6 +21,11 @@ const schema = z.object({
   // Kept for docs/02 compatibility only: current Claude models reject custom sampling values, so it is not sent.
   AI_TEMPERATURE: z.coerce.number().default(0.3),
   AI_MAX_CATALOGUE_ITEMS: z.coerce.number().default(40),
+  // campus2b.com shop (WooCommerce): learners pay there for paid programmes.
+  SHOP_CHECKOUT_URL: z.string().url().default('https://www.campus2b.com/finalizar-compra/'),
+  // Same value as the "Secret" of the webhook in WooCommerce → Settings → Advanced → Webhooks.
+  // Empty = webhook switched off (admins mark shop payments as paid by hand).
+  WOOCOMMERCE_WEBHOOK_SECRET: z.string().optional().default(''),
   SEED_ADMIN_EMAIL: z.string().email().optional(),
   SEED_ADMIN_PASSWORD: z.string().optional(),
 });

@@ -9,7 +9,14 @@ export const requestEnrollmentSchema = z.object({
   learnerId: objectId.optional(), // org_admin only
 });
 
-export const paySchema = z.object({ method: z.enum(PAYMENT_METHODS) });
+/** "Buy on campus2b.com" — learners only. */
+export const checkoutSchema = z.object({
+  programmeId: objectId,
+  intakeStartDate: z.coerce.date().optional(),
+  recommendationId: objectId.optional(),
+});
+
+export const paySchema =z.object({ method: z.enum(PAYMENT_METHODS) });
 
 export const rateSchema = z.object({
   rating: z.number().int().min(1).max(5),
@@ -21,6 +28,8 @@ export const adminStatusSchema = z.object({
   status: z.enum(['approved', 'rejected', 'active', 'completed', 'dropped']),
   score: z.number().int().min(0).max(100).nullable().optional(),
   adminNotes: z.string().trim().max(2000).optional(),
+  // "Mark as paid" (payment_pending → active), e.g. the campus2b.com order number.
+  paymentReference: z.string().trim().max(60).optional(),
 });
 
 export const adminProgressSchema = z.object({

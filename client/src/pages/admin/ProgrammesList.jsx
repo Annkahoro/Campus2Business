@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { AlertCircle, BookOpen, DownloadCloud, Eye, EyeOff, Pencil, Plus, Trash2 } from 'lucide-react';
+import { AlertCircle, BookOpen, DownloadCloud, Eye, EyeOff, Pencil, Plus, ShoppingCart, Trash2 } from 'lucide-react';
 import { Button, Card, EmptyState, Input, Pagination, Select, Spinner, toast } from '../../components/ui/index.js';
 import StatusBadge from '../../components/shared/StatusBadge.jsx';
 import ConfirmDialog from '../../components/shared/ConfirmDialog.jsx';
@@ -15,6 +15,7 @@ import {
   useDeleteProgramme,
   useProgrammeCategories,
   useSetProgrammeStatus,
+  useSyncShopProducts,
 } from '../../features/programmes/hooks.js';
 
 const iconBtn =
@@ -37,6 +38,13 @@ export default function ProgrammesList() {
   const query = useAdminProgrammes({ ...filters, limit: 20 });
   const setStatus = useSetProgrammeStatus();
   const remove = useDeleteProgramme();
+  const syncShop = useSyncShopProducts();
+
+  const syncShopProducts = () =>
+    syncShop.mutate(undefined, {
+      onSuccess: (r) => toast.success(t('admin:programmes.shopSyncDone', { updated: r.updated, alreadySet: r.alreadySet, noProduct: r.noProduct })),
+      onError: toast.apiError,
+    });
   const categories = useProgrammeCategories();
   const categoryLabel = useCategoryLabel();
   const categoriesText = (p) => (p.categories ?? []).map(categoryLabel).join(', ');
@@ -76,6 +84,15 @@ export default function ProgrammesList() {
           <p className="mt-1 text-ink-muted">{t('admin:programmes.subtitle')}</p>
         </div>
         <div className="flex flex-wrap gap-3">
+          <Button
+            variant="outline"
+            onClick={syncShopProducts}
+            loading={syncShop.isPending}
+            title={t('admin:programmes.shopSyncHint')}
+            leftIcon={<ShoppingCart size={18} strokeWidth={1.75} aria-hidden="true" />}
+          >
+            {t('admin:programmes.shopSync')}
+          </Button>
           <Button variant="outline" onClick={() => setImportOpen(true)} leftIcon={<DownloadCloud size={18} strokeWidth={1.75} aria-hidden="true" />}>
             {t('admin:import.button')}
           </Button>

@@ -113,8 +113,19 @@ export async function discoverCourses() {
 
 /* ───────────── course page ───────────── */
 
+/**
+ * The course page's "Comprar" button links to the shop checkout:
+ *   var pago = {"texto":"Comprar","url":"https:\/\/www.campus2b.com\/finalizar-compra\/?add-to-cart=21983&quantity=1"}
+ * → 21983 (the WooCommerce product), or null when the course has no buy button.
+ */
+export function shopProductIdFrom(html) {
+  const m = html.match(/var\s+pago\s*=\s*\{[^}]*?add-to-cart=(\d+)/) ?? html.match(/finalizar-compra\\?\/\?add-to-cart=(\d+)/);
+  return m ? Number(m[1]) : null;
+}
+
 export async function scrapeCourse(url, listingDate = null) {
   const html = await fetchHtml(canonicalCourseUrl(url));
+  const shopProductId = shopProductIdFrom(html);
   const $ = cheerio.load(html.replace(/<br\s*\/?>/gi, ' '));
   $('script,style,svg').remove();
 
@@ -156,6 +167,7 @@ export async function scrapeCourse(url, listingDate = null) {
     topics: listAfter(/^Temas que se van/i),
     idealFor: listAfter(/^Es para tu empresa/i),
     listingDate,
+    shopProductId,
   };
 }
 
@@ -288,7 +300,9 @@ export function toProgrammeData(page, categories) {
   const subsidised = /subvencionad/i.test(page.price ?? '');
   const amount = subsidised ? null : Number((page.price ?? '').replace(/[^\d,.]/g, '').replace(/\.(?=\d{3}\b)/g, '').replace(',', '.')) || null;
   const about = cleanAbout(page.about);
-  const intakes = catalogue === 'general' && intake ? [(({ inPerson, ...i }) => i)(intake)] : [];
+  const shopProductId = subsidised ? null : (page.shopProductId ?? null); // subsidised courses are reserved, not bought
+  const intakes =
+    catalogue === 'general' && intake ? [{ ...(({ inPerson, ...i }) => i)(intake), ...(shopProductId ? { shopProductId } : {}) }] : [];
 
   return {
     data: {
@@ -308,6 +322,7 @@ export function toProgrammeData(page, categories) {
       language: ['es'],
       targetAudience: ['student', 'employee'],
       price: { amount, currency: 'EUR' },
+      ...(shopProductId ? { shopProductId } : {}),
       intakes,
       sourceUrls: [page.url],
     },

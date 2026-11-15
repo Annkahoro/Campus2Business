@@ -91,5 +91,17 @@
   "accountDeleted": {
     "title": "Cuenta eliminada",
     "body": "{{name}} eliminó su cuenta."
+  },
+  "shopOrderPaid": {
+    "title": "Curso pagado en campus2b.com",
+    "body": "{{name}} pagó {{programmeEs}} (pedido n.º {{number}}). El curso ya está activo."
+  },
+  "shopOrderUnmatched": {
+    "title": "Pago por revisar",
+    "body": "El pedido n.º {{number}} de {{programmeEs}} se pagó con {{email}}, que no es una cuenta de la plataforma. Si alguien está esperando para pagar este curso, marca su inscripción como pagada."
+  },
+  "shopOrderReversed": {
+    "title": "Pedido reembolsado o cancelado",
+    "body": "El pedido n.º {{number}} ({{email}}) está ahora «{{status}}» en campus2b.com. El curso sigue activo: da de baja la inscripción si hace falta."
   }
 }

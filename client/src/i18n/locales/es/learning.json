@@ -53,7 +53,10 @@
     "notSent": "Solo demostración: este campo no se envía.",
     "pay": "Pagar {{amount}}",
     "processing": "Procesando…",
-    "success": "Pago confirmado (referencia {{reference}}). Tu programa ya está activo."
+    "success": "Pago confirmado (referencia {{reference}}). Tu programa ya está activo.",
+    "providers": {
+      "shop": "campus2b.com"
+    }
   },
   "card": {
     "intake": "Convocatoria {{date}}",
@@ -74,7 +77,9 @@
     "payPending": "¡Aprobada! Completa el pago para empezar.",
     "payPendingEmployee": "¡Aprobada! Tu organización o tú podéis completar el pago.",
     "payNow": "Pagar ahora",
-    "rated": "Valorado con {{rating}}/5"
+    "rated": "Valorado con {{rating}}/5",
+    "payPendingShop": "Esperando tu pago en campus2b.com. Cuando pagues, el curso se activará automáticamente.",
+    "payPendingShopOther": "Esperando el pago en campus2b.com."
   },
   "rate": {
     "title": "Valora este programa",
@@ -128,10 +133,26 @@
       "rejected": "Solicitud rechazada.",
       "dropped": "Inscripción dada de baja.",
       "completed": "Marcado como completado.",
-      "deleted": "Inscripción eliminada."
+      "deleted": "Inscripción eliminada.",
+      "active": "Marcado como pagado. El curso ya está activo."
     },
     "deleteNamed": "Eliminar la inscripción de {{name}} en {{programme}}",
     "deleteTitle": "¿Eliminar inscripción?",
-    "deleteText": "La inscripción de {{name}} en {{programme}} se eliminará de forma permanente, también del historial del estudiante."
+    "deleteText": "La inscripción de {{name}} en {{programme}} se eliminará de forma permanente, también del historial del estudiante.",
+    "markPaid": "Marcar como pagado",
+    "markPaidTitle": "¿Marcar como pagado?",
+    "markPaidText": "{{name}} · {{programme}}. Comprueba antes que el pago ha llegado (por ejemplo, el pedido en campus2b.com). El curso se activará y se avisará a la persona."
+  },
+  "checkout": {
+    "button": "Comprar en campus2b.com",
+    "title": "Comprar este curso",
+    "price": "Precio del curso",
+    "explain": "Irás a la web de C2B (campus2b.com) para pagar con tarjeta de forma segura. El curso ya estará en tu carrito.",
+    "sameEmailTitle": "Usa el mismo correo al pagar",
+    "sameEmail": "Escribe {{email}} como correo en campus2b.com. Así relacionamos tu pago y activamos tu curso automáticamente.",
+    "cartNote": "Si tu carrito de campus2b.com ya tiene otros cursos, revísalo antes de pagar.",
+    "selfPaced": "Es un curso online a tu ritmo: puedes empezar en cuanto se confirme tu pago.",
+    "confirm": "Continuar a campus2b.com",
+    "continue": "Continuar con el pago"
   }
 }

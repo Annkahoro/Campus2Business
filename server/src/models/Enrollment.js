@@ -5,6 +5,8 @@ const { Schema } = mongoose;
 export const ENROLLMENT_STATUSES = ['requested', 'approved', 'rejected', 'payment_pending', 'active', 'completed', 'dropped'];
 export const ACTIVE_ENROLLMENT_STATUSES = ['requested', 'approved', 'payment_pending', 'active'];
 export const PAYMENT_METHODS = ['card', 'mpesa', 'bank', 'employer_invoice'];
+/** simulated = demo payment screen · shop = paid on the campus2b.com shop (WooCommerce) · manual = marked paid by a C2B admin */
+export const PAYMENT_PROVIDERS = ['simulated', 'shop', 'manual'];
 
 /**
  * docs/03 §8 — also the learner's historical learning path (AI input).
@@ -23,6 +25,10 @@ const enrollmentSchema = new Schema(
     status: { type: String, enum: ENROLLMENT_STATUSES, default: 'requested' },
     payment: {
       simulated: { type: Boolean, default: true },
+      provider: { type: String, enum: PAYMENT_PROVIDERS, default: 'simulated' },
+      shopProductId: Number, // campus2b.com product the learner was sent to
+      checkoutUrl: String,
+      shopOrderId: Number, // WooCommerce order that paid it
       amount: Number,
       currency: String,
       method: { type: String, enum: PAYMENT_METHODS },

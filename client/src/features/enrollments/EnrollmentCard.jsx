@@ -8,6 +8,7 @@ import { formatDate, formatPrice } from '../programmes/format.js';
 import { loc } from '../../lib/localized.js';
 import { cn } from '../../lib/cn.js';
 import { useRateEnrollment } from './hooks.js';
+import { ContinueCheckoutButton } from './RequestEnrollmentButton.jsx';
 
 function StarRating({ value, onChange, label }) {
   const { t } = useTranslation('learning');
@@ -52,8 +53,11 @@ function RateForm({ enrollment }) {
   );
 }
 
-/** One enrollment on My Learning / org enrollments. `onPay` opens the PaymentSimulator. */
-export default function EnrollmentCard({ enrollment: e, onPay, canRate = false, showLearner = false, programmeHref }) {
+/**
+ * One enrollment on My Learning / org enrollments. `onPay` opens the PaymentSimulator;
+ * `canCheckout` (the learner's own view) shows "Continue to checkout" for a pending campus2b.com purchase.
+ */
+export default function EnrollmentCard({ enrollment: e, onPay, canRate = false, canCheckout = false, showLearner = false, programmeHref }) {
   const { t, i18n } = useTranslation('learning');
   const lang = i18n.resolvedLanguage;
   const title = loc(e.programme.title, lang);
@@ -107,7 +111,13 @@ export default function EnrollmentCard({ enrollment: e, onPay, canRate = false, 
       </dl>
 
       {e.status === 'requested' && <p className="text-sm text-ink-muted">{t('card.waitingApproval')}</p>}
-      {e.status === 'payment_pending' && onPay && (
+      {e.status === 'payment_pending' && e.payment.provider === 'shop' && (
+        <div className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-warning/30 bg-cream-dark p-3">
+          <p className="text-sm text-warning">{canCheckout ? t('card.payPendingShop') : t('card.payPendingShopOther')}</p>
+          {canCheckout && <ContinueCheckoutButton enrollment={e} />}
+        </div>
+      )}
+      {e.status === 'payment_pending' && e.payment.provider !== 'shop' && onPay && (
         <div className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-warning/30 bg-cream-dark p-3">
           <p className="text-sm text-warning">{e.organization ? t('card.payPendingEmployee') : t('card.payPending')}</p>
           <Button size="sm" onClick={() => onPay(e)} leftIcon={<CreditCard size={16} strokeWidth={1.75} aria-hidden="true" />}>

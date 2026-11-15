@@ -6,7 +6,11 @@ export const request = asyncHandler(async (req, res) => {
   sendCreated(res, await svc.requestEnrollment(req.user, req.body));
 });
 
-export const mine = asyncHandler(async (req, res) => {
+export const checkout = asyncHandler(async (req, res) => {
+  sendCreated(res, await svc.startCheckout(req.user, req.body));
+});
+
+export const mine =asyncHandler(async (req, res) => {
   sendSuccess(res, await svc.listMine(req.user));
 });
 

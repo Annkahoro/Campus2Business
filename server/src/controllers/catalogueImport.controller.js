@@ -13,3 +13,7 @@ export const apply = asyncHandler(async (req, res) => {
 export const restoreIgnored = asyncHandler(async (req, res) => {
   sendSuccess(res, await importService.restoreIgnored(req.params.id));
 });
+
+export const syncShopProducts = asyncHandler(async (_req, res) => {
+  sendSuccess(res, await importService.syncShopProducts());
+});

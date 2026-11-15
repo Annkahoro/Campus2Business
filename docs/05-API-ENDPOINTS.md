@@ -153,11 +153,14 @@ All deletes are hard deletes, done in `services/account.service.js`, and written
 | Method | Path | Access | Notes |
 |---|---|---|---|
 | POST | `/enrollments` | 🎓 👷 🏢 | `{ programmeId, intakeStartDate?, recommendationId?, learnerId? (org_admin only) }` |
+| POST | `/enrollments/checkout` | 🎓 👷 | "Buy on campus2b.com": `{ programmeId, intakeStartDate?, recommendationId? }` → `{ enrollment (payment_pending), checkoutUrl }`; same pending purchase if called again. Errors: `CHECKOUT_UNAVAILABLE`, `ENROLLMENT_EXISTS`, `ALREADY_COMPLETED` (see 07 §4a) |
 | GET | `/enrollments/mine` | 🎓 👷 | |
 | POST | `/enrollments/:id/pay` | 🎓 👷 🏢 | **simulated**: `{ method }` → `payment.status=paid`, reference `SIM-xxxxxx` |
 | POST | `/enrollments/:id/rate` | 🎓 👷 | `{ rating, review }`, completed only |
 | GET | `/admin/enrollments` | 🅰️ | filters |
-| PATCH | `/admin/enrollments/:id/status` | 🅰️ | `{ status }` (see 07) |
+| PATCH | `/admin/enrollments/:id/status` | 🅰️ | `{ status, paymentReference? }` (see 07); `payment_pending → active` = **Mark as paid** |
+| POST | `/api/webhooks/woocommerce` | none (HMAC) | campus2b.com shop webhook. Raw body, `X-WC-Webhook-Signature` = base64 HMAC-SHA256 with `WOOCOMMERCE_WEBHOOK_SECRET`; the unsigned save-time ping `webhook_id=N` gets 200. Always 2xx for accepted deliveries |
+| POST | `/admin/programmes/import/shop-products` | 🅰️ | fills missing `shopProductId`s from the campus2b.com course pages → `{ checked, updated, alreadySet, noProduct, failedPages }` |
 | PATCH | `/admin/enrollments/:id/progress` | 🅰️ | `{ progressPercent, score? }` |
 | DELETE | `/admin/enrollments/:id` | 🅰️ | hard delete (also removes it from the learner history) |
 | GET | `/org/enrollments` | 🏢 | own org |

@@ -15,6 +15,7 @@ import { notifyAdmins, notifyUser } from './notification.service.js';
 import { loadForView, toLearnerProfileDTO } from './profile.service.js';
 import { toOrgSummaryDTO } from './organization.service.js';
 import { emitProfileStatus, emitRecommendationStatus } from '../sockets/events.js';
+import { canBuyOnShop } from './shop/shop.utils.js';
 
 /** Profile statuses from which a pathway may be generated (docs/07 §2). */
 const GENERATABLE = ['submitted', 'under_review', 'pathway_published'];
@@ -22,7 +23,7 @@ const EDITABLE = ['pending_review', 'approved'];
 const BULK_CONCURRENCY = 2;
 
 const PROGRAMME_FIELDS =
-  'title code catalogue categories subsidised level durationValue durationUnit deliveryMode coverImage price prerequisites status language';
+  'title code catalogue categories subsidised level durationValue durationUnit deliveryMode coverImage price prerequisites status language shopProductId intakes.startDate intakes.shopProductId';
 const POPULATE_FINAL = [
   { path: 'final.pathway.programme', select: PROGRAMME_FIELDS },
   { path: 'final.alternatives.programme', select: PROGRAMME_FIELDS },
@@ -59,6 +60,7 @@ function programmeSummary(p) {
     language: p.language ?? [],
     coverImage: p.coverImage?.url ? { url: p.coverImage.url } : null,
     price: p.price ?? null,
+    shopCheckout: canBuyOnShop(p), // "Buy on campus2b.com" is offered
     prerequisites: (p.prerequisites ?? []).map(idOf),
     status: p.status,
   };
