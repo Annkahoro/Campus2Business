@@ -369,7 +369,8 @@ export default function ProgrammeDetailView({ id, backTo, prereqBasePath, action
         </div>
 
         <aside className="space-y-8">
-          <Card className="space-y-5 lg:sticky lg:top-24">
+          {/* Not sticky: "Other programmes" below it would slide underneath while scrolling. */}
+          <Card className="space-y-5">
             <h2 className="font-display text-lg font-semibold">{t('programme.detail.information')}</h2>
             <dl className="space-y-3 text-sm">
               <div className="flex justify-between gap-3">
