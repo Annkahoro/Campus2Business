@@ -42,7 +42,7 @@ export default function ProgrammesList() {
 
   const syncShopProducts = () =>
     syncShop.mutate(undefined, {
-      onSuccess: (r) => toast.success(t('admin:programmes.shopSyncDone', { updated: r.updated, alreadySet: r.alreadySet, noProduct: r.noProduct })),
+      onSuccess: (r) => toast.success(t('admin:programmes.shopSyncDone', { updated: r.updated, pricesUpdated: r.pricesUpdated, alreadySet: r.alreadySet, noProduct: r.noProduct })),
       onError: toast.apiError,
     });
   const categories = useProgrammeCategories();

@@ -26,9 +26,9 @@
     "deleteText": "Se eliminará «{{title}}». Si alguien se ha inscrito, se archivará en su lugar.",
     "deleted": "Programa eliminado.",
     "archivedInstead": "El programa tiene inscripciones, por lo que se ha archivado.",
-    "shopSync": "Rellenar IDs de la tienda",
-    "shopSyncHint": "Lee el botón «Comprar» de cada curso importado de campus2b.com y rellena los IDs de producto que faltan.",
-    "shopSyncDone": "IDs de la tienda: {{updated}} programas actualizados, {{alreadySet}} ya tenían ID y {{noProduct}} sin producto en campus2b.com."
+    "shopSync": "Sincronizar con la tienda de campus2b.com",
+    "shopSyncHint": "Lee cada curso importado de campus2b.com: rellena los IDs de producto que faltan y pone el precio que cobra la tienda.",
+    "shopSyncDone": "Sincronización: {{updated}} programas actualizados ({{pricesUpdated}} precios corregidos), {{alreadySet}} ya al día y {{noProduct}} sin producto en campus2b.com."
   },
   "programmeForm": {
     "create": "Crear programa",

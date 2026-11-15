@@ -123,9 +123,31 @@ export function shopProductIdFrom(html) {
   return m ? Number(m[1]) : null;
 }
 
+/**
+ * The price the shop really charges for a product (WooCommerce Store API, public and read-only).
+ * The course page rounds it ("187€" for 187.50 €), so this one wins. null when the shop does not answer.
+ */
+export async function fetchShopPrice(productId) {
+  if (!productId) return null;
+  try {
+    const res = await fetch(`${SITE_ORIGIN}/wp-json/wc/store/v1/products/${Number(productId)}`, {
+      headers: { 'User-Agent': 'C2B-Platform-Importer/1.0', Accept: 'application/json' },
+      signal: AbortSignal.timeout(TIMEOUT_MS),
+    });
+    if (!res.ok) return null;
+    const { prices } = await res.json();
+    const minor = Number(prices?.currency_minor_unit ?? 2);
+    const amount = Number(prices?.price) / 10 ** minor;
+    return Number.isFinite(amount) && amount > 0 ? { amount, currency: prices?.currency_code || 'EUR' } : null;
+  } catch {
+    return null;
+  }
+}
+
 export async function scrapeCourse(url, listingDate = null) {
   const html = await fetchHtml(canonicalCourseUrl(url));
   const shopProductId = shopProductIdFrom(html);
+  const shopPrice = await fetchShopPrice(shopProductId);
   const $ = cheerio.load(html.replace(/<br\s*\/?>/gi, ' '));
   $('script,style,svg').remove();
 
@@ -168,6 +190,7 @@ export async function scrapeCourse(url, listingDate = null) {
     idealFor: listAfter(/^Es para tu empresa/i),
     listingDate,
     shopProductId,
+    shopPrice, // { amount, currency } from the shop, or null
   };
 }
 
@@ -298,9 +321,13 @@ export function toProgrammeData(page, categories) {
   const intake = intakeFrom(page);
   const catalogue = catalogueFrom(page, intake);
   const subsidised = /subvencionad/i.test(page.price ?? '');
-  const amount = subsidised ? null : Number((page.price ?? '').replace(/[^\d,.]/g, '').replace(/\.(?=\d{3}\b)/g, '').replace(',', '.')) || null;
-  const about = cleanAbout(page.about);
+  const pagePrice = Number((page.price ?? '').replace(/[^\d,.]/g, '').replace(/\.(?=\d{3}\b)/g, '').replace(',', '.')) || null;
   const shopProductId = subsidised ? null : (page.shopProductId ?? null); // subsidised courses are reserved, not bought
+  // What the learner is charged: the shop product's price; the page's (rounded) price only as a fallback.
+  const shopPrice = shopProductId ? page.shopPrice : null;
+  const amount = subsidised ? null : (shopPrice?.amount ?? pagePrice);
+  const currency = shopPrice?.currency ?? 'EUR';
+  const about = cleanAbout(page.about);
   const intakes =
     catalogue === 'general' && intake ? [{ ...(({ inPerson, ...i }) => i)(intake), ...(shopProductId ? { shopProductId } : {}) }] : [];
 
@@ -321,7 +348,7 @@ export function toProgrammeData(page, categories) {
       deliveryMode: catalogue === 'elearning' ? 'online' : intake?.inPerson ? 'in_person' : 'online',
       language: ['es'],
       targetAudience: ['student', 'employee'],
-      price: { amount, currency: 'EUR' },
+      price: { amount, currency },
       ...(shopProductId ? { shopProductId } : {}),
       intakes,
       sourceUrls: [page.url],

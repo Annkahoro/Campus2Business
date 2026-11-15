@@ -26,9 +26,9 @@
     "deleteText": "\"{{title}}\" will be deleted. If anyone has enrolled, it will be archived instead.",
     "deleted": "Programme deleted.",
     "archivedInstead": "The programme has enrollments, so it was archived instead.",
-    "shopSync": "Fill shop product IDs",
-    "shopSyncHint": "Reads the \"Comprar\" button of each imported course page on campus2b.com and fills in the missing product IDs.",
-    "shopSyncDone": "Shop product IDs: {{updated}} programmes updated, {{alreadySet}} already set, {{noProduct}} without a product on campus2b.com."
+    "shopSync": "Sync with campus2b.com shop",
+    "shopSyncHint": "Reads each imported course on campus2b.com: fills in missing shop product IDs and sets prices to what the shop charges.",
+    "shopSyncDone": "Shop sync: {{updated}} programmes updated ({{pricesUpdated}} prices corrected), {{alreadySet}} already up to date, {{noProduct}} without a product on campus2b.com."
   },
   "programmeForm": {
     "create": "Create programme",
